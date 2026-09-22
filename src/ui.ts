@@ -142,6 +142,7 @@ export function buildUI(data: Data, cb: UICallbacks): UIHandle {
   const regionBoxes = new Map<string, HTMLInputElement>();
   const regionPins = new Map<string, { head: HTMLElement; pin: HTMLButtonElement }>();
   const regionBodies = new Map<string, { wrap: HTMLElement; body: HTMLElement }>();
+  const regionCounts = new Map<string, HTMLElement>();
   const collapsed = readCollapsed();
   const byRegion = new Map<string, Country[]>();
   for (const c of data.countries) (byRegion.get(c.region) ?? byRegion.set(c.region, []).get(c.region)!).push(c);
@@ -162,6 +163,7 @@ export function buildUI(data: Data, cb: UICallbacks): UIHandle {
     name.textContent = region;
     const count = document.createElement("span");
     count.className = "count"; count.textContent = String(cs.length);
+    regionCounts.set(region, count);
     const rpin = makePin();
     const chev = document.createElement("button");
     chev.type = "button"; chev.className = "chevron"; chev.appendChild(icon(Icons.ChevronRight));
@@ -359,6 +361,13 @@ export function buildUI(data: Data, cb: UICallbacks): UIHandle {
     for (const r of rows.values()) {
       r.el.classList.toggle("nodata", !hasAll(r.country));
       r.el.title = hasAll(r.country) ? "" : "No data for one of the chosen axes";
+    }
+    // region counts: countries with data for the chosen axes / total in the region
+    for (const [region, count] of regionCounts) {
+      const cs = byRegion.get(region) ?? [];
+      const avail = cs.filter(hasAll).length;
+      count.textContent = avail === cs.length ? String(cs.length) : avail + " / " + cs.length;
+      count.title = avail === cs.length ? "" : avail + " of " + cs.length + " have data for the chosen axes";
     }
     renderCompare();
   };
