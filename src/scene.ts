@@ -312,10 +312,44 @@ export class CultureScene {
       ctx.restore();
     }
 
+    // crop to the rendered content (frame, markers, labels) plus a margin
+    const bounds = this.contentBounds(labels, base);
+    const margin = 40;
+    const x0 = Math.max(0, Math.floor((bounds.minX - margin) * dpr));
+    const y0 = Math.max(0, Math.floor((bounds.minY - margin) * dpr));
+    const x1 = Math.min(out.width, Math.ceil((bounds.maxX + margin) * dpr));
+    const y1 = Math.min(out.height, Math.ceil((bounds.maxY + margin) * dpr));
+    const crop = document.createElement("canvas");
+    crop.width = Math.max(1, x1 - x0); crop.height = Math.max(1, y1 - y0);
+    crop.getContext("2d")!.drawImage(out, x0, y0, crop.width, crop.height, 0, 0, crop.width, crop.height);
+
     const a = document.createElement("a");
     a.download = filename;
-    a.href = out.toDataURL("image/png");
+    a.href = crop.toDataURL("image/png");
     a.click();
+  }
+
+  /** Screen-space (CSS px) bounding box of the frame, visible markers and visible labels. */
+  private contentBounds(labels: NodeListOf<HTMLElement>, base: DOMRect) {
+    const w = this.container.clientWidth, h = this.container.clientHeight;
+    let minX = Infinity, minY = Infinity, maxX = -Infinity, maxY = -Infinity;
+    const add = (x: number, y: number) => { minX = Math.min(minX, x); minY = Math.min(minY, y); maxX = Math.max(maxX, x); maxY = Math.max(maxY, y); };
+    const v = new THREE.Vector3();
+    const proj = (p: THREE.Vector3) => { v.copy(p).project(this.camera); add((v.x + 1) / 2 * w, (1 - v.y) / 2 * h); };
+    // frame corners (current animated extents)
+    const ex = this.ext.x.value, ey = this.ext.y.value, ez = this.ext.z.value;
+    for (const cx of [0, 1]) for (const cy of [0, 1]) for (const cz of [0, 1]) {
+      proj(new THREE.Vector3((cx - 0.5) * S * ex, (cy - 0.5) * S * ey, (cz - 0.5) * S * ez));
+    }
+    for (const m of this.markers.values()) if (m.mesh.visible) proj(m.mesh.position);
+    for (const el of labels) {
+      if (el.style.display === "none" || Number(el.style.opacity === "" ? 1 : el.style.opacity) <= 0.02) continue;
+      const r = el.getBoundingClientRect();
+      if (r.width === 0) continue;
+      add(r.left - base.left, r.top - base.top); add(r.right - base.left, r.bottom - base.top);
+    }
+    if (!Number.isFinite(minX)) return { minX: 0, minY: 0, maxX: w, maxY: h };
+    return { minX: Math.max(0, minX), minY: Math.max(0, minY), maxX: Math.min(w, maxX), maxY: Math.min(h, maxY) };
   }
   private autoRotate = false;
   private spaceHeld = false;
