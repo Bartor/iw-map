@@ -45,6 +45,21 @@ function slotBox(it: LabelItem, slot: number): Rect {
 
 export const SLOT_COUNT = RADII.length * DIRS.length;
 
+/**
+ * Candidate order: the preferred direction at the three nearest rings, then the other
+ * directions at the two nearest rings, then the preferred direction further out, then the rest.
+ * A label only leaves its previous slot when a better-ranked slot is free.
+ */
+const ORDER: number[] = (() => {
+  const slot = (r: number, dir: number) => r * DIRS.length + dir;
+  const out: number[] = [];
+  for (let r = 0; r < 3; r++) out.push(slot(r, PREFERRED));
+  for (let r = 0; r < 2; r++) for (let dir = 0; dir < DIRS.length; dir++) if (dir !== PREFERRED) out.push(slot(r, dir));
+  for (let r = 3; r < RADII.length; r++) out.push(slot(r, PREFERRED));
+  for (let r = 2; r < RADII.length; r++) for (let dir = 0; dir < DIRS.length; dir++) if (dir !== PREFERRED) out.push(slot(r, dir));
+  return out;
+})();
+
 export function placeLabels(items: LabelItem[], width: number, height: number, prev: Map<string, Placement>): Map<string, Placement> {
   const out = new Map<string, Placement>();
   const placed: Rect[] = [];
@@ -55,12 +70,15 @@ export function placeLabels(items: LabelItem[], width: number, height: number, p
   const free = (r: Rect) => inView(r) && !placed.some((p) => overlaps(r, p)) && !markers.some((m) => overlaps(r, m, 0));
 
   for (const it of order) {
+    // slots ranked best-first; the previous slot is promoted by one rank (hysteresis) so a label
+    // leaves it only for a clearly better slot or when it is displaced
     const last = prev.get(it.id);
-    const tryOrder: number[] = [];
-    if (last && !last.hidden) tryOrder.push(last.slot);
-    // consistent look: walk the preferred direction outwards first, then everything else nearest-first
-    for (let r = 0; r < RADII.length; r++) { const s = r * DIRS.length + PREFERRED; if (s !== last?.slot) tryOrder.push(s); }
-    for (let s = 0; s < SLOT_COUNT; s++) if (s % DIRS.length !== PREFERRED && s !== last?.slot) tryOrder.push(s);
+    let tryOrder = ORDER;
+    if (last && !last.hidden) {
+      const rank = ORDER.indexOf(last.slot);
+      const cut = Math.max(0, rank - 1);
+      tryOrder = [...ORDER.slice(0, cut), last.slot, ...ORDER.slice(cut).filter((s) => s !== last.slot)];
+    }
     let chosen: Placement | null = null;
     for (const s of tryOrder) {
       const box = slotBox(it, s);
