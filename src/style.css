@@ -44,7 +44,16 @@ button:hover { border-color: var(--accent); }
   display: flex; align-items: center; gap: 6px; font-size: 12px; font-weight: 600; cursor: pointer;
   padding: 4px 2px; position: sticky; top: 0; background: var(--panel);
 }
+.region.hidden { display: none; }
+.region.collapsed .region-body { display: none; }
+.chevron {
+  width: 16px; height: 16px; padding: 0; border: none; background: none; color: var(--muted); cursor: pointer;
+  display: inline-flex; align-items: center; justify-content: center; margin-left: -4px;
+}
+.chevron svg { width: 12px; height: 12px; fill: currentColor; transform: rotate(90deg); transition: transform .15s; }
+.region.collapsed .chevron svg { transform: rotate(0deg); }
 .region-head .swatch { width: 10px; height: 10px; border-radius: 50%; display: inline-block; }
+.region-head > span:nth-of-type(2) { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; min-width: 0; }
 .region-head .count { color: var(--muted); font-weight: 400; margin-left: auto; }
 .country-row { display: flex; align-items: center; gap: 6px; padding: 2px 8px; font-size: 13px; cursor: pointer; border-radius: 4px; }
 .country-row:hover { background: var(--input); }

@@ -31,6 +31,15 @@ export interface UIHandle {
 
 const PIN_SVG = '<svg viewBox="0 0 16 16"><path d="M9.5 1.5 14.5 6.5l-1.4 1.4-.7-.7-3 3 .3 3.3-1.4 1.4L5 11.6 1.6 15l-.6-.6L4.4 11 1.1 7.7l1.4-1.4 3.3.3 3-3-.7-.7z"/></svg>';
 
+const CHEVRON_SVG = '<svg viewBox="0 0 16 16"><path d="M6 3.5 10.5 8 6 12.5 4.8 11.3 8.1 8 4.8 4.7z"/></svg>';
+
+function readCollapsed(): Set<string> {
+  try { return new Set(JSON.parse(localStorage.getItem("collapsedRegions") ?? "[]")); } catch { return new Set(); }
+}
+function writeCollapsed(set: Set<string>) {
+  try { localStorage.setItem("collapsedRegions", JSON.stringify([...set])); } catch { /* storage unavailable */ }
+}
+
 function makePin(): HTMLButtonElement {
   const b = document.createElement("button");
   b.type = "button"; b.className = "pin"; b.title = "Pin"; b.innerHTML = PIN_SVG;
@@ -105,6 +114,8 @@ export function buildUI(data: Data, cb: UICallbacks): UIHandle {
   const rows = new Map<string, { el: HTMLElement; cb: HTMLInputElement; pin: HTMLButtonElement; country: Country }>();
   const regionBoxes = new Map<string, HTMLInputElement>();
   const regionPins = new Map<string, { head: HTMLElement; pin: HTMLButtonElement }>();
+  const regionBodies = new Map<string, { wrap: HTMLElement; body: HTMLElement }>();
+  const collapsed = readCollapsed();
   const byRegion = new Map<string, Country[]>();
   for (const c of data.countries) (byRegion.get(c.region) ?? byRegion.set(c.region, []).get(c.region)!).push(c);
 
@@ -125,8 +136,22 @@ export function buildUI(data: Data, cb: UICallbacks): UIHandle {
     const count = document.createElement("span");
     count.className = "count"; count.textContent = String(cs.length);
     const rpin = makePin();
-    head.append(rcb, sw, name, count, rpin);
+    const chev = document.createElement("button");
+    chev.type = "button"; chev.className = "chevron"; chev.innerHTML = CHEVRON_SVG;
+    head.append(chev, rcb, sw, name, count, rpin);
     wrap.appendChild(head);
+    const body = document.createElement("div");
+    body.className = "region-body";
+    wrap.appendChild(body);
+    regionBodies.set(region, { wrap, body });
+    const setCollapsed = (on: boolean) => {
+      wrap.classList.toggle("collapsed", on);
+      chev.title = on ? "Expand" : "Collapse";
+      if (on) collapsed.add(region); else collapsed.delete(region);
+      writeCollapsed(collapsed);
+    };
+    setCollapsed(collapsed.has(region));
+    chev.addEventListener("click", (e) => { e.preventDefault(); e.stopPropagation(); setCollapsed(!wrap.classList.contains("collapsed")); });
     regionBoxes.set(region, rcb);
     regionPins.set(region, { head, pin: rpin });
     rpin.addEventListener("click", (e) => { e.preventDefault(); e.stopPropagation(); togglePin({ region }); });
@@ -145,7 +170,7 @@ export function buildUI(data: Data, cb: UICallbacks): UIHandle {
       nm.textContent = c.name;
       const cpin = makePin();
       row.append(ccb, nm, cpin);
-      wrap.appendChild(row);
+      body.appendChild(row);
       rows.set(c.iso3, { el: row, cb: ccb, pin: cpin, country: c });
       cpin.addEventListener("click", (e) => { e.preventDefault(); e.stopPropagation(); togglePin({ country: c }); });
       row.addEventListener("pointerenter", () => cb.onFocus(new Set([c.iso3])));
@@ -218,6 +243,12 @@ export function buildUI(data: Data, cb: UICallbacks): UIHandle {
   $<HTMLInputElement>("country-search").addEventListener("input", (e) => {
     const q = (e.target as HTMLInputElement).value.trim().toLowerCase();
     for (const r of rows.values()) r.el.classList.toggle("hidden", !!q && !r.country.name.toLowerCase().includes(q) && !r.country.iso3.toLowerCase().includes(q));
+    for (const [region, { wrap, body }] of regionBodies) {
+      const anyMatch = [...body.children].some((el) => !el.classList.contains("hidden"));
+      // while searching, force-open regions with matches and hide regions without; restore stored state when cleared
+      wrap.classList.toggle("hidden", !!q && !anyMatch);
+      wrap.classList.toggle("collapsed", q ? false : collapsed.has(region));
+    }
   });
 
   // --- sources footer ---
