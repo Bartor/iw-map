@@ -96,6 +96,10 @@ export class CultureScene {
   private lastNdims = -1;
 
   onHover: ((info: HoverInfo | null) => void) | null = null;
+  /** Right-click on the chart; info is the hovered country/region (or null) plus pointer position. */
+  onContextMenu: ((info: HoverInfo | null) => void) | null = null;
+  private pinned = new Set<string>();
+  private pinnedRegions = new Set<string>();
 
   constructor(private container: HTMLElement, countries: Country[]) {
     this.renderer = new THREE.WebGLRenderer({ antialias: true, alpha: false });
@@ -105,7 +109,7 @@ export class CultureScene {
     container.appendChild(this.renderer.domElement);
 
     this.labelRenderer = new CSS2DRenderer();
-    Object.assign(this.labelRenderer.domElement.style, { position: "absolute", top: "0", left: "0", pointerEvents: "none" });
+    Object.assign(this.labelRenderer.domElement.style, { position: "absolute", top: "0", left: "0", pointerEvents: "none", zIndex: "1" });
     container.appendChild(this.labelRenderer.domElement);
 
     this.camera = new THREE.PerspectiveCamera(45, 1, 0.1, 500);
@@ -136,6 +140,14 @@ export class CultureScene {
       this.pointerPx = { x: e.clientX - r.left, y: e.clientY - r.top };
     });
     this.renderer.domElement.addEventListener("pointerleave", () => { this.pointer.set(-10, -10); });
+    this.renderer.domElement.addEventListener("contextmenu", (e) => {
+      e.preventDefault();
+      const r = this.renderer.domElement.getBoundingClientRect();
+      const x = e.clientX - r.left, y = e.clientY - r.top;
+      if (this.hovered) this.onContextMenu?.({ country: this.hovered.country, x, y });
+      else if (this.hoveredRegion) this.onContextMenu?.({ region: this.hoveredRegion, x, y });
+      else this.onContextMenu?.(null);
+    });
 
     new ResizeObserver(() => this.resize()).observe(container);
     this.resize();
@@ -194,6 +206,7 @@ export class CultureScene {
 
   /** Highlight these countries and fade all others; null clears. */
   setFocus(iso3s: Set<string> | null) { this.focus = iso3s; }
+  setPins(countries: Set<string>, regions: Set<string>) { this.pinned = countries; this.pinnedRegions = regions; this.heatmap.setPinned(regions); }
   setHeatmap(on: boolean) { this.heatmap.setEnabled(on); this.heatDirty = true; }
   setHeatSpread(t: number) { this.heatmap.setSpread(t); this.heatDirty = true; }
   setLabels(on: boolean) { this.showLabels = on; }
@@ -279,7 +292,10 @@ export class CultureScene {
     let moving = !(this.ext.x.done && this.ext.y.done && this.ext.z.done);
     const heatPts: HeatPoint[] = [];
     for (const m of this.markers.values()) {
-      m.dim.set(focus && !focus.has(m.country.iso3) ? 1 : 0, now);
+      const isPinned = this.pinned.has(m.country.iso3) || this.pinnedRegions.has(m.country.region);
+      const anyPins = this.pinned.size > 0 || this.pinnedRegions.size > 0;
+      // hover focus fades others strongly; otherwise pins fade unpinned items to ~half opacity
+      m.dim.set(focus ? (focus.has(m.country.iso3) ? 0 : 1) : anyPins && !isPinned ? 0.57 : 0, now);
       m.pos.update(now); m.scale.update(now); m.dim.update(now);
       const s = m.scale.value;
       const fade = 1 - 0.88 * m.dim.value;

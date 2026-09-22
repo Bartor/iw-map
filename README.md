@@ -7,6 +7,8 @@ Interactive 3D visualisation of national cultures using two published frameworks
 
 Pick one, two or three dimensions from any dataset and countries are laid out on a line, a square or a cube. Changing the number of axes morphs the frame (line expands into a square, square into a cube) and countries glide to their new positions. Drag to rotate, scroll to zoom. Hovering a country (in the scene or the list) or a region header fades everything else.
 
+**Pins.** The pin icon on a country row or region header, or right-click on a country or territory in the chart, pins it. While anything is pinned, unpinned countries and territories drop to half opacity. *Unpin* clears all pins.
+
 **Region heatmap** builds a Gaussian kernel density per world region from the currently selected countries and draws, for each region, the volume where it is the most prevalent region (marching-cubes isosurface in the region's colour). The *Spread* slider sets the kernel width. In 2D and 1D the volumes flatten into a sheet or band.
 
 ## Run

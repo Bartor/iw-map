@@ -1,6 +1,6 @@
 import { loadData } from "./datasets";
 import { CultureScene } from "./scene";
-import { buildUI, showTooltip } from "./ui";
+import { buildUI, showTooltip, showContextMenu, isContextMenuOpen } from "./ui";
 
 async function main() {
   const data = await loadData();
@@ -13,7 +13,7 @@ async function main() {
     hint.hidden = any;
   };
 
-  const state = buildUI(data, {
+  const ui = buildUI(data, {
     onAxes: (axes) => { scene.setAxes(axes); updateHint(); },
     onSelection: (sel) => { scene.setSelection(sel); updateHint(); },
     onLabels: (on) => scene.setLabels(on),
@@ -22,9 +22,12 @@ async function main() {
     onFocus: (set) => scene.setFocus(set),
     onHeatmap: (on) => scene.setHeatmap(on),
     onHeatSpread: (t) => scene.setHeatSpread(t),
+    onPins: (countries, regions) => scene.setPins(countries, regions),
   });
+  const state = ui.state;
 
-  scene.onHover = (info) => showTooltip(info, state.axes);
+  scene.onHover = (info) => { if (!isContextMenuOpen()) showTooltip(info, state.axes); };
+  scene.onContextMenu = (info) => showContextMenu(info, ui);
   scene.setHeatSpread(0.5);
   scene.setSelection(state.selection);
   scene.setAxes(state.axes);

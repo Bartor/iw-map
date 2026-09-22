@@ -6,6 +6,8 @@ export interface UIState {
   selection: Set<string>;
   labels: boolean;
   autoRotate: boolean;
+  pinned: Set<string>;         // iso3
+  pinnedRegions: Set<string>;  // region names
 }
 
 export interface UICallbacks {
@@ -17,6 +19,21 @@ export interface UICallbacks {
   onFocus(iso3s: Set<string> | null): void;
   onHeatmap(on: boolean): void;
   onHeatSpread(t: number): void;
+  onPins(countries: Set<string>, regions: Set<string>): void;
+}
+
+export interface UIHandle {
+  state: UIState;
+  togglePin(target: { country?: Country; region?: string }): void;
+  isPinned(target: { country?: Country; region?: string }): boolean;
+}
+
+const PIN_SVG = '<svg viewBox="0 0 16 16"><path d="M9.5 1.5 14.5 6.5l-1.4 1.4-.7-.7-3 3 .3 3.3-1.4 1.4L5 11.6 1.6 15l-.6-.6L4.4 11 1.1 7.7l1.4-1.4 3.3.3 3-3-.7-.7z"/></svg>';
+
+function makePin(): HTMLButtonElement {
+  const b = document.createElement("button");
+  b.type = "button"; b.className = "pin"; b.title = "Pin"; b.innerHTML = PIN_SVG;
+  return b;
 }
 
 const $ = <T extends HTMLElement>(id: string) => document.getElementById(id) as T;
@@ -29,7 +46,7 @@ function readHashAxes(dims: Dim[]): (Dim | null)[] | null {
   return found[0] ? [found[0], found[1] ?? null, found[1] ? found[2] ?? null : null] : null;
 }
 
-export function buildUI(data: Data, cb: UICallbacks): UIState {
+export function buildUI(data: Data, cb: UICallbacks): UIHandle {
   const dims = data.dims;
   const selects = [$<HTMLSelectElement>("axis-x"), $<HTMLSelectElement>("axis-y"), $<HTMLSelectElement>("axis-z")];
 
@@ -59,7 +76,7 @@ export function buildUI(data: Data, cb: UICallbacks): UIState {
     dims.find((d) => d.id === "hof.idv") ?? dims[1] ?? null,
     null,
   ];
-  const state: UIState = { axes: defaults, selection: new Set(data.countries.map((c) => c.iso3)), labels: true, autoRotate: false };
+  const state: UIState = { axes: defaults, selection: new Set(data.countries.map((c) => c.iso3)), labels: true, autoRotate: false, pinned: new Set(), pinnedRegions: new Set() };
   selects.forEach((sel, i) => { sel.value = state.axes[i]?.id ?? ""; });
 
   const syncAxes = () => {
@@ -84,8 +101,9 @@ export function buildUI(data: Data, cb: UICallbacks): UIState {
 
   // --- country list ---
   const list = $("country-list");
-  const rows = new Map<string, { el: HTMLElement; cb: HTMLInputElement; country: Country }>();
+  const rows = new Map<string, { el: HTMLElement; cb: HTMLInputElement; pin: HTMLButtonElement; country: Country }>();
   const regionBoxes = new Map<string, HTMLInputElement>();
+  const regionPins = new Map<string, { head: HTMLElement; pin: HTMLButtonElement }>();
   const byRegion = new Map<string, Country[]>();
   for (const c of data.countries) (byRegion.get(c.region) ?? byRegion.set(c.region, []).get(c.region)!).push(c);
 
@@ -105,9 +123,12 @@ export function buildUI(data: Data, cb: UICallbacks): UIState {
     name.textContent = region;
     const count = document.createElement("span");
     count.className = "count"; count.textContent = String(cs.length);
-    head.append(rcb, sw, name, count);
+    const rpin = makePin();
+    head.append(rcb, sw, name, count, rpin);
     wrap.appendChild(head);
     regionBoxes.set(region, rcb);
+    regionPins.set(region, { head, pin: rpin });
+    rpin.addEventListener("click", (e) => { e.preventDefault(); e.stopPropagation(); togglePin({ region }); });
     head.addEventListener("pointerenter", () => cb.onFocus(new Set(cs.map((c) => c.iso3))));
     head.addEventListener("pointerleave", () => cb.onFocus(null));
     rcb.addEventListener("change", () => {
@@ -121,9 +142,11 @@ export function buildUI(data: Data, cb: UICallbacks): UIState {
       ccb.type = "checkbox"; ccb.checked = true;
       const nm = document.createElement("span");
       nm.textContent = c.name;
-      row.append(ccb, nm);
+      const cpin = makePin();
+      row.append(ccb, nm, cpin);
       wrap.appendChild(row);
-      rows.set(c.iso3, { el: row, cb: ccb, country: c });
+      rows.set(c.iso3, { el: row, cb: ccb, pin: cpin, country: c });
+      cpin.addEventListener("click", (e) => { e.preventDefault(); e.stopPropagation(); togglePin({ country: c }); });
       row.addEventListener("pointerenter", () => cb.onFocus(new Set([c.iso3])));
       row.addEventListener("pointerleave", () => cb.onFocus(null));
       ccb.addEventListener("change", () => {
@@ -135,6 +158,32 @@ export function buildUI(data: Data, cb: UICallbacks): UIState {
     }
     list.appendChild(wrap);
   }
+
+  const isPinned = (t: { country?: Country; region?: string }) =>
+    t.country ? state.pinned.has(t.country.iso3) : t.region ? state.pinnedRegions.has(t.region) : false;
+  const refreshPins = () => {
+    const any = state.pinned.size > 0 || state.pinnedRegions.size > 0;
+    list.classList.toggle("has-pins", any);
+    $("btn-unpin").hidden = !any;
+    for (const r of rows.values()) {
+      const on = state.pinned.has(r.country.iso3);
+      r.pin.classList.toggle("on", on); r.pin.title = on ? "Unpin" : "Pin";
+      r.el.classList.toggle("pinned", on);
+      r.el.classList.toggle("region-pinned", state.pinnedRegions.has(r.country.region));
+    }
+    for (const [region, { head, pin }] of regionPins) {
+      const on = state.pinnedRegions.has(region);
+      pin.classList.toggle("on", on); pin.title = on ? "Unpin region" : "Pin region";
+      head.classList.toggle("pinned", on);
+    }
+    cb.onPins(state.pinned, state.pinnedRegions);
+  };
+  const togglePin = (t: { country?: Country; region?: string }) => {
+    if (t.country) { if (state.pinned.has(t.country.iso3)) state.pinned.delete(t.country.iso3); else state.pinned.add(t.country.iso3); }
+    else if (t.region) { if (state.pinnedRegions.has(t.region)) state.pinnedRegions.delete(t.region); else state.pinnedRegions.add(t.region); }
+    refreshPins();
+  };
+  $("btn-unpin").addEventListener("click", () => { state.pinned.clear(); state.pinnedRegions.clear(); refreshPins(); });
 
   const hasAll = (c: Country) => state.axes.every((d) => !d || d.id in c.values);
   const refreshRows = () => {
@@ -165,8 +214,10 @@ export function buildUI(data: Data, cb: UICallbacks): UIState {
     return `<div><b>${ds.label}</b> ${links}</div>`;
   }).join("") + `<div>${data.countries.length} countries · drag to rotate · scroll to zoom</div>`;
 
-  return state;
+  return { state, togglePin, isPinned };
 }
+
+export function isContextMenuOpen(): boolean { return !$("ctx-menu").hidden; }
 
 export function showTooltip(info: { country?: Country; region?: string; count?: number; x: number; y: number } | null, axes: (Dim | null)[]) {
   const tip = $("tooltip");
@@ -193,4 +244,42 @@ function place(tip: HTMLElement, x: number, y: number) {
   const w = tip.offsetWidth, h = tip.offsetHeight;
   tip.style.left = Math.min(x + 14, vp.clientWidth - w - 8) + "px";
   tip.style.top = Math.min(y + 14, vp.clientHeight - h - 8) + "px";
+}
+
+/** Show the chart context menu for a hovered country/region; hides on any click or Escape. */
+export function showContextMenu(info: { country?: Country; region?: string; x: number; y: number } | null, ui: UIHandle) {
+  const menu = $("ctx-menu");
+  menu.hidden = true;
+  if (!info || (!info.country && !info.region)) return;
+  $("tooltip").hidden = true;
+  const label = info.country ? info.country.name : info.region!;
+  const pinned = ui.isPinned(info);
+  menu.innerHTML = "";
+  const title = document.createElement("div");
+  title.className = "title";
+  title.textContent = label;
+  menu.appendChild(title);
+  const btn = document.createElement("button");
+  btn.type = "button";
+  btn.textContent = pinned ? "Unpin" : "Pin";
+  btn.addEventListener("click", () => { ui.togglePin(info); menu.hidden = true; });
+  menu.appendChild(btn);
+  if (ui.state.pinned.size || ui.state.pinnedRegions.size) {
+    const all = document.createElement("button");
+    all.type = "button"; all.textContent = "Unpin all";
+    all.addEventListener("click", () => { ui.state.pinned.clear(); ui.state.pinnedRegions.clear(); ui.togglePin({}); menu.hidden = true; });
+    menu.appendChild(all);
+  }
+  menu.hidden = false;
+  const vp = $("viewport");
+  menu.style.left = Math.min(info.x + 4, vp.clientWidth - menu.offsetWidth - 8) + "px";
+  menu.style.top = Math.min(info.y + 4, vp.clientHeight - menu.offsetHeight - 8) + "px";
+  const close = (e: Event) => {
+    if (e instanceof KeyboardEvent && e.key !== "Escape") return;
+    if (e.type === "pointerdown" && menu.contains(e.target as Node)) return;
+    menu.hidden = true;
+    window.removeEventListener("pointerdown", close, true);
+    window.removeEventListener("keydown", close, true);
+  };
+  setTimeout(() => { window.addEventListener("pointerdown", close, true); window.addEventListener("keydown", close, true); });
 }

@@ -59,8 +59,18 @@ export class Heatmap {
   get meshes(): THREE.Object3D[] { return [...this.layers.values()].filter((m) => m.visible); }
 
   /** Emphasise one region shell (null = none). */
-  setHighlight(region: string | null) {
-    for (const [r, mc] of this.layers) (mc.material as THREE.MeshPhysicalMaterial).opacity = r === region ? 0.55 : 0.32;
+  private highlighted: string | null = null;
+  private pinned = new Set<string>();
+
+  setHighlight(region: string | null) { this.highlighted = region; this.applyOpacity(); }
+  setPinned(regions: Set<string>) { this.pinned = regions; this.applyOpacity(); }
+
+  private applyOpacity() {
+    const anyPins = this.pinned.size > 0;
+    for (const [r, mc] of this.layers) {
+      const base = anyPins ? (this.pinned.has(r) ? 0.45 : 0.14) : 0.32;
+      (mc.material as THREE.MeshPhysicalMaterial).opacity = r === this.highlighted ? Math.max(base, 0.55) : base;
+    }
   }
 
   setEnabled(on: boolean) {
