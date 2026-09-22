@@ -78,6 +78,7 @@ button:hover { border-color: var(--accent); }
 }
 .label.pinned { color: #fff; font-weight: 600; }
 .label > span { display: inline-block; transform: translate(6px, -6px); transition: transform .6s ease; }
+.declutter .label > span { transition: none; padding: 0 2px; }
 .one-d .label > span { transform: translate(4px, 4px) rotate(-60deg); transform-origin: left center; }
 .guide-label { color: #fff; font-size: 10px; font-weight: 600; pointer-events: none; white-space: nowrap; }
 .guide-label > span { display: inline-block; background: rgba(18,22,31,.85); border: 1px solid var(--panel-border); border-radius: 3px; padding: 0 4px; }

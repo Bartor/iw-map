@@ -5,6 +5,7 @@ import type { Country, Dim } from "./types";
 import { Anim, Anim3, easeOutCubic } from "./tween";
 import { REGION_COLORS } from "./regions";
 import { Heatmap, type HeatPoint } from "./heatmap";
+import { placeLabels, type LabelItem, type Placement } from "./declutter";
 
 const S = 10;            // frame edge length in world units
 const GRID_N = 10;       // grid subdivisions per face
@@ -86,6 +87,11 @@ export class CultureScene {
   private axes: (Dim | null)[] = [null, null, null];
   private selection = new Set<string>();
   private showLabels = true;
+  private declutter = false;
+  private placements = new Map<string, Placement>();
+  private leader: HTMLCanvasElement;          // overlay for leader lines
+  private textWidths = new Map<string, number>();
+  private measureCtx = document.createElement("canvas").getContext("2d")!;
   private hovered: Marker | null = null;
   private hoveredRegion: string | null = null;
   private focus: Set<string> | null = null;   // external focus (from the list panel)
@@ -120,6 +126,9 @@ export class CultureScene {
     this.labelRenderer = new CSS2DRenderer();
     Object.assign(this.labelRenderer.domElement.style, { position: "absolute", top: "0", left: "0", pointerEvents: "none", zIndex: "1" });
     container.appendChild(this.labelRenderer.domElement);
+    this.leader = document.createElement("canvas");
+    Object.assign(this.leader.style, { position: "absolute", top: "0", left: "0", pointerEvents: "none", width: "100%", height: "100%" });
+    container.appendChild(this.leader);
 
     this.camera = new THREE.PerspectiveCamera(45, 1, 0.1, 500);
     this.camera.position.set(0, 0, 24);
@@ -214,6 +223,7 @@ export class CultureScene {
     this.camera.updateProjectionMatrix();
     this.renderer.setSize(w, h);
     this.labelRenderer.setSize(w, h);
+    this.leader.width = Math.round(w * this.renderer.getPixelRatio()); this.leader.height = Math.round(h * this.renderer.getPixelRatio());
     // keep the automatic framing valid when the viewport changes shape (e.g. sidebar drawer, rotation)
     if (!this.userMovedCamera && this.ndims > 0) this.resetView();
   }
@@ -253,6 +263,15 @@ export class CultureScene {
   setHeatmap(on: boolean) { this.heatmap.setEnabled(on); this.heatDirty = true; }
   setHeatSpread(t: number) { this.heatmap.setSpread(t); this.heatDirty = true; }
   setLabels(on: boolean) { this.showLabels = on; }
+  setDeclutter(on: boolean) {
+    this.declutter = on;
+    this.labelRenderer.domElement.classList.toggle("declutter", on);
+    if (!on) {
+      for (const m of this.markers.values()) (m.label.element.firstElementChild as HTMLElement).style.transform = "";
+      this.placements.clear();
+      this.leader.getContext("2d")!.clearRect(0, 0, this.leader.width, this.leader.height);
+    }
+  }
 
   /** Render the current view (WebGL + HTML labels) to a PNG and trigger a download. */
   async exportPNG(filename = "cultural-dimensions.png") {
@@ -284,6 +303,7 @@ export class CultureScene {
     ctx.fillStyle = "#0b0e14";
     ctx.fillRect(0, 0, out.width, out.height);
     ctx.drawImage(src, 0, 0);
+    if (this.declutter) ctx.drawImage(this.leader, 0, 0);
 
     // HTML labels: draw each visible CSS2D element's text at its on-screen position
     const base = src.getBoundingClientRect();
@@ -451,6 +471,53 @@ export class CultureScene {
     }
   }
 
+  /** Screen-space label placement: offsets each label's inner span and draws leader lines. */
+  private placeLabelsPass() {
+    const w = this.container.clientWidth, h = this.container.clientHeight;
+    const oneD = this.labelRenderer.domElement.classList.contains("one-d");
+    const items: LabelItem[] = [];
+    const v = new THREE.Vector3();
+    const LABEL_H = 14;
+    if (!this.measureCtx.font.startsWith("11px")) this.measureCtx.font = "11px system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif";
+    const active = new Map<string, { m: Marker; ax: number; ay: number }>();
+    for (const m of this.markers.values()) {
+      if (!m.label.visible || oneD) continue;
+      v.copy(m.mesh.position).project(this.camera);
+      if (v.z > 1) continue;
+      const ax = (v.x + 1) / 2 * w, ay = (1 - v.y) / 2 * h;
+      let tw = this.textWidths.get(m.country.name);
+      if (tw === undefined) { tw = this.measureCtx.measureText(m.country.name).width; this.textWidths.set(m.country.name, tw); }
+      const pinned = this.pinned.has(m.country.iso3) || this.pinnedRegions.has(m.country.region);
+      const priority = (m === this.hovered ? 3 : 0) + (pinned ? 2 : 0) + (m.dim.value < 0.5 ? 1 : 0);
+      items.push({ id: m.country.iso3, ax, ay, w: tw + 4, h: LABEL_H, priority });
+      active.set(m.country.iso3, { m, ax, ay });
+    }
+    this.placements = placeLabels(items, w, h, this.placements);
+
+    const dpr = this.renderer.getPixelRatio();
+    const ctx = this.leader.getContext("2d")!;
+    ctx.setTransform(1, 0, 0, 1, 0, 0);
+    ctx.clearRect(0, 0, this.leader.width, this.leader.height);
+    ctx.scale(dpr, dpr);
+    ctx.lineWidth = 1;
+    for (const [id, p] of this.placements) {
+      const a = active.get(id);
+      if (!a) continue;
+      const span = a.m.label.element.firstElementChild as HTMLElement;
+      if (p.hidden) { span.style.transform = ""; a.m.label.visible = false; continue; }
+      // CSS2D anchors the element's bottom-left at the marker; move the span so its box lands at (p.x, p.y)
+      span.style.transform = "translate(" + (p.x - a.ax).toFixed(1) + "px, " + (p.y - (a.ay - LABEL_H)).toFixed(1) + "px)";
+      if (p.slot >= 8) {
+        // leader from marker edge to the nearest point on the label box
+        const nx = Math.max(p.x, Math.min(a.ax, p.x + (a.m.label.element.firstElementChild as HTMLElement).offsetWidth));
+        const ny = Math.max(p.y, Math.min(a.ay, p.y + LABEL_H));
+        const alpha = 0.45 * Number(a.m.label.element.style.opacity || 1);
+        ctx.strokeStyle = "rgba(255,255,255," + alpha.toFixed(2) + ")";
+        ctx.beginPath(); ctx.moveTo(a.ax, a.ay); ctx.lineTo(nx, ny); ctx.stroke();
+      }
+    }
+  }
+
   private tick(now: number) {
     for (const a of Object.values(this.ext)) a.update(now);
     const ex = this.ext.x.value, ey = this.ext.y.value, ez = this.ext.z.value;
@@ -591,6 +658,7 @@ export class CultureScene {
     }
     this.controls.update();
     this.renderer.render(this.scene, this.camera);
+    if (this.declutter) this.placeLabelsPass();
     this.labelRenderer.render(this.scene, this.camera);
     // CSS2DRenderer assigns z-index by depth each frame; keep pinned (and hovered) labels on top
     for (const m of this.markers.values()) {

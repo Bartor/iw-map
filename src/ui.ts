@@ -14,6 +14,7 @@ export interface UICallbacks {
   onAxes(axes: (Dim | null)[]): void;
   onSelection(sel: Set<string>): void;
   onLabels(on: boolean): void;
+  onDeclutter(on: boolean): void;
   onResetView(): void;
   onFocus(iso3s: Set<string> | null): void;
   onHeatmap(on: boolean): void;
@@ -108,6 +109,7 @@ export function buildUI(data: Data, cb: UICallbacks): UIHandle {
 
   // --- options ---
   $<HTMLInputElement>("opt-labels").addEventListener("change", (e) => { state.labels = (e.target as HTMLInputElement).checked; cb.onLabels(state.labels); });
+  $<HTMLInputElement>("opt-declutter").addEventListener("change", (e) => cb.onDeclutter((e.target as HTMLInputElement).checked));
   $<HTMLInputElement>("opt-heatmap").addEventListener("change", (e) => {
     const on = (e.target as HTMLInputElement).checked;
     $("spread-row").hidden = !on;
