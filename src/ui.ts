@@ -125,6 +125,16 @@ export function buildUI(data: Data, cb: UICallbacks): UIHandle {
     copyBtn.classList.toggle("ok", state === "done");
   };
   setCopyState("idle");
+  // Ctrl/Cmd+C copies the chart when nothing else is being copied (no text selection, not typing in a field)
+  window.addEventListener("keydown", (e) => {
+    if (!(e.ctrlKey || e.metaKey) || e.key.toLowerCase() !== "c" || e.altKey || e.shiftKey) return;
+    const t = e.target as HTMLElement | null;
+    if (t && (t.tagName === "INPUT" || t.tagName === "TEXTAREA" || t.tagName === "SELECT" || t.isContentEditable)) return;
+    if ((window.getSelection()?.toString() ?? "").length > 0) return;
+    if ($<HTMLDialogElement>("help-modal").open) return;
+    e.preventDefault();
+    copyBtn.click();
+  });
   copyBtn.addEventListener("click", async () => {
     try { await cb.onCopy(); setCopyState("done"); }
     catch (err) { console.warn(err); setCopyState("fail"); }

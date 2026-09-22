@@ -9,7 +9,7 @@ Pick one, two or three dimensions from any dataset and countries are laid out on
 
 **Avoid overlaps** places labels greedily so they never overlap each other or markers: every label first tries up-right of its marker at increasing distances (for a consistent look), then other directions, and gets a thin leader line when it had to move away; labels that cannot be placed are hidden.
 
-**Export PNG** downloads (and **Copy** puts on the clipboard) the current chart (WebGL frame plus labels) as a PNG at the screen's device pixel ratio, named after the active axes, with a title and axis subtitle at the top and a "Source: https://bartor.github.io/iw-map/" caption in the bottom margin.
+**Export PNG** downloads (and **Copy** or Ctrl+C puts on the clipboard) the current chart (WebGL frame plus labels) as a PNG at the screen's device pixel ratio, named after the active axes, with a title and axis subtitle at the top and a "Source: https://bartor.github.io/iw-map/" caption in the bottom margin.
 
 **Pins.** Click a country or territory in the chart, use the pin icon on a list row or region header, or right-click for a menu. Pinned items are listed in a comparison table under the chart with the active axes as columns (regions show the mean of their shown countries). Hiding an item unpins it. While anything is pinned, unpinned countries and territories drop to half opacity. *Unpin* clears all pins.
 
