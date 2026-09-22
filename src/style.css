@@ -45,10 +45,21 @@ button:hover { border-color: var(--accent); }
 .countries-head { display: flex; gap: 6px; }
 .countries-head .btns { display: flex; gap: 4px; }
 #country-list { overflow-y: auto; flex: 1 1 auto; min-height: 0; padding-right: 4px; user-select: none; }
+.continent { margin-bottom: 6px; }
+.continent.hidden { display: none; }
+.continent.collapsed .continent-body { display: none; }
+.continent-head {
+  display: flex; align-items: center; gap: 6px; font-size: 12px; font-weight: 700; cursor: pointer; padding: 5px 2px;
+  position: sticky; top: 0; background: var(--panel); z-index: 2; text-transform: uppercase; letter-spacing: .04em; color: var(--muted);
+}
+.continent-head .count { margin-left: auto; font-weight: 400; text-transform: none; letter-spacing: 0; }
+.continent-head .chevron .icon { transform: rotate(90deg); transition: transform .15s; }
+.continent.collapsed .continent-head .chevron .icon { transform: rotate(0deg); }
+.continent-body { padding-left: 10px; }
 .region { margin-bottom: 8px; }
 .region-head {
   display: flex; align-items: center; gap: 6px; font-size: 12px; font-weight: 600; cursor: pointer;
-  padding: 4px 2px; position: sticky; top: 0; background: var(--panel);
+  padding: 4px 2px; position: sticky; top: 26px; background: var(--panel); z-index: 1;
 }
 .region.hidden { display: none; }
 .region.collapsed .region-body { display: none; }

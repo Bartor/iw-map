@@ -16,6 +16,24 @@ export const REGION_COLORS: Record<string, number> = {
 
 export const REGION_ORDER = Object.keys(REGION_COLORS);
 
+/** Higher-order grouping of regions. */
+export const CONTINENT_ORDER = ["Europe", "Asia & Middle East", "Africa", "Americas", "Oceania", "Other"];
+export const CONTINENT_OF: Record<string, string> = {
+  "Northern Europe": "Europe",
+  "Western Europe": "Europe",
+  "Southern Europe": "Europe",
+  "Central & Eastern Europe": "Europe",
+  "Eastern Europe & Central Asia": "Europe",
+  "Middle East & North Africa": "Asia & Middle East",
+  "South & Southeast Asia": "Asia & Middle East",
+  "East Asia": "Asia & Middle East",
+  "Sub-Saharan Africa": "Africa",
+  "Latin America & Caribbean": "Americas",
+  "North America": "Americas",
+  "Oceania": "Oceania",
+  "Other": "Other",
+};
+
 const R: Record<string, string[]> = {
   // UN geoscheme, with the UK and Ireland grouped with Western Europe
   "Northern Europe": ["DNK","EST","FIN","ISL","LVA","LTU","NOR","SWE"],

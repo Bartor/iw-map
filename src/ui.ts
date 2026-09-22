@@ -1,5 +1,5 @@
 import type { Country, Data, Dim } from "./types";
-import { REGION_COLORS, REGION_ORDER } from "./regions";
+import { REGION_COLORS, REGION_ORDER, CONTINENT_ORDER, CONTINENT_OF } from "./regions";
 import { icon, Icons } from "./icons";
 
 export interface UIState {
@@ -159,6 +159,53 @@ export function buildUI(data: Data, cb: UICallbacks): UIHandle {
   const byRegion = new Map<string, Country[]>();
   for (const c of data.countries) (byRegion.get(c.region) ?? byRegion.set(c.region, []).get(c.region)!).push(c);
 
+  // continent level: header with tri-state checkbox + count, regions nested in its body
+  const continentBoxes = new Map<string, HTMLInputElement>();
+  const continentBodies = new Map<string, { wrap: HTMLElement; body: HTMLElement }>();
+  const continentCounts = new Map<string, HTMLElement>();
+  const countriesOfContinent = (cont: string) => REGION_ORDER.filter((rg) => CONTINENT_OF[rg] === cont).flatMap((rg) => byRegion.get(rg) ?? []);
+  for (const cont of CONTINENT_ORDER) {
+    const cs = countriesOfContinent(cont);
+    if (!cs.length) continue;
+    const wrap = document.createElement("div");
+    wrap.className = "continent";
+    const head = document.createElement("label");
+    head.className = "continent-head";
+    const chev = document.createElement("button");
+    chev.type = "button"; chev.className = "chevron"; chev.appendChild(icon(Icons.ChevronRight));
+    const box = document.createElement("input");
+    box.type = "checkbox"; box.checked = true;
+    const name = document.createElement("span");
+    name.textContent = cont;
+    const count = document.createElement("span");
+    count.className = "count"; count.textContent = String(cs.length);
+    head.append(chev, box, name, count);
+    wrap.appendChild(head);
+    const body = document.createElement("div");
+    body.className = "continent-body";
+    wrap.appendChild(body);
+    list.appendChild(wrap);
+    continentBoxes.set(cont, box);
+    continentBodies.set(cont, { wrap, body });
+    continentCounts.set(cont, count);
+    const key = "continent:" + cont;
+    const setCollapsed = (on: boolean) => {
+      wrap.classList.toggle("collapsed", on);
+      chev.title = on ? "Expand" : "Collapse";
+      if (on) collapsed.add(key); else collapsed.delete(key);
+      writeCollapsed(collapsed);
+    };
+    setCollapsed(collapsed.has(key));
+    chev.addEventListener("click", (e) => { e.preventDefault(); e.stopPropagation(); setCollapsed(!wrap.classList.contains("collapsed")); });
+    head.addEventListener("pointerenter", () => cb.onFocus(new Set(cs.map((c) => c.iso3))));
+    head.addEventListener("pointerleave", () => cb.onFocus(null));
+    box.addEventListener("change", () => {
+      for (const c of cs) { if (box.checked) state.selection.add(c.iso3); else state.selection.delete(c.iso3); rows.get(c.iso3)!.cb.checked = box.checked; }
+      syncGroupBoxes();
+      selectionChanged();
+    });
+  }
+
   for (const region of REGION_ORDER) {
     const cs = byRegion.get(region);
     if (!cs?.length) continue;
@@ -200,6 +247,7 @@ export function buildUI(data: Data, cb: UICallbacks): UIHandle {
     head.addEventListener("pointerleave", () => cb.onFocus(null));
     rcb.addEventListener("change", () => {
       for (const c of cs) { if (rcb.checked) state.selection.add(c.iso3); else state.selection.delete(c.iso3); rows.get(c.iso3)!.cb.checked = rcb.checked; }
+      syncGroupBoxes();
       selectionChanged();
     });
     for (const c of cs) {
@@ -218,13 +266,22 @@ export function buildUI(data: Data, cb: UICallbacks): UIHandle {
       row.addEventListener("pointerleave", () => cb.onFocus(null));
       ccb.addEventListener("change", () => {
         if (ccb.checked) state.selection.add(c.iso3); else state.selection.delete(c.iso3);
-        rcb.checked = cs.every((x) => state.selection.has(x.iso3));
-        rcb.indeterminate = !rcb.checked && cs.some((x) => state.selection.has(x.iso3));
+        syncGroupBoxes();
         selectionChanged();
       });
     }
-    list.appendChild(wrap);
+    continentBodies.get(CONTINENT_OF[region] ?? "Other")!.body.appendChild(wrap);
   }
+
+  /** Recompute region and continent checkbox states from the selection. */
+  const syncGroupBoxes = () => {
+    const setBox = (box: HTMLInputElement, cs: Country[]) => {
+      box.checked = cs.length > 0 && cs.every((x) => state.selection.has(x.iso3));
+      box.indeterminate = !box.checked && cs.some((x) => state.selection.has(x.iso3));
+    };
+    for (const [region, rcb] of regionBoxes) setBox(rcb, byRegion.get(region) ?? []);
+    for (const [cont, box] of continentBoxes) setBox(box, countriesOfContinent(cont));
+  };
 
   const isPinned = (t: { country?: Country; region?: string }) =>
     t.country ? state.pinned.has(t.country.iso3) : t.region ? state.pinnedRegions.has(t.region) : false;
@@ -257,11 +314,7 @@ export function buildUI(data: Data, cb: UICallbacks): UIHandle {
   const hide = (t: { country?: Country; region?: string }) => {
     const targets = t.country ? [t.country] : t.region ? (byRegion.get(t.region) ?? []) : [];
     for (const c of targets) { state.selection.delete(c.iso3); rows.get(c.iso3)!.cb.checked = false; }
-    for (const [region, rcb] of regionBoxes) {
-      const cs = byRegion.get(region) ?? [];
-      rcb.checked = cs.every((x) => state.selection.has(x.iso3));
-      rcb.indeterminate = !rcb.checked && cs.some((x) => state.selection.has(x.iso3));
-    }
+    syncGroupBoxes();
     selectionChanged();
   };
 
@@ -381,13 +434,18 @@ export function buildUI(data: Data, cb: UICallbacks): UIHandle {
       count.textContent = avail === cs.length ? String(cs.length) : avail + " / " + cs.length;
       count.title = avail === cs.length ? "" : avail + " of " + cs.length + " have data for the chosen axes";
     }
+    for (const [cont, count] of continentCounts) {
+      const cs = countriesOfContinent(cont);
+      const avail = cs.filter(hasAll).length;
+      count.textContent = avail === cs.length ? String(cs.length) : avail + " / " + cs.length;
+    }
     renderCompare();
   };
   refreshRows();
 
   const setAll = (on: boolean) => {
     for (const r of rows.values()) { r.cb.checked = on; if (on) state.selection.add(r.country.iso3); else state.selection.delete(r.country.iso3); }
-    for (const b of regionBoxes.values()) { b.checked = on; b.indeterminate = false; }
+    syncGroupBoxes();
     selectionChanged();
   };
   $("btn-all").addEventListener("click", () => setAll(true));
@@ -401,6 +459,11 @@ export function buildUI(data: Data, cb: UICallbacks): UIHandle {
       // while searching, force-open regions with matches and hide regions without; restore stored state when cleared
       wrap.classList.toggle("hidden", !!q && !anyMatch);
       wrap.classList.toggle("collapsed", q ? false : collapsed.has(region));
+    }
+    for (const [cont, { wrap, body }] of continentBodies) {
+      const anyRegion = [...body.children].some((el) => !el.classList.contains("hidden"));
+      wrap.classList.toggle("hidden", !!q && !anyRegion);
+      wrap.classList.toggle("collapsed", q ? false : collapsed.has("continent:" + cont));
     }
   });
 
