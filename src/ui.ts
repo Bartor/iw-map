@@ -26,6 +26,7 @@ export interface UIHandle {
   state: UIState;
   togglePin(target: { country?: Country; region?: string }): void;
   isPinned(target: { country?: Country; region?: string }): boolean;
+  hide(target: { country?: Country; region?: string }): void;
 }
 
 const PIN_SVG = '<svg viewBox="0 0 16 16"><path d="M9.5 1.5 14.5 6.5l-1.4 1.4-.7-.7-3 3 .3 3.3-1.4 1.4L5 11.6 1.6 15l-.6-.6L4.4 11 1.1 7.7l1.4-1.4 3.3.3 3-3-.7-.7z"/></svg>';
@@ -185,6 +186,18 @@ export function buildUI(data: Data, cb: UICallbacks): UIHandle {
   };
   $("btn-unpin").addEventListener("click", () => { state.pinned.clear(); state.pinnedRegions.clear(); refreshPins(); });
 
+  /** Deselect a country, or every country of a region, keeping the checkboxes in sync. */
+  const hide = (t: { country?: Country; region?: string }) => {
+    const targets = t.country ? [t.country] : t.region ? (byRegion.get(t.region) ?? []) : [];
+    for (const c of targets) { state.selection.delete(c.iso3); rows.get(c.iso3)!.cb.checked = false; }
+    for (const [region, rcb] of regionBoxes) {
+      const cs = byRegion.get(region) ?? [];
+      rcb.checked = cs.every((x) => state.selection.has(x.iso3));
+      rcb.indeterminate = !rcb.checked && cs.some((x) => state.selection.has(x.iso3));
+    }
+    cb.onSelection(state.selection);
+  };
+
   const hasAll = (c: Country) => state.axes.every((d) => !d || d.id in c.values);
   const refreshRows = () => {
     for (const r of rows.values()) {
@@ -214,7 +227,7 @@ export function buildUI(data: Data, cb: UICallbacks): UIHandle {
     return `<div><b>${ds.label}</b> ${links}</div>`;
   }).join("") + `<div>${data.countries.length} countries · drag to rotate · scroll to zoom</div>`;
 
-  return { state, togglePin, isPinned };
+  return { state, togglePin, isPinned, hide };
 }
 
 export function isContextMenuOpen(): boolean { return !$("ctx-menu").hidden; }
@@ -264,6 +277,11 @@ export function showContextMenu(info: { country?: Country; region?: string; x: n
   btn.textContent = pinned ? "Unpin" : "Pin";
   btn.addEventListener("click", () => { ui.togglePin(info); menu.hidden = true; });
   menu.appendChild(btn);
+  const hideBtn = document.createElement("button");
+  hideBtn.type = "button";
+  hideBtn.textContent = info.country ? "Hide" : "Hide region";
+  hideBtn.addEventListener("click", () => { ui.hide(info); menu.hidden = true; });
+  menu.appendChild(hideBtn);
   if (ui.state.pinned.size || ui.state.pinnedRegions.size) {
     const all = document.createElement("button");
     all.type = "button"; all.textContent = "Unpin all";
