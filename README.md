@@ -7,7 +7,7 @@ Interactive 3D visualisation of national cultures using two published frameworks
 
 Pick one, two or three dimensions from any dataset and countries are laid out on a line, a square or a cube. Changing the number of axes morphs the frame (line expands into a square, square into a cube) and countries glide to their new positions. Drag to rotate (3D only), hold Space and drag to pan, scroll to zoom. In 2D and 1D the view cannot be rotated and left-drag pans. Hovering a country (in the scene or the list) or a region header fades everything else.
 
-**Export PNG** downloads (and **Copy** puts on the clipboard) the current chart (WebGL frame plus labels) as a PNG at the screen's device pixel ratio, named after the active axes, with a "Source: https://bartor.github.io/iw-map/" caption in the bottom margin.
+**Export PNG** downloads (and **Copy** puts on the clipboard) the current chart (WebGL frame plus labels) as a PNG at the screen's device pixel ratio, named after the active axes, with a title and axis subtitle at the top and a "Source: https://bartor.github.io/iw-map/" caption in the bottom margin.
 
 **Pins.** Click a country or territory in the chart, use the pin icon on a list row or region header, or right-click for a menu. Pinned items are listed in a comparison table under the chart with the active axes as columns (regions show the mean of their shown countries). Hiding an item unpins it. While anything is pinned, unpinned countries and territories drop to half opacity. *Unpin* clears all pins.
 

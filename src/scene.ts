@@ -334,23 +334,37 @@ export class CultureScene {
 
     // crop to the rendered content (frame, markers, labels) plus a margin
     const bounds = this.contentBounds(labels, base);
-    const margin = 40, footer = 26;   // CSS px; the footer strip holds the source caption
+    const margin = 40, footer = 26, header = 64;   // CSS px; header holds title + axes, footer the source caption
+    const axes = this.axes.filter((d): d is Dim => !!d);
+    const datasets = [...new Set(axes.map((d) => d.datasetLabel))];
+    const title = datasets.length === 1 ? datasets[0] : "Cultural dimensions · " + datasets.join(" × ");
+    const subtitle = axes.map((d, i) => ["X", "Y", "Z"][i] + " · " + d.label).join("    ");
     const x0 = Math.max(0, Math.floor((bounds.minX - margin) * dpr));
     const y0 = Math.max(0, Math.floor((bounds.minY - margin) * dpr));
     const x1 = Math.min(out.width, Math.ceil((bounds.maxX + margin) * dpr));
     const y1 = Math.min(out.height, Math.ceil((bounds.maxY + margin) * dpr));
     const crop = document.createElement("canvas");
-    crop.width = Math.max(1, x1 - x0); crop.height = Math.max(1, y1 - y0) + Math.round(footer * dpr);
+    const headerPx = Math.round(header * dpr);
+    crop.width = Math.max(1, x1 - x0); crop.height = headerPx + Math.max(1, y1 - y0) + Math.round(footer * dpr);
     const cctx = crop.getContext("2d")!;
     cctx.fillStyle = "#0b0e14";
     cctx.fillRect(0, 0, crop.width, crop.height);
-    cctx.drawImage(out, x0, y0, crop.width, y1 - y0, 0, 0, crop.width, y1 - y0);
-    // source caption, bottom right
+    cctx.drawImage(out, x0, y0, crop.width, y1 - y0, 0, headerPx, crop.width, y1 - y0);
     cctx.scale(dpr, dpr);
-    cctx.font = "11px system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif";
+    // header: title + axes
+    const family = "system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif";
+    cctx.textAlign = "left";
+    cctx.textBaseline = "middle";
+    cctx.fillStyle = "#e6e9ef";
+    cctx.font = "600 17px " + family;
+    cctx.fillText(title, 16, 24);
+    cctx.fillStyle = "#8b93a5";
+    cctx.font = "12px " + family;
+    cctx.fillText(subtitle, 16, 46);
+    // source caption, bottom right
+    cctx.font = "11px " + family;
     cctx.fillStyle = "#8b93a5";
     cctx.textAlign = "right";
-    cctx.textBaseline = "middle";
     cctx.fillText("Source: " + SITE_URL, crop.width / dpr - 12, crop.height / dpr - footer / 2 - 2);
 
     return new Promise((resolve, reject) => crop.toBlob((b) => (b ? resolve(b) : reject(new Error("PNG encoding failed"))), "image/png"));
