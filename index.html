@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Cultural Dimensions Map</title>
+    <link rel="stylesheet" href="/src/style.css" />
+  </head>
+  <body>
+    <div id="app">
+      <aside id="panel">
+        <header>
+          <h1>Cultural Dimensions</h1>
+          <p class="sub">Hofstede &amp; Inglehart–Welzel, in 1D / 2D / 3D</p>
+        </header>
+        <section class="axes">
+          <label>X axis <select id="axis-x"></select></label>
+          <label>Y axis <select id="axis-y"></select></label>
+          <label>Z axis <select id="axis-z"></select></label>
+        </section>
+        <section class="options">
+          <label class="inline"><input type="checkbox" id="opt-labels" checked /> Labels</label>
+          <label class="inline"><input type="checkbox" id="opt-autorotate" /> Auto-rotate</label>
+          <button id="btn-reset-view" type="button">Reset view</button>
+        </section>
+        <section class="countries">
+          <div class="countries-head">
+            <input id="country-search" type="search" placeholder="Search countries…" />
+            <div class="btns">
+              <button id="btn-all" type="button">All</button>
+              <button id="btn-none" type="button">None</button>
+            </div>
+          </div>
+          <div id="country-list"></div>
+        </section>
+        <footer id="sources"></footer>
+      </aside>
+      <main id="viewport">
+        <div id="tooltip" hidden></div>
+        <div id="empty-hint" hidden>No selected country has data for every chosen axis.</div>
+      </main>
+    </div>
+    <script type="module" src="/src/main.ts"></script>
+  </body>
+</html>

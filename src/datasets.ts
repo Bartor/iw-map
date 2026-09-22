@@ -1,0 +1,87 @@
+import type { Country, Data, DatasetInfo, Dim } from "./types";
+import { regionOf } from "./regions";
+
+// Raw JSON shapes produced by the research step (data/*.json)
+interface HofRaw {
+  meta: { sources: string[]; notes?: string };
+  countries: Array<{ iso3: string | null; name: string; pdi: number | null; idv: number | null; mas: number | null; uai: number | null; lto: number | null; ivr: number | null; source?: string }>;
+}
+interface IwRaw {
+  meta: { sources: string[]; notes?: string };
+  editions: Array<{ id: string; label: string; source?: string; approximate?: boolean; countries: Array<{ iso3: string | null; name: string; trad_sec: number | null; surv_self: number | null }> }>;
+}
+
+const HOF_DIMS: Array<[keyof HofRaw["countries"][number], string, string, string, string]> = [
+  ["pdi", "Power Distance", "PDI", "low power distance", "high power distance"],
+  ["idv", "Individualism", "IDV", "collectivist", "individualist"],
+  ["mas", "Motivation towards Achievement (Masculinity)", "MAS", "consensus / feminine", "achievement / masculine"],
+  ["uai", "Uncertainty Avoidance", "UAI", "low avoidance", "high avoidance"],
+  ["lto", "Long Term Orientation", "LTO", "short-term", "long-term"],
+  ["ivr", "Indulgence", "IVR", "restraint", "indulgence"],
+];
+
+function niceRange(values: number[]): [number, number] {
+  let min = Math.min(...values), max = Math.max(...values);
+  const pad = (max - min) * 0.08;
+  min = Math.floor((min - pad) * 2) / 2;
+  max = Math.ceil((max + pad) * 2) / 2;
+  return [min, max];
+}
+
+export async function loadData(): Promise<Data> {
+  const [hof, iw] = await Promise.all([
+    import("../data/hofstede.json").then((m) => m.default as unknown as HofRaw).catch(() => null),
+    import("../data/inglehart_welzel.json").then((m) => m.default as unknown as IwRaw).catch(() => null),
+  ]);
+
+  const dims: Dim[] = [];
+  const datasets: DatasetInfo[] = [];
+  const countries = new Map<string, Country>();
+  const getCountry = (iso3: string, name: string) => {
+    iso3 = iso3.toUpperCase();
+    let c = countries.get(iso3);
+    if (!c) {
+      c = { iso3, name, region: regionOf(iso3), values: {} };
+      countries.set(iso3, c);
+    }
+    return c;
+  };
+
+  if (hof) {
+    datasets.push({ id: "hof", label: "Hofstede (6-D)", sources: hof.meta.sources, notes: hof.meta.notes });
+    for (const [key, label, short, lo, hi] of HOF_DIMS) {
+      dims.push({ id: `hof.${key}`, dataset: "hof", datasetLabel: "Hofstede", label, short, min: 0, max: 100, lowLabel: lo, highLabel: hi });
+    }
+    for (const row of hof.countries) {
+      const c = getCountry(row.iso3 ?? "_" + row.name.replace(/[^a-z0-9]+/gi, "_").toUpperCase(), row.name);
+      for (const [key] of HOF_DIMS) {
+        const v = row[key];
+        if (typeof v === "number" && Number.isFinite(v)) c.values[`hof.${key}`] = v;
+      }
+    }
+  }
+
+  if (iw) {
+    datasets.push({ id: "iw", label: "Inglehart–Welzel", sources: iw.meta.sources, notes: iw.meta.notes });
+    const allTS: number[] = [], allSS: number[] = [];
+    for (const ed of iw.editions) for (const c of ed.countries) {
+      if (typeof c.trad_sec === "number") allTS.push(c.trad_sec);
+      if (typeof c.surv_self === "number") allSS.push(c.surv_self);
+    }
+    const [tsMin, tsMax] = allTS.length ? niceRange(allTS) : [-2.5, 2.5];
+    const [ssMin, ssMax] = allSS.length ? niceRange(allSS) : [-2.5, 2.5];
+    for (const ed of iw.editions) {
+      const tag = ed.approximate ? " (approx.)" : "";
+      dims.push({ id: `iw.${ed.id}.trad_sec`, dataset: "iw", datasetLabel: `Inglehart–Welzel · ${ed.label}`, label: `Traditional vs Secular-rational — ${ed.label}${tag}`, short: `Trad.→Secular (${ed.label})`, min: tsMin, max: tsMax, lowLabel: "traditional", highLabel: "secular-rational" });
+      dims.push({ id: `iw.${ed.id}.surv_self`, dataset: "iw", datasetLabel: `Inglehart–Welzel · ${ed.label}`, label: `Survival vs Self-expression — ${ed.label}${tag}`, short: `Survival→Self-expr. (${ed.label})`, min: ssMin, max: ssMax, lowLabel: "survival", highLabel: "self-expression" });
+      for (const row of ed.countries) {
+        const c = getCountry(row.iso3 ?? "_" + row.name.replace(/[^a-z0-9]+/gi, "_").toUpperCase(), row.name);
+        if (typeof row.trad_sec === "number") c.values[`iw.${ed.id}.trad_sec`] = row.trad_sec;
+        if (typeof row.surv_self === "number") c.values[`iw.${ed.id}.surv_self`] = row.surv_self;
+      }
+    }
+  }
+
+  const list = [...countries.values()].sort((a, b) => a.name.localeCompare(b.name));
+  return { dims, countries: list, datasets };
+}
