@@ -264,6 +264,7 @@ export function buildUI(data: Data, cb: UICallbacks): UIHandle {
     const collapsed = compare.classList.toggle("collapsed");
     $("compare-toggle").textContent = collapsed ? "+" : "–";
   });
+  let compareSort: { col: number; dir: 1 | -1 } = { col: -1, dir: 1 }; // col -1 = name, else axis index
   const fmtVal = (v: number | undefined) => (v === undefined ? "–" : Number.isInteger(v) ? String(v) : v.toFixed(2));
   const renderCompare = () => {
     const dims = state.axes.filter((d): d is Dim => !!d);
@@ -281,14 +282,39 @@ export function buildUI(data: Data, cb: UICallbacks): UIHandle {
       if (!state.pinned.has(c.iso3)) continue;
       items.push({ label: c.name, color: "#" + (REGION_COLORS[c.region] ?? REGION_COLORS.Other).toString(16).padStart(6, "0"), country: c, values: dims.map((d) => valueFor(c, d)) });
     }
+    const dir = compareSort.dir;
+    items.sort((a, b) => {
+      if (compareSort.col < 0) return dir * a.label.localeCompare(b.label);
+      const va = a.values[compareSort.col], vb = b.values[compareSort.col];
+      if (va === undefined && vb === undefined) return 0;
+      if (va === undefined) return 1;
+      if (vb === undefined) return -1;
+      return dir * (va - vb);
+    });
     compare.hidden = items.length === 0;
     $("compare-count").textContent = items.length ? String(items.length) + (items.length === 1 ? " item" : " items") : "";
     compareTable.innerHTML = "";
     if (!items.length) return;
+    const colgroup = document.createElement("colgroup");
+    const nameCol = document.createElement("col"); nameCol.style.width = "240px"; colgroup.appendChild(nameCol);
+    for (let i = 0; i < dims.length; i++) { const col = document.createElement("col"); col.style.width = "120px"; colgroup.appendChild(col); }
+    const rmCol = document.createElement("col"); rmCol.style.width = "36px"; colgroup.appendChild(rmCol);
+    compareTable.appendChild(colgroup);
     const thead = compareTable.createTHead();
     const hr = thead.insertRow();
-    hr.appendChild(Object.assign(document.createElement("th"), { textContent: "Pinned" }));
-    for (const d of dims) hr.appendChild(Object.assign(document.createElement("th"), { textContent: d.short, title: d.label }));
+    const th = (text: string, col: number, title?: string) => {
+      const h = document.createElement("th");
+      h.className = "sortable" + (compareSort.col === col ? " sorted" : "");
+      h.textContent = text + (compareSort.col === col ? (compareSort.dir > 0 ? " ▲" : " ▼") : "");
+      if (title) h.title = title;
+      h.addEventListener("click", () => {
+        compareSort = compareSort.col === col ? { col, dir: compareSort.dir > 0 ? -1 : 1 } : { col, dir: col < 0 ? 1 : -1 };
+        renderCompare();
+      });
+      return h;
+    };
+    hr.appendChild(th("Pinned", -1));
+    dims.forEach((d, i) => hr.appendChild(th(d.short, i, d.label)));
     hr.appendChild(document.createElement("th"));
     // highlight the extreme values per column
     const maxes = dims.map((_, i) => Math.max(...items.map((it) => it.values[i] ?? -Infinity)));
@@ -305,8 +331,8 @@ export function buildUI(data: Data, cb: UICallbacks): UIHandle {
         const td = tr.insertCell();
         td.textContent = fmtVal(v);
         if (v !== undefined && items.length > 1) {
-          if (v === maxes[i]) td.classList.add("best");
-          else if (v === mins[i]) td.classList.add("muted");
+          if (v === maxes[i]) td.classList.add("max");
+          else if (v === mins[i]) td.classList.add("min");
         }
       });
       const rm = tr.insertCell(); rm.className = "rm";
