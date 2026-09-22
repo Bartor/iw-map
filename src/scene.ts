@@ -9,7 +9,8 @@ import { Heatmap, type HeatPoint } from "./heatmap";
 const S = 10;            // frame edge length in world units
 const GRID_N = 10;       // grid subdivisions per face
 const MARKER_R = 0.13;
-const MARKER_REF_DIST = 24;   // markers keep the on-screen size they have at this camera distance
+const MARKER_REF_DIST = 24;
+const SITE_URL = "https://bartor.github.io/iw-map/";   // printed in the bottom margin of exported images   // markers keep the on-screen size they have at this camera distance
 
 interface Marker {
   country: Country;
@@ -333,14 +334,24 @@ export class CultureScene {
 
     // crop to the rendered content (frame, markers, labels) plus a margin
     const bounds = this.contentBounds(labels, base);
-    const margin = 40;
+    const margin = 40, footer = 26;   // CSS px; the footer strip holds the source caption
     const x0 = Math.max(0, Math.floor((bounds.minX - margin) * dpr));
     const y0 = Math.max(0, Math.floor((bounds.minY - margin) * dpr));
     const x1 = Math.min(out.width, Math.ceil((bounds.maxX + margin) * dpr));
     const y1 = Math.min(out.height, Math.ceil((bounds.maxY + margin) * dpr));
     const crop = document.createElement("canvas");
-    crop.width = Math.max(1, x1 - x0); crop.height = Math.max(1, y1 - y0);
-    crop.getContext("2d")!.drawImage(out, x0, y0, crop.width, crop.height, 0, 0, crop.width, crop.height);
+    crop.width = Math.max(1, x1 - x0); crop.height = Math.max(1, y1 - y0) + Math.round(footer * dpr);
+    const cctx = crop.getContext("2d")!;
+    cctx.fillStyle = "#0b0e14";
+    cctx.fillRect(0, 0, crop.width, crop.height);
+    cctx.drawImage(out, x0, y0, crop.width, y1 - y0, 0, 0, crop.width, y1 - y0);
+    // source caption, bottom right
+    cctx.scale(dpr, dpr);
+    cctx.font = "11px system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif";
+    cctx.fillStyle = "#8b93a5";
+    cctx.textAlign = "right";
+    cctx.textBaseline = "middle";
+    cctx.fillText("Source: " + SITE_URL, crop.width / dpr - 12, crop.height / dpr - footer / 2 - 2);
 
     return new Promise((resolve, reject) => crop.toBlob((b) => (b ? resolve(b) : reject(new Error("PNG encoding failed"))), "image/png"));
   }
