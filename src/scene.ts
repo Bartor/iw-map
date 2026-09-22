@@ -23,7 +23,9 @@ export interface HoverInfo { country: Country; x: number; y: number }
 function makeLabel(cls: string, text = ""): CSS2DObject {
   const el = document.createElement("div");
   el.className = cls;
-  el.textContent = text;
+  const inner = document.createElement("span");
+  inner.textContent = text;
+  el.appendChild(inner);
   const obj = new CSS2DObject(el);
   obj.center.set(0, 1);
   return obj;
@@ -169,6 +171,7 @@ export class CultureScene {
       this.tickLabels[k][0].element.textContent = d ? `${d.min}${d.lowLabel ? " · " + d.lowLabel : ""}` : "";
       this.tickLabels[k][1].element.textContent = d ? `${d.max}${d.highLabel ? " · " + d.highLabel : ""}` : "";
     });
+    this.labelRenderer.domElement.classList.toggle("one-d", this.ndims === 1);
     this.retarget(now);
     if (this.ndims !== this.lastNdims) {
       this.lastNdims = this.ndims;
@@ -186,7 +189,14 @@ export class CultureScene {
 
   resetView() {
     const n = this.ndims;
-    const pos = n >= 3 ? [15, 10, 17] : n === 2 ? [0, 0, 22] : [0, 0, 20];
+    const tanHalf = Math.tan(THREE.MathUtils.degToRad(this.camera.fov / 2));
+    const aspect = this.camera.aspect || 1;
+    // world-space extents to fit (frame plus room for labels)
+    const w = S + 4, h = (n >= 2 ? S : 0) + 3;
+    const dist2d = Math.max(w / (2 * tanHalf * aspect), h / (2 * tanHalf)) * 1.05;
+    const dist3d = (S * Math.sqrt(3) / 2 + 2) / (tanHalf * Math.min(aspect, 1)) * 1.02;
+    const dir = n >= 3 ? new THREE.Vector3(15, 10, 17).normalize() : new THREE.Vector3(0, 0, 1);
+    const pos = dir.multiplyScalar(n >= 3 ? dist3d : dist2d).toArray();
     this.camPos.jump(this.camera.position.x, this.camera.position.y, this.camera.position.z);
     this.camTarget.jump(this.controls.target.x, this.controls.target.y, this.controls.target.z);
     const now = performance.now();

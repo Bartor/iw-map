@@ -29,10 +29,9 @@ function niceRange(values: number[]): [number, number] {
 }
 
 export async function loadData(): Promise<Data> {
-  const [hof, iw] = await Promise.all([
-    import("../data/hofstede.json").then((m) => m.default as unknown as HofRaw).catch(() => null),
-    import("../data/inglehart_welzel.json").then((m) => m.default as unknown as IwRaw).catch(() => null),
-  ]);
+  const files = import.meta.glob("../data/*.json", { eager: true, import: "default" }) as Record<string, unknown>;
+  const hof = files["../data/hofstede.json"] as HofRaw | undefined;
+  const iw = files["../data/inglehart_welzel.json"] as IwRaw | undefined;
 
   const dims: Dim[] = [];
   const datasets: DatasetInfo[] = [];

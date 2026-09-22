@@ -1,0 +1,30 @@
+# Cultural Dimensions Map
+
+Interactive 3D visualisation of national cultures using two published frameworks:
+
+- **Hofstede's 6-D model** (Power Distance, Individualism, Motivation towards Achievement / Masculinity, Uncertainty Avoidance, Long Term Orientation, Indulgence)
+- **Inglehart–Welzel cultural map** (Traditional vs Secular-rational, Survival vs Self-expression), across several World Values Survey map editions
+
+Pick one, two or three dimensions from any dataset and countries are laid out on a line, a square or a cube. Changing the number of axes morphs the frame (line expands into a square, square into a cube) and countries glide to their new positions. Drag to rotate, scroll to zoom.
+
+## Run
+
+```bash
+npm install
+npm run dev
+```
+
+Build for static hosting with `npm run build` (output in `dist/`).
+
+## Data
+
+Numerical scores live in `data/`:
+
+- `hofstede.json` – official geerthofstede.com 2015 dimension matrix merged with theculturefactor.com country comparison data. See `hofstede_sources.md`.
+- `inglehart_welzel.json` – country coordinates per WVS map edition. See `inglehart_welzel_sources.md`.
+
+Sub-national or regional Hofstede entries (e.g. "Belgium French", "Arab countries") have no ISO code and are grouped under "Other".
+
+## Stack
+
+Vite, TypeScript, three.js (OrbitControls + CSS2DRenderer for labels). No framework.
