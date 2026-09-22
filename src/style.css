@@ -29,7 +29,10 @@ select, input[type="search"] {
 select:disabled { opacity: .4; }
 .with-icon { display: inline-flex; align-items: center; gap: 5px; }
 #btn-copy.ok { border-color: #50fa7b; color: #50fa7b; }
-.options { display: flex; gap: 12px; align-items: center; flex-wrap: wrap; font-size: 12px; color: var(--muted); }
+.options { display: flex; flex-direction: column; gap: 10px; font-size: 12px; color: var(--muted); }
+.btn-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; }
+.btn-row button { justify-content: center; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; min-width: 0; }
+.check-row { display: flex; gap: 16px; align-items: center; }
 .inline { display: flex; align-items: center; gap: 6px; }
 .spread { flex: 1 1 100%; }
 .spread input { flex: 1; accent-color: var(--accent); }

@@ -108,7 +108,11 @@ export function buildUI(data: Data, cb: UICallbacks): UIHandle {
 
   // --- options ---
   $<HTMLInputElement>("opt-labels").addEventListener("change", (e) => { state.labels = (e.target as HTMLInputElement).checked; cb.onLabels(state.labels); });
-  $<HTMLInputElement>("opt-heatmap").addEventListener("change", (e) => cb.onHeatmap((e.target as HTMLInputElement).checked));
+  $<HTMLInputElement>("opt-heatmap").addEventListener("change", (e) => {
+    const on = (e.target as HTMLInputElement).checked;
+    $("spread-row").hidden = !on;
+    cb.onHeatmap(on);
+  });
   $<HTMLInputElement>("opt-heat-spread").addEventListener("input", (e) => cb.onHeatSpread(Number((e.target as HTMLInputElement).value)));
   $("btn-reset-view").addEventListener("click", () => cb.onResetView());
   $("btn-export").prepend(icon(Icons.Download));

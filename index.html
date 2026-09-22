@@ -21,12 +21,16 @@
           <label>Z axis <select id="axis-z" autocomplete="off"></select></label>
         </section>
         <section class="options">
-          <label class="inline"><input type="checkbox" id="opt-labels" checked /> Labels</label>
-          <button id="btn-reset-view" type="button">Reset view</button>
-          <button id="btn-export" type="button" class="with-icon" title="Download the chart as a PNG">Export PNG</button>
-          <button id="btn-copy" type="button" class="with-icon" title="Copy the chart as a PNG to the clipboard">Copy</button>
-          <label class="inline"><input type="checkbox" id="opt-heatmap" /> Region heatmap</label>
-          <label class="inline spread">Spread <input type="range" id="opt-heat-spread" min="0" max="1" step="0.01" value="0.5" /></label>
+          <div class="btn-row">
+            <button id="btn-reset-view" type="button">Reset view</button>
+            <button id="btn-export" type="button" class="with-icon" title="Download the chart as a PNG">Export PNG</button>
+            <button id="btn-copy" type="button" class="with-icon" title="Copy the chart as a PNG to the clipboard">Copy</button>
+          </div>
+          <div class="check-row">
+            <label class="inline"><input type="checkbox" id="opt-labels" checked /> Labels</label>
+            <label class="inline"><input type="checkbox" id="opt-heatmap" /> Region heatmap</label>
+          </div>
+          <label class="inline spread" id="spread-row" hidden>Spread <input type="range" id="opt-heat-spread" min="0" max="1" step="0.01" value="0.5" /></label>
         </section>
         <section class="countries">
           <div class="countries-head">
