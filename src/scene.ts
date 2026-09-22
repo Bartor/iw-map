@@ -15,6 +15,7 @@ interface Marker {
   label: CSS2DObject;
   pos: Anim3;      // frame-local position, 0..S per axis
   scale: Anim;     // 0 hidden .. 1 visible
+  dim: Anim;       // 0 normal .. 1 faded
   visible: boolean;
 }
 
@@ -83,6 +84,7 @@ export class CultureScene {
   private selection = new Set<string>();
   private showLabels = true;
   private hovered: Marker | null = null;
+  private focus: Set<string> | null = null;   // external focus (from the list panel)
 
   private camPos = new Anim3(0, 0, 0, 1100, easeOutCubic);
   private camTarget = new Anim3(0, 0, 0, 1100, easeOutCubic);
@@ -136,7 +138,7 @@ export class CultureScene {
 
   private addMarker(country: Country) {
     const color = REGION_COLORS[country.region] ?? REGION_COLORS.Other;
-    const mat = new THREE.MeshStandardMaterial({ color, roughness: 0.45, metalness: 0.1, emissive: color, emissiveIntensity: 0.15 });
+    const mat = new THREE.MeshStandardMaterial({ color, roughness: 0.45, metalness: 0.1, emissive: color, emissiveIntensity: 0.15, transparent: true });
     const mesh = new THREE.Mesh(this.sphereGeo, mat);
     mesh.scale.setScalar(0.0001);
     mesh.userData.iso3 = country.iso3;
@@ -144,7 +146,7 @@ export class CultureScene {
     label.visible = false;
     mesh.add(label);
     this.markerGroup.add(mesh);
-    this.markers.set(country.iso3, { country, mesh, label, pos: new Anim3(0, 0, 0), scale: new Anim(0, 500, easeOutCubic), visible: false });
+    this.markers.set(country.iso3, { country, mesh, label, pos: new Anim3(0, 0, 0), scale: new Anim(0, 500, easeOutCubic), dim: new Anim(0, 250, easeOutCubic), visible: false });
   }
 
   private resize() {
@@ -184,6 +186,8 @@ export class CultureScene {
     this.retarget(performance.now());
   }
 
+  /** Highlight these countries and fade all others; null clears. */
+  setFocus(iso3s: Set<string> | null) { this.focus = iso3s; }
   setLabels(on: boolean) { this.showLabels = on; }
   setAutoRotate(on: boolean) { this.controls.autoRotate = on; }
 
@@ -261,15 +265,20 @@ export class CultureScene {
     this.axisLabels.x.center.set(0.5, 0); this.axisLabels.y.center.set(1, 0.5); this.axisLabels.z.center.set(0, 0.5);
 
     // markers
+    const focus = this.hovered ? new Set([this.hovered.country.iso3]) : this.focus;
     for (const m of this.markers.values()) {
-      m.pos.update(now); m.scale.update(now);
+      m.dim.set(focus && !focus.has(m.country.iso3) ? 1 : 0, now);
+      m.pos.update(now); m.scale.update(now); m.dim.update(now);
       const s = m.scale.value;
+      const fade = 1 - 0.88 * m.dim.value;
+      m.mesh.material.opacity = fade;
+      m.mesh.material.depthWrite = fade > 0.5;
       const hov = m === this.hovered ? 1.6 : 1;
       m.mesh.position.set(off.x + m.pos.x.value, off.y + m.pos.y.value, off.z + m.pos.z.value);
       m.mesh.scale.setScalar(Math.max(s * hov, 1e-4));
       m.mesh.visible = s > 0.001;
       m.label.visible = this.showLabels && s > 0.6;
-      m.label.element.style.opacity = String(s);
+      m.label.element.style.opacity = String(s * (1 - 0.9 * m.dim.value));
     }
 
     // hover

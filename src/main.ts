@@ -19,6 +19,7 @@ async function main() {
     onLabels: (on) => scene.setLabels(on),
     onAutoRotate: (on) => scene.setAutoRotate(on),
     onResetView: () => scene.resetView(),
+    onFocus: (set) => scene.setFocus(set),
   });
 
   scene.onHover = (info) => showTooltip(info, state.axes);

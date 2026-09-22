@@ -14,6 +14,7 @@ export interface UICallbacks {
   onLabels(on: boolean): void;
   onAutoRotate(on: boolean): void;
   onResetView(): void;
+  onFocus(iso3s: Set<string> | null): void;
 }
 
 const $ = <T extends HTMLElement>(id: string) => document.getElementById(id) as T;
@@ -103,6 +104,8 @@ export function buildUI(data: Data, cb: UICallbacks): UIState {
     head.append(rcb, sw, name, count);
     wrap.appendChild(head);
     regionBoxes.set(region, rcb);
+    head.addEventListener("pointerenter", () => cb.onFocus(new Set(cs.map((c) => c.iso3))));
+    head.addEventListener("pointerleave", () => cb.onFocus(null));
     rcb.addEventListener("change", () => {
       for (const c of cs) { if (rcb.checked) state.selection.add(c.iso3); else state.selection.delete(c.iso3); rows.get(c.iso3)!.cb.checked = rcb.checked; }
       cb.onSelection(state.selection);
@@ -117,6 +120,8 @@ export function buildUI(data: Data, cb: UICallbacks): UIState {
       row.append(ccb, nm);
       wrap.appendChild(row);
       rows.set(c.iso3, { el: row, cb: ccb, country: c });
+      row.addEventListener("pointerenter", () => cb.onFocus(new Set([c.iso3])));
+      row.addEventListener("pointerleave", () => cb.onFocus(null));
       ccb.addEventListener("change", () => {
         if (ccb.checked) state.selection.add(c.iso3); else state.selection.delete(c.iso3);
         rcb.checked = cs.every((x) => state.selection.has(x.iso3));
