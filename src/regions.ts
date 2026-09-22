@@ -1,5 +1,6 @@
 export const REGION_COLORS: Record<string, number> = {
   "Northern Europe": 0xa5f3fc,               // ice
+  "Baltics": 0x74a3d1,                       // Baltic sea steel blue
   "Western Europe": 0x4263eb,                // royal blue
   "Southern Europe": 0x12b886,               // Mediterranean green
   "Central & Eastern Europe": 0x9775fa,      // violet
@@ -20,6 +21,7 @@ export const REGION_ORDER = Object.keys(REGION_COLORS);
 export const CONTINENT_ORDER = ["Europe", "Asia & Middle East", "Africa", "Americas", "Oceania", "Other"];
 export const CONTINENT_OF: Record<string, string> = {
   "Northern Europe": "Europe",
+  "Baltics": "Europe",
   "Western Europe": "Europe",
   "Southern Europe": "Europe",
   "Central & Eastern Europe": "Europe",
@@ -36,7 +38,8 @@ export const CONTINENT_OF: Record<string, string> = {
 
 const R: Record<string, string[]> = {
   // UN geoscheme, with the UK and Ireland grouped with Western Europe
-  "Northern Europe": ["DNK","EST","FIN","ISL","LVA","LTU","NOR","SWE"],
+  "Northern Europe": ["DNK","FIN","ISL","NOR","SWE"],
+  "Baltics": ["EST","LVA","LTU"],
   "Western Europe": ["AUT","BEL","FRA","DEU","DDR","IRL","LIE","LUX","MCO","NLD","CHE","GBR"],
   "Southern Europe": ["ALB","AND","BIH","HRV","CYP","GRC","ITA","XKX","MLT","MNE","MKD","PRT","SMR","SRB","SVN","ESP","VAT"],
   "Central & Eastern Europe": ["BGR","CZE","HUN","MDA","POL","ROU","SVK"],
