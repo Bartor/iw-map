@@ -343,11 +343,12 @@ export class CultureScene {
         if (!active || m.scale.value < 0.5) continue;
         col.set(REGION_COLORS[m.country.region] ?? REGION_COLORS.Other);
         const p = m.mesh.position;
-        const feet: Array<[number, number, number, number, number, number, number, number]> = [];
-        // [foot x, y, z, axis index, label centre x, y, valueX, ...] — one foot per active axis
-        if (this.axes[0] && ey + ez > 0.01) feet.push([p.x, off.y, off.z, 0, 0.5, 0, 0, 0]);
-        if (this.axes[1]) feet.push([off.x, p.y, off.z, 1, 1, 0.5, 0, 0]);
-        if (this.axes[2]) feet.push([off.x + S * ex, off.y, p.z, 2, 0, 0.5, 0, 0]);
+        // one line per active axis, parallel to that axis, from the marker to the gridded face it starts from
+        // (x=0 wall, y=0 floor, z=0 back wall); the badge at the foot shows that axis' value
+        const feet: Array<[number, number, number, number, number, number]> = [];
+        if (this.axes[0] && ey + ez > 0.01) feet.push([off.x, p.y, p.z, 0, 1, 0.5]);
+        if (this.axes[1]) feet.push([p.x, off.y, p.z, 1, 0.5, 0]);
+        if (this.axes[2]) feet.push([p.x, p.y, off.z, 2, 0.5, 1]);
         for (const [fx, fy, fz, ai, cx, cy] of feet) {
           pts.push(p.x, p.y, p.z, fx, fy, fz);
           cols.push(col.r, col.g, col.b, col.r, col.g, col.b);
