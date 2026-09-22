@@ -23,6 +23,7 @@ export interface UICallbacks {
   onHeatSpread(t: number): void;
   onPins(countries: Set<string>, regions: Set<string>): void;
   onEdition(ed: Edition): void;
+  onExport(): void;
 }
 
 export interface UIHandle {
@@ -117,6 +118,8 @@ export function buildUI(data: Data, cb: UICallbacks): UIHandle {
   $<HTMLInputElement>("opt-heatmap").addEventListener("change", (e) => cb.onHeatmap((e.target as HTMLInputElement).checked));
   $<HTMLInputElement>("opt-heat-spread").addEventListener("input", (e) => cb.onHeatSpread(Number((e.target as HTMLInputElement).value)));
   $("btn-reset-view").addEventListener("click", () => cb.onResetView());
+  $("btn-export").prepend(icon(Icons.Download));
+  $("btn-export").addEventListener("click", () => cb.onExport());
 
   // --- Hofstede edition switch (only when more than one edition is loaded) ---
   const edSection = $("edition-section");

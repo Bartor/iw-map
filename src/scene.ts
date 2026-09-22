@@ -251,6 +251,72 @@ export class CultureScene {
   setHeatmap(on: boolean) { this.heatmap.setEnabled(on); this.heatDirty = true; }
   setHeatSpread(t: number) { this.heatmap.setSpread(t); this.heatDirty = true; }
   setLabels(on: boolean) { this.showLabels = on; }
+
+  /** Render the current view (WebGL + HTML labels) to a PNG and trigger a download. */
+  exportPNG(filename = "cultural-dimensions.png") {
+    const src = this.renderer.domElement;
+    const dpr = this.renderer.getPixelRatio();
+    const out = document.createElement("canvas");
+    out.width = src.width; out.height = src.height;
+    const ctx = out.getContext("2d")!;
+    // fresh frame so the drawing buffer is populated (preserveDrawingBuffer is off)
+    this.renderer.render(this.scene, this.camera);
+    ctx.fillStyle = "#0b0e14";
+    ctx.fillRect(0, 0, out.width, out.height);
+    ctx.drawImage(src, 0, 0);
+
+    // HTML labels: draw each visible CSS2D element's text at its on-screen position
+    const base = src.getBoundingClientRect();
+    const oneD = this.labelRenderer.domElement.classList.contains("one-d");
+    ctx.scale(dpr, dpr);
+    const labels = this.labelRenderer.domElement.querySelectorAll<HTMLElement>(".label, .axis-label, .tick-label, .guide-label");
+    for (const el of labels) {
+      if (el.style.display === "none") continue;
+      const wrapOpacity = Number(el.style.opacity === "" ? 1 : el.style.opacity);
+      if (wrapOpacity <= 0.02) continue;
+      const span = (el.firstElementChild as HTMLElement) ?? el;
+      const text = span.textContent ?? "";
+      if (!text) continue;
+      const cs = getComputedStyle(span);
+      const rect = span.getBoundingClientRect();
+      ctx.save();
+      ctx.globalAlpha = wrapOpacity * Number(getComputedStyle(el).opacity || 1);
+      ctx.font = cs.fontWeight + " " + cs.fontSize + " " + cs.fontFamily;
+      ctx.textBaseline = "middle";
+      const isGuide = el.classList.contains("guide-label");
+      const isCountry = el.classList.contains("label");
+      if (isCountry && oneD) {
+        // tilted labels in 1D: rotate about the marker anchor (the label's own box origin)
+        const anchor = el.getBoundingClientRect();
+        ctx.translate(anchor.left - base.left + 4, anchor.top - base.top + 4);
+        ctx.rotate(-Math.PI / 3);
+        ctx.fillStyle = cs.color;
+        ctx.shadowColor = "#000"; ctx.shadowBlur = 3;
+        ctx.fillText(text, 0, 0);
+        ctx.restore();
+        continue;
+      }
+      const x = rect.left - base.left, y = rect.top - base.top + rect.height / 2;
+      if (isGuide) {
+        const padX = 4, w = ctx.measureText(text).width + padX * 2, h = rect.height;
+        ctx.fillStyle = "rgba(18,22,31,.85)";
+        ctx.strokeStyle = "#222a38";
+        ctx.beginPath(); ctx.roundRect(x, rect.top - base.top, w, h, 3); ctx.fill(); ctx.stroke();
+        ctx.fillStyle = cs.color;
+        ctx.fillText(text, x + padX, y);
+      } else {
+        ctx.fillStyle = cs.color;
+        ctx.shadowColor = "#000"; ctx.shadowBlur = 3;
+        ctx.fillText(text, x, y);
+      }
+      ctx.restore();
+    }
+
+    const a = document.createElement("a");
+    a.download = filename;
+    a.href = out.toDataURL("image/png");
+    a.click();
+  }
   private autoRotate = false;
   private spaceHeld = false;
   setAutoRotate(on: boolean) { this.autoRotate = on; this.applyControlMode(); }
