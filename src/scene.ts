@@ -411,10 +411,12 @@ export class CultureScene {
         col.set(REGION_COLORS[m.country.region] ?? REGION_COLORS.Other);
         const p = m.mesh.position;
         // one line per active axis, parallel to that axis, from the marker to the gridded face it starts from
-        // (x=0 wall, y=0 floor, z=0 back wall); the badge at the foot shows that axis' value
+        // (x=0 wall, y=0 floor, z=0 back wall). The badge at each foot reads the axis the foot lands on:
+        // the X-parallel line meets the Y axis/wall (shows Y), the Y-parallel line meets the X axis/floor (shows X),
+        // the Z-parallel line meets the back wall (shows Z).
         const feet: Array<[number, number, number, number, number, number]> = [];
-        if (this.axes[0] && ey + ez > 0.01) feet.push([off.x, p.y, p.z, 0, 1, 0.5]);
-        if (this.axes[1]) feet.push([p.x, off.y, p.z, 1, 0.5, 0]);
+        if (this.axes[0] && this.axes[1]) feet.push([off.x, p.y, p.z, 1, 1, 0.5]);
+        if (this.axes[1] && this.axes[0]) feet.push([p.x, off.y, p.z, 0, 0.5, 0]);
         if (this.axes[2]) feet.push([p.x, p.y, off.z, 2, 0.5, 1]);
         for (const [fx, fy, fz, ai, cx, cy] of feet) {
           pts.push(p.x, p.y, p.z, fx, fy, fz);
