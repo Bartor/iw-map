@@ -29,6 +29,8 @@ export interface UIHandle {
   togglePin(target: { country?: Country; region?: string }): void;
   isPinned(target: { country?: Country; region?: string }): boolean;
   hide(target: { country?: Country; region?: string }): void;
+  /** chart-level actions, used by the empty-space context menu */
+  actions: { resetView(): void; copy(): void; exportPng(): void };
 }
 
 function readCollapsed(): Set<string> {
@@ -484,7 +486,7 @@ export function buildUI(data: Data, cb: UICallbacks): UIHandle {
     return `<div><b>${ds.label}</b> ${links}</div>`;
   }).join("") + `<div>${data.countries.length} countries · drag to rotate · Space+drag to pan · scroll to zoom</div>`;
 
-  return { state, togglePin, isPinned, hide };
+  return { state, togglePin, isPinned, hide, actions: { resetView: () => cb.onResetView(), copy: () => copyBtn.click(), exportPng: () => cb.onExport() } };
 }
 
 export function isContextMenuOpen(): boolean { return !$("ctx-menu").hidden; }
@@ -522,30 +524,30 @@ function place(tip: HTMLElement, x: number, y: number) {
 export function showContextMenu(info: { country?: Country; region?: string; x: number; y: number } | null, ui: UIHandle) {
   const menu = $("ctx-menu");
   menu.hidden = true;
-  if (!info || (!info.country && !info.region)) return;
+  if (!info) return;
   $("tooltip").hidden = true;
-  const label = info.country ? info.country.name : info.region!;
-  const pinned = ui.isPinned(info);
   menu.innerHTML = "";
-  const title = document.createElement("div");
-  title.className = "title";
-  title.textContent = label;
-  menu.appendChild(title);
-  const btn = document.createElement("button");
-  btn.type = "button";
-  btn.textContent = pinned ? "Unpin" : "Pin";
-  btn.addEventListener("click", () => { ui.togglePin(info); menu.hidden = true; });
-  menu.appendChild(btn);
-  const hideBtn = document.createElement("button");
-  hideBtn.type = "button";
-  hideBtn.textContent = info.country ? "Hide" : "Hide region";
-  hideBtn.addEventListener("click", () => { ui.hide(info); menu.hidden = true; });
-  menu.appendChild(hideBtn);
-  if (ui.state.pinned.size || ui.state.pinnedRegions.size) {
-    const all = document.createElement("button");
-    all.type = "button"; all.textContent = "Unpin all";
-    all.addEventListener("click", () => { ui.state.pinned.clear(); ui.state.pinnedRegions.clear(); ui.togglePin({}); menu.hidden = true; });
-    menu.appendChild(all);
+  const item = (text: string, action: () => void) => {
+    const b = document.createElement("button");
+    b.type = "button"; b.textContent = text;
+    b.addEventListener("click", () => { menu.hidden = true; action(); });
+    menu.appendChild(b);
+  };
+  const anyPins = ui.state.pinned.size > 0 || ui.state.pinnedRegions.size > 0;
+  if (info.country || info.region) {
+    const title = document.createElement("div");
+    title.className = "title";
+    title.textContent = info.country ? info.country.name : info.region!;
+    menu.appendChild(title);
+    item(ui.isPinned(info) ? "Unpin" : "Pin", () => ui.togglePin(info));
+    item(info.country ? "Hide" : "Hide region", () => ui.hide(info));
+    if (anyPins) item("Unpin all", () => { ui.state.pinned.clear(); ui.state.pinnedRegions.clear(); ui.togglePin({}); });
+  } else {
+    // empty space: chart-level actions
+    item("Reset view", () => ui.actions.resetView());
+    item("Copy PNG", () => ui.actions.copy());
+    item("Export PNG", () => ui.actions.exportPng());
+    if (anyPins) item("Unpin all", () => { ui.state.pinned.clear(); ui.state.pinnedRegions.clear(); ui.togglePin({}); });
   }
   menu.hidden = false;
   const vp = $("viewport");

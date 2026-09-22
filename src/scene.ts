@@ -180,7 +180,7 @@ export class CultureScene {
       const x = e.clientX - r.left, y = e.clientY - r.top;
       if (this.hovered) this.onContextMenu?.({ country: this.hovered.country, x, y });
       else if (this.hoveredRegion) this.onContextMenu?.({ region: this.hoveredRegion, x, y });
-      else this.onContextMenu?.(null);
+      else this.onContextMenu?.({ x, y });
     });
 
     const isTyping = (e: KeyboardEvent) => {
