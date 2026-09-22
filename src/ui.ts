@@ -113,7 +113,7 @@ export function buildUI(data: Data, cb: UICallbacks): UIHandle {
   $("btn-export").prepend(icon(Icons.Download));
   $("btn-export").addEventListener("click", () => cb.onExport());
 
-  // --- sidebar collapse (always starts expanded) ---
+  // --- sidebar collapse (expanded by default, remembered per browser) ---
   const app = document.getElementById("app")!;
   const openBtn = $("btn-sidebar-open");
   const closeBtn = $("btn-sidebar");
@@ -122,10 +122,13 @@ export function buildUI(data: Data, cb: UICallbacks): UIHandle {
   const setSidebar = (collapsed: boolean) => {
     app.classList.toggle("sidebar-collapsed", collapsed);
     openBtn.hidden = !collapsed;
+    try { localStorage.setItem("sidebarCollapsed", collapsed ? "1" : "0"); } catch { /* storage unavailable */ }
   };
   closeBtn.addEventListener("click", () => setSidebar(true));
   openBtn.addEventListener("click", () => setSidebar(false));
-  setSidebar(false);
+  let storedCollapsed = false;
+  try { storedCollapsed = localStorage.getItem("sidebarCollapsed") === "1"; } catch { /* ignore */ }
+  setSidebar(storedCollapsed);
 
   // --- country list ---
   const list = $("country-list");
