@@ -113,7 +113,7 @@ export function buildUI(data: Data, cb: UICallbacks): UIHandle {
   $("btn-export").prepend(icon(Icons.Download));
   $("btn-export").addEventListener("click", () => cb.onExport());
 
-  // --- sidebar collapse (remembered per browser) ---
+  // --- sidebar collapse (always starts expanded) ---
   const app = document.getElementById("app")!;
   const openBtn = $("btn-sidebar-open");
   const closeBtn = $("btn-sidebar");
@@ -122,14 +122,10 @@ export function buildUI(data: Data, cb: UICallbacks): UIHandle {
   const setSidebar = (collapsed: boolean) => {
     app.classList.toggle("sidebar-collapsed", collapsed);
     openBtn.hidden = !collapsed;
-    try { localStorage.setItem("sidebarCollapsed", collapsed ? "1" : "0"); } catch { /* storage unavailable */ }
   };
   closeBtn.addEventListener("click", () => setSidebar(true));
   openBtn.addEventListener("click", () => setSidebar(false));
-  // phones start with the drawer closed unless the user chose otherwise
-  let storedCollapsed: boolean | null = null;
-  try { const v = localStorage.getItem("sidebarCollapsed"); storedCollapsed = v === null ? null : v === "1"; } catch { /* ignore */ }
-  setSidebar(storedCollapsed ?? window.matchMedia("(max-width: 800px)").matches);
+  setSidebar(false);
 
   // --- country list ---
   const list = $("country-list");
