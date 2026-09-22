@@ -31,6 +31,7 @@ async function main() {
   setupHelp(data);
   scene.onHover = (info) => { if (!isContextMenuOpen()) showTooltip(info, state.axes, state.edition); };
   scene.onContextMenu = (info) => showContextMenu(info, ui);
+  scene.onClick = (info) => ui.togglePin(info);
   scene.setHeatSpread(0.5);
   scene.setEdition(state.edition);
   scene.setSelection(state.selection);

@@ -189,7 +189,7 @@ export function buildUI(data: Data, cb: UICallbacks): UIHandle {
     head.addEventListener("pointerleave", () => cb.onFocus(null));
     rcb.addEventListener("change", () => {
       for (const c of cs) { if (rcb.checked) state.selection.add(c.iso3); else state.selection.delete(c.iso3); rows.get(c.iso3)!.cb.checked = rcb.checked; }
-      cb.onSelection(state.selection);
+      selectionChanged();
     });
     for (const c of cs) {
       const row = document.createElement("label");
@@ -209,7 +209,7 @@ export function buildUI(data: Data, cb: UICallbacks): UIHandle {
         if (ccb.checked) state.selection.add(c.iso3); else state.selection.delete(c.iso3);
         rcb.checked = cs.every((x) => state.selection.has(x.iso3));
         rcb.indeterminate = !rcb.checked && cs.some((x) => state.selection.has(x.iso3));
-        cb.onSelection(state.selection);
+        selectionChanged();
       });
     }
     list.appendChild(wrap);
@@ -233,6 +233,7 @@ export function buildUI(data: Data, cb: UICallbacks): UIHandle {
       head.classList.toggle("pinned", on);
     }
     cb.onPins(state.pinned, state.pinnedRegions);
+    renderCompare();
   };
   const togglePin = (t: { country?: Country; region?: string }) => {
     if (t.country) { if (state.pinned.has(t.country.iso3)) state.pinned.delete(t.country.iso3); else state.pinned.add(t.country.iso3); }
@@ -250,23 +251,97 @@ export function buildUI(data: Data, cb: UICallbacks): UIHandle {
       rcb.checked = cs.every((x) => state.selection.has(x.iso3));
       rcb.indeterminate = !rcb.checked && cs.some((x) => state.selection.has(x.iso3));
     }
-    cb.onSelection(state.selection);
+    selectionChanged();
   };
 
   const valueFor = (c: Country, d: Dim): number | undefined => (d.editionKeys ? c.values[d.editionKeys[state.edition]] : c.values[d.id]);
   const hasAll = (c: Country) => state.axes.every((d) => !d || valueFor(c, d) !== undefined);
+
+  // --- comparison table of pinned items (columns = active axes) ---
+  const compare = $("compare");
+  const compareTable = $<HTMLTableElement>("compare-table");
+  $("compare-toggle").addEventListener("click", () => {
+    const collapsed = compare.classList.toggle("collapsed");
+    $("compare-toggle").textContent = collapsed ? "+" : "–";
+  });
+  const fmtVal = (v: number | undefined) => (v === undefined ? "–" : Number.isInteger(v) ? String(v) : v.toFixed(2));
+  const renderCompare = () => {
+    const dims = state.axes.filter((d): d is Dim => !!d);
+    const items: Array<{ label: string; color: string; region?: string; country?: Country; values: (number | undefined)[]; note?: string }> = [];
+    for (const region of REGION_ORDER) {
+      if (!state.pinnedRegions.has(region)) continue;
+      const cs = (byRegion.get(region) ?? []).filter((c) => state.selection.has(c.iso3));
+      const values = dims.map((d) => {
+        const vs = cs.map((c) => valueFor(c, d)).filter((v): v is number => v !== undefined);
+        return vs.length ? vs.reduce((a, b) => a + b, 0) / vs.length : undefined;
+      });
+      items.push({ label: region, color: "#" + REGION_COLORS[region].toString(16).padStart(6, "0"), region, values, note: "mean of " + cs.length + " shown" });
+    }
+    for (const c of data.countries) {
+      if (!state.pinned.has(c.iso3)) continue;
+      items.push({ label: c.name, color: "#" + (REGION_COLORS[c.region] ?? REGION_COLORS.Other).toString(16).padStart(6, "0"), country: c, values: dims.map((d) => valueFor(c, d)) });
+    }
+    compare.hidden = items.length === 0;
+    $("compare-count").textContent = items.length ? String(items.length) + (items.length === 1 ? " item" : " items") : "";
+    compareTable.innerHTML = "";
+    if (!items.length) return;
+    const thead = compareTable.createTHead();
+    const hr = thead.insertRow();
+    hr.appendChild(Object.assign(document.createElement("th"), { textContent: "Pinned" }));
+    for (const d of dims) hr.appendChild(Object.assign(document.createElement("th"), { textContent: d.short, title: d.label }));
+    hr.appendChild(document.createElement("th"));
+    // highlight the extreme values per column
+    const maxes = dims.map((_, i) => Math.max(...items.map((it) => it.values[i] ?? -Infinity)));
+    const mins = dims.map((_, i) => Math.min(...items.map((it) => it.values[i] ?? Infinity)));
+    const tbody = compareTable.createTBody();
+    for (const it of items) {
+      const tr = tbody.insertRow();
+      if (it.region) tr.className = "region-row";
+      const name = tr.insertCell();
+      const sw = document.createElement("span"); sw.className = "swatch"; sw.style.background = it.color;
+      name.append(sw, document.createTextNode(it.label));
+      if (it.note) { const n = document.createElement("span"); n.className = "muted"; n.textContent = " (" + it.note + ")"; name.appendChild(n); }
+      it.values.forEach((v, i) => {
+        const td = tr.insertCell();
+        td.textContent = fmtVal(v);
+        if (v !== undefined && items.length > 1) {
+          if (v === maxes[i]) td.classList.add("best");
+          else if (v === mins[i]) td.classList.add("muted");
+        }
+      });
+      const rm = tr.insertCell(); rm.className = "rm";
+      const b = document.createElement("button"); b.type = "button"; b.textContent = "×"; b.title = "Unpin";
+      b.addEventListener("click", () => togglePin(it.country ? { country: it.country } : { region: it.region }));
+      rm.appendChild(b);
+      tr.addEventListener("pointerenter", () => cb.onFocus(it.country ? new Set([it.country.iso3]) : new Set((byRegion.get(it.region!) ?? []).map((c) => c.iso3))));
+      tr.addEventListener("pointerleave", () => cb.onFocus(null));
+    }
+  };
+
+  /** Selection changed: hidden items lose their pins, then notify and refresh the comparison. */
+  const selectionChanged = () => {
+    let pinsChanged = false;
+    for (const iso3 of [...state.pinned]) if (!state.selection.has(iso3)) { state.pinned.delete(iso3); pinsChanged = true; }
+    for (const region of [...state.pinnedRegions]) {
+      if (!(byRegion.get(region) ?? []).some((c) => state.selection.has(c.iso3))) { state.pinnedRegions.delete(region); pinsChanged = true; }
+    }
+    cb.onSelection(state.selection);
+    if (pinsChanged) refreshPins(); else renderCompare();
+  };
+
   const refreshRows = () => {
     for (const r of rows.values()) {
       r.el.classList.toggle("nodata", !hasAll(r.country));
       r.el.title = hasAll(r.country) ? "" : "No data for one of the chosen axes";
     }
+    renderCompare();
   };
   refreshRows();
 
   const setAll = (on: boolean) => {
     for (const r of rows.values()) { r.cb.checked = on; if (on) state.selection.add(r.country.iso3); else state.selection.delete(r.country.iso3); }
     for (const b of regionBoxes.values()) { b.checked = on; b.indeterminate = false; }
-    cb.onSelection(state.selection);
+    selectionChanged();
   };
   $("btn-all").addEventListener("click", () => setAll(true));
   $("btn-none").addEventListener("click", () => setAll(false));

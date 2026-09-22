@@ -104,6 +104,8 @@ export class CultureScene {
   onHover: ((info: HoverInfo | null) => void) | null = null;
   /** Right-click on the chart; info is the hovered country/region (or null) plus pointer position. */
   onContextMenu: ((info: HoverInfo | null) => void) | null = null;
+  /** Plain left-click (no drag) on a country marker or territory shell. */
+  onClick: ((info: HoverInfo) => void) | null = null;
   private pinned = new Set<string>();
   private pinnedRegions = new Set<string>();
 
@@ -149,6 +151,20 @@ export class CultureScene {
       this.pointerPx = { x: e.clientX - r.left, y: e.clientY - r.top };
     });
     this.renderer.domElement.addEventListener("pointerleave", () => { this.pointer.set(-10, -10); });
+    // click vs drag: a left button press that moves less than a few pixels is a click
+    let press: { x: number; y: number; t: number } | null = null;
+    this.renderer.domElement.addEventListener("pointerdown", (e) => { press = e.button === 0 ? { x: e.clientX, y: e.clientY, t: performance.now() } : null; });
+    this.renderer.domElement.addEventListener("pointerup", (e) => {
+      if (!press || e.button !== 0) return;
+      const moved = Math.hypot(e.clientX - press.x, e.clientY - press.y);
+      const held = performance.now() - press.t;
+      press = null;
+      if (moved > 4 || held > 600 || this.spaceHeld) return;
+      const r = this.renderer.domElement.getBoundingClientRect();
+      const x = e.clientX - r.left, y = e.clientY - r.top;
+      if (this.hovered) this.onClick?.({ country: this.hovered.country, x, y });
+      else if (this.hoveredRegion) this.onClick?.({ region: this.hoveredRegion, x, y });
+    });
     this.renderer.domElement.addEventListener("contextmenu", (e) => {
       e.preventDefault();
       const r = this.renderer.domElement.getBoundingClientRect();
