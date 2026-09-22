@@ -27,7 +27,7 @@ Build for static hosting with `npm run build` (output in `dist/`).
 Numerical scores live in `data/`:
 
 - `hofstede.json` – official geerthofstede.com 2015 dimension matrix, unmodified. See `hofstede_sources.md`.
-- `hofstede_2023.json` – The Culture Factor 2023 update (119 countries, revised Individualism and Long Term Orientation). The **Hofstede edition** switch at the top of the panel picks 2015 or 2023 (default 2023). The two editions are not comparable point by point: Individualism and Long Term Orientation were re-derived from a different survey instrument in 2023.
+- `hofstede_2023.json` – The Culture Factor 2023 update (119 countries, revised Individualism and Long Term Orientation). Both editions appear as separate groups in the axis pickers (2023 is the default). The two editions are not comparable point by point: Individualism and Long Term Orientation were re-derived from a different survey instrument in 2023.
 - `inglehart_welzel.json` – country coordinates per WVS map edition. See `inglehart_welzel_sources.md`.
 
 Sub-national or regional Hofstede entries (e.g. "Belgium French", "Arab countries") have no ISO code and are grouped under "Other".

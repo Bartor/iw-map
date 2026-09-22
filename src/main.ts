@@ -22,7 +22,6 @@ async function main() {
     onFocus: (set) => scene.setFocus(set),
     onHeatmap: (on) => scene.setHeatmap(on),
     onHeatSpread: (t) => scene.setHeatSpread(t),
-    onEdition: (ed) => { scene.setEdition(ed); updateHint(); },
     onExport: () => {
       const parts = state.axes.filter(Boolean).map((d) => d!.short.replace(/[^a-z0-9]+/gi, "-").toLowerCase());
       scene.exportPNG("cultural-dimensions-" + (parts.join("_") || "chart") + ".png");
@@ -32,11 +31,10 @@ async function main() {
   const state = ui.state;
 
   setupHelp(data);
-  scene.onHover = (info) => { if (!isContextMenuOpen()) showTooltip(info, state.axes, state.edition); };
+  scene.onHover = (info) => { if (!isContextMenuOpen()) showTooltip(info, state.axes); };
   scene.onContextMenu = (info) => showContextMenu(info, ui);
   scene.onClick = (info) => ui.togglePin(info);
   scene.setHeatSpread(0.5);
-  scene.setEdition(state.edition);
   scene.setSelection(state.selection);
   scene.setAxes(state.axes);
   updateHint();

@@ -19,11 +19,6 @@ html, body { margin: 0; height: 100%; background: var(--bg); color: var(--text);
 }
 #panel header h1 { margin: 0; font-size: 18px; font-weight: 600; }
 #panel header .sub { margin: 4px 0 0; color: var(--muted); font-size: 12px; }
-.edition { display: flex; align-items: center; gap: 10px; font-size: 12px; color: var(--muted); }
-.seg { display: inline-flex; border: 1px solid var(--panel-border); border-radius: 6px; overflow: hidden; }
-.seg button { border: none; border-radius: 0; padding: 4px 10px; background: var(--input); color: var(--muted); }
-.seg button + button { border-left: 1px solid var(--panel-border); }
-.seg button.on { background: var(--accent); color: #0b0e14; font-weight: 600; }
 .axes { display: flex; flex-direction: column; gap: 8px; }
 .axes label { display: flex; flex-direction: column; gap: 4px; font-size: 12px; color: var(--muted); }
 select, input[type="search"] {
@@ -119,7 +114,13 @@ button:hover { border-color: var(--accent); }
 #ctx-menu button { display: block; width: 100%; text-align: left; background: none; border: none; padding: 6px 8px; border-radius: 4px; }
 #ctx-menu button:hover { background: var(--input); }
 
-#panel header h1 { display: flex; align-items: center; gap: 8px; }
+#panel header { position: relative; }
+#panel header h1 { display: flex; align-items: center; gap: 8px; padding-right: 32px; }
+.sidebar-toggle { position: absolute; top: 0; right: 0; width: 26px; height: 26px; padding: 0; display: inline-flex; align-items: center; justify-content: center; color: var(--muted); }
+.sidebar-toggle:hover { color: var(--text); }
+.sidebar-toggle .icon { width: 16px; height: 16px; }
+.sidebar-toggle.floating { position: absolute; top: 12px; left: 12px; z-index: 10; background: rgba(18,22,31,.9); }
+#app.sidebar-collapsed #panel { display: none; }
 .help {
   width: 22px; height: 22px; padding: 0; border-radius: 50%; display: inline-flex; align-items: center; justify-content: center;
   color: var(--muted); border-color: var(--panel-border);

@@ -1,7 +1,7 @@
 import * as THREE from "three";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls.js";
 import { CSS2DRenderer, CSS2DObject } from "three/examples/jsm/renderers/CSS2DRenderer.js";
-import type { Country, Dim, Edition } from "./types";
+import type { Country, Dim } from "./types";
 import { Anim, Anim3, easeOutCubic } from "./tween";
 import { REGION_COLORS } from "./regions";
 import { Heatmap, type HeatPoint } from "./heatmap";
@@ -88,7 +88,6 @@ export class CultureScene {
   private hovered: Marker | null = null;
   private hoveredRegion: string | null = null;
   private focus: Set<string> | null = null;   // external focus (from the list panel)
-  private edition: Edition = "2023";
   private heatmap = new Heatmap(S);
   private heatDirty = true;
   // guide lines from hovered/pinned markers to each active axis, plus value labels at the axis feet
@@ -380,25 +379,12 @@ export class CultureScene {
     this.camAnimating = true;
   }
 
-  /** Value of a dimension for a country in a given edition (non-edition dims ignore the edition). */
-  static valueOf(c: Country, d: Dim, edition: "2015" | "2023"): number | undefined {
-    const key = d.editionKeys ? d.editionKeys[edition] : d.id;
-    return key === undefined ? undefined : c.values[key];
-  }
+  /** Value of a dimension for a country. */
+  currentValue(c: Country, d: Dim): number | undefined { return c.values[d.id]; }
 
-  /** Value used for the marker position under the selected edition. */
-  currentValue(c: Country, d: Dim): number | undefined {
-    return CultureScene.valueOf(c, d, this.edition);
-  }
-
-  /** Which countries currently have data for every active axis (under the current edition mode). */
+  /** Which countries currently have data for every active axis. */
   hasAllValues(c: Country): boolean {
     return this.axes.every((d) => !d || this.currentValue(c, d) !== undefined);
-  }
-
-  setEdition(ed: Edition) {
-    this.edition = ed;
-    this.retarget(performance.now());
   }
 
   private retarget(now: number) {

@@ -14,7 +14,7 @@ export const HOFSTEDE_INTRO =
   "and say nothing about individuals.";
 
 export const HOFSTEDE_EDITIONS =
-  "Two editions are available. 2015 is Hofstede's own last published data matrix (geerthofstede.com), unmodified. " +
+  "Two editions are available as separate axis groups. 2015 is Hofstede's own last published data matrix (geerthofstede.com), unmodified. " +
   "2023 is the update published by The Culture Factor (formerly Hofstede Insights), which re-derived Individualism and " +
   "Long Term Orientation from newer Minkov–Kaasa surveys, renamed Masculinity, capped scores at 100 and added countries. " +
   "Because two of the six dimensions were re-measured with a different instrument, differences between editions mostly " +

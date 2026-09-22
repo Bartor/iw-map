@@ -25,10 +25,11 @@ export function setupHelp(data: Data) {
   const body = document.getElementById("help-body")!;
   body.innerHTML = "";
 
-  if (data.hofEditions.length) {
+  const hofEditions = data.datasets.filter((ds) => ds.id.startsWith("hof"));
+  if (hofEditions.length) {
     body.appendChild(el("h3", undefined, "Hofstede's cultural dimensions"));
     body.appendChild(el("p", "intro", HOFSTEDE_INTRO));
-    if (data.hofEditions.length > 1) body.appendChild(el("p", "intro", HOFSTEDE_EDITIONS));
+    if (hofEditions.length > 1) body.appendChild(el("p", "intro", HOFSTEDE_EDITIONS));
     for (const key of ["pdi", "idv", "mas", "uai", "lto", "ivr"]) body.appendChild(dimBlock(HOFSTEDE_DOCS[key]));
   }
 

@@ -1,4 +1,4 @@
-import type { Country, Data, Dim, Edition } from "./types";
+import type { Country, Data, Dim } from "./types";
 import { REGION_COLORS, REGION_ORDER } from "./regions";
 import { icon, Icons } from "./icons";
 
@@ -6,7 +6,6 @@ export interface UIState {
   axes: (Dim | null)[];
   selection: Set<string>;
   labels: boolean;
-  edition: Edition;
   pinned: Set<string>;         // iso3
   pinnedRegions: Set<string>;  // region names
 }
@@ -20,7 +19,6 @@ export interface UICallbacks {
   onHeatmap(on: boolean): void;
   onHeatSpread(t: number): void;
   onPins(countries: Set<string>, regions: Set<string>): void;
-  onEdition(ed: Edition): void;
   onExport(): void;
 }
 
@@ -46,14 +44,8 @@ function makePin(): HTMLButtonElement {
 
 const $ = <T extends HTMLElement>(id: string) => document.getElementById(id) as T;
 
-function readHashEdition(): Edition {
-  const m = location.hash.match(/ed=(2015|2023)/);
-  return (m ? m[1] : "2023") as Edition;
-}
-
-function writeHash(axes: (Dim | null)[], edition: Edition) {
-  const a = encodeURIComponent(axes.filter(Boolean).map((d) => d!.id).join(","));
-  history.replaceState(null, "", "#axes=" + a + (edition !== "2023" ? "&ed=" + edition : ""));
+function writeHash(axes: (Dim | null)[]) {
+  history.replaceState(null, "", "#axes=" + encodeURIComponent(axes.filter(Boolean).map((d) => d!.id).join(",")));
 }
 
 function readHashAxes(dims: Dim[]): (Dim | null)[] | null {
@@ -90,11 +82,11 @@ export function buildUI(data: Data, cb: UICallbacks): UIHandle {
   });
 
   const defaults = readHashAxes(dims) ?? [
-    dims.find((d) => d.id === "hof.pdi") ?? dims[0] ?? null,
-    dims.find((d) => d.id === "hof.idv") ?? dims[1] ?? null,
+    dims.find((d) => d.id === "hof2023.pdi") ?? dims.find((d) => d.id === "hof.pdi") ?? dims[0] ?? null,
+    dims.find((d) => d.id === "hof2023.idv") ?? dims.find((d) => d.id === "hof.idv") ?? dims[1] ?? null,
     null,
   ];
-  const state: UIState = { axes: defaults, selection: new Set(data.countries.map((c) => c.iso3)), labels: true, edition: readHashEdition(), pinned: new Set(), pinnedRegions: new Set() };
+  const state: UIState = { axes: defaults, selection: new Set(data.countries.map((c) => c.iso3)), labels: true, pinned: new Set(), pinnedRegions: new Set() };
   selects.forEach((sel, i) => { sel.value = state.axes[i]?.id ?? ""; });
 
   const syncAxes = () => {
@@ -103,7 +95,7 @@ export function buildUI(data: Data, cb: UICallbacks): UIHandle {
     state.axes = picked;
     selects[2].disabled = !picked[1];
     if (!picked[1]) selects[2].value = "";
-    writeHash(picked, state.edition);
+    writeHash(picked);
     cb.onAxes(picked);
     refreshRows();
   };
@@ -118,23 +110,22 @@ export function buildUI(data: Data, cb: UICallbacks): UIHandle {
   $("btn-export").prepend(icon(Icons.Download));
   $("btn-export").addEventListener("click", () => cb.onExport());
 
-  // --- Hofstede edition switch (only when more than one edition is loaded) ---
-  const edSection = $("edition-section");
-  if (data.hofEditions.length > 1) {
-    edSection.hidden = false;
-    const btns = [...$("edition-switch").querySelectorAll<HTMLButtonElement>("button")];
-    const apply = (ed: Edition) => {
-      state.edition = ed;
-      for (const b of btns) b.classList.toggle("on", b.dataset.ed === ed);
-      writeHash(state.axes, ed);
-      cb.onEdition(ed);
-      refreshRows();
-    };
-    for (const b of btns) b.addEventListener("click", () => apply(b.dataset.ed as Edition));
-    for (const b of btns) b.classList.toggle("on", b.dataset.ed === state.edition);
-  } else if (data.hofEditions.length === 1) {
-    state.edition = data.hofEditions[0] as Edition;
-  }
+  // --- sidebar collapse (remembered per browser) ---
+  const app = document.getElementById("app")!;
+  const openBtn = $("btn-sidebar-open");
+  const closeBtn = $("btn-sidebar");
+  closeBtn.appendChild(icon(Icons.PanelLeftClose));
+  openBtn.appendChild(icon(Icons.PanelLeftOpen));
+  const setSidebar = (collapsed: boolean) => {
+    app.classList.toggle("sidebar-collapsed", collapsed);
+    openBtn.hidden = !collapsed;
+    try { localStorage.setItem("sidebarCollapsed", collapsed ? "1" : "0"); } catch { /* storage unavailable */ }
+  };
+  closeBtn.addEventListener("click", () => setSidebar(true));
+  openBtn.addEventListener("click", () => setSidebar(false));
+  let storedCollapsed = false;
+  try { storedCollapsed = localStorage.getItem("sidebarCollapsed") === "1"; } catch { /* ignore */ }
+  setSidebar(storedCollapsed);
 
   // --- country list ---
   const list = $("country-list");
@@ -253,7 +244,7 @@ export function buildUI(data: Data, cb: UICallbacks): UIHandle {
     selectionChanged();
   };
 
-  const valueFor = (c: Country, d: Dim): number | undefined => (d.editionKeys ? c.values[d.editionKeys[state.edition]] : c.values[d.id]);
+  const valueFor = (c: Country, d: Dim): number | undefined => c.values[d.id];
   const hasAll = (c: Country) => state.axes.every((d) => !d || valueFor(c, d) !== undefined);
 
   // --- comparison table of pinned items (columns = active axes) ---
@@ -404,7 +395,7 @@ export function buildUI(data: Data, cb: UICallbacks): UIHandle {
 
 export function isContextMenuOpen(): boolean { return !$("ctx-menu").hidden; }
 
-export function showTooltip(info: { country?: Country; region?: string; count?: number; x: number; y: number } | null, axes: (Dim | null)[], edition: Edition = "2023") {
+export function showTooltip(info: { country?: Country; region?: string; count?: number; x: number; y: number } | null, axes: (Dim | null)[]) {
   const tip = $("tooltip");
   if (!info) { tip.hidden = true; return; }
   const { country, x, y } = info;
@@ -416,7 +407,7 @@ export function showTooltip(info: { country?: Country; region?: string; count?: 
   }
   const rowsHtml = axes.filter((d): d is Dim => !!d).map((d) => {
     const fmt = (v: number | undefined) => (v === undefined ? "–" : Number.isInteger(v) ? String(v) : v.toFixed(2));
-    const v = d.editionKeys ? country.values[d.editionKeys[edition]] : country.values[d.id];
+    const v = country.values[d.id];
     const text = fmt(v);
     const off = v !== undefined && (v < d.min || v > d.max) ? " <small>(off scale, clamped)</small>" : "";
     return `<div class="row"><span>${d.short}</span><span>${text}${off}</span></div>`;

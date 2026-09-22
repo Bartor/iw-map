@@ -10,16 +10,10 @@
     <div id="app">
       <aside id="panel">
         <header>
+          <button id="btn-sidebar" type="button" class="sidebar-toggle" title="Collapse sidebar" aria-label="Collapse sidebar"></button>
           <h1>Cultural Dimensions <button id="btn-help" type="button" class="help" title="About the axes" aria-label="About the axes"></button></h1>
           <p class="sub">Hofstede &amp; Inglehart–Welzel, in 1D / 2D / 3D</p>
         </header>
-        <section class="edition" id="edition-section" hidden>
-          <span class="seg-label">Hofstede edition</span>
-          <div class="seg" id="edition-switch">
-            <button type="button" data-ed="2015">2015</button>
-            <button type="button" data-ed="2023">2023</button>
-          </div>
-        </section>
         <section class="axes">
           <label>X axis <select id="axis-x" autocomplete="off"></select></label>
           <label>Y axis <select id="axis-y" autocomplete="off"></select></label>
@@ -46,6 +40,7 @@
         <footer id="sources"></footer>
       </aside>
       <main id="viewport">
+        <button id="btn-sidebar-open" type="button" class="sidebar-toggle floating" title="Expand sidebar" aria-label="Expand sidebar" hidden></button>
         <div id="tooltip" hidden></div>
         <div id="ctx-menu" hidden></div>
         <div id="compare" hidden>
