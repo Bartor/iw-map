@@ -1,6 +1,7 @@
 import { loadData } from "./datasets";
 import { CultureScene } from "./scene";
 import { buildUI, showTooltip, showContextMenu, isContextMenuOpen } from "./ui";
+import { setupHelp } from "./help";
 
 async function main() {
   const data = await loadData();
@@ -27,6 +28,7 @@ async function main() {
   });
   const state = ui.state;
 
+  setupHelp(data);
   scene.onHover = (info) => { if (!isContextMenuOpen()) showTooltip(info, state.axes, state.edition); };
   scene.onContextMenu = (info) => showContextMenu(info, ui);
   scene.setHeatSpread(0.5);

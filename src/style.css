@@ -117,3 +117,26 @@ button:hover { border-color: var(--accent); }
 #ctx-menu .title { color: var(--muted); font-size: 11px; padding: 4px 8px; }
 #ctx-menu button { display: block; width: 100%; text-align: left; background: none; border: none; padding: 6px 8px; border-radius: 4px; }
 #ctx-menu button:hover { background: var(--input); }
+
+#panel header h1 { display: flex; align-items: center; gap: 8px; }
+.help {
+  width: 20px; height: 20px; padding: 0; border-radius: 50%; font-size: 12px; font-weight: 700; line-height: 1;
+  color: var(--muted); border-color: var(--panel-border);
+}
+.help:hover { color: var(--accent); }
+#help-modal {
+  background: var(--panel); color: var(--text); border: 1px solid var(--panel-border); border-radius: 12px; padding: 0;
+  width: min(760px, calc(100vw - 32px)); max-height: calc(100vh - 48px); box-shadow: 0 20px 60px rgba(0,0,0,.6);
+}
+#help-modal::backdrop { background: rgba(0,0,0,.55); }
+.modal-head { display: flex; align-items: center; justify-content: space-between; padding: 14px 18px; border-bottom: 1px solid var(--panel-border); position: sticky; top: 0; background: var(--panel); }
+.modal-head h2 { margin: 0; font-size: 16px; }
+.modal-head button { font-size: 18px; line-height: 1; padding: 2px 8px; }
+.modal-body { padding: 6px 18px 18px; overflow-y: auto; max-height: calc(100vh - 110px); font-size: 13px; line-height: 1.5; }
+.modal-body h3 { font-size: 14px; margin: 18px 0 6px; color: var(--accent); }
+.modal-body h4 { font-size: 13px; margin: 14px 0 4px; }
+.modal-body p { margin: 4px 0; }
+.modal-body p.intro { color: var(--muted); }
+.modal-body .poles { display: grid; grid-template-columns: auto 1fr; gap: 2px 10px; margin: 4px 0 6px; }
+.modal-body .poles b { color: var(--muted); font-weight: 600; white-space: nowrap; }
+.modal-body .editions { color: var(--muted); font-size: 12px; }

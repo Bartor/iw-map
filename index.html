@@ -10,7 +10,7 @@
     <div id="app">
       <aside id="panel">
         <header>
-          <h1>Cultural Dimensions</h1>
+          <h1>Cultural Dimensions <button id="btn-help" type="button" class="help" title="About the axes" aria-label="About the axes">?</button></h1>
           <p class="sub">Hofstede &amp; Inglehart–Welzel, in 1D / 2D / 3D</p>
         </header>
         <section class="edition" id="edition-section" hidden>
@@ -51,6 +51,10 @@
         <div id="empty-hint" hidden>No selected country has data for every chosen axis.</div>
       </main>
     </div>
+    <dialog id="help-modal">
+      <div class="modal-head"><h2>About the axes</h2><button id="btn-help-close" type="button" aria-label="Close">×</button></div>
+      <div id="help-body" class="modal-body"></div>
+    </dialog>
     <script type="module" src="/src/main.ts"></script>
   </body>
 </html>
