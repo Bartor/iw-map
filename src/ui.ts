@@ -6,7 +6,6 @@ export interface UIState {
   axes: (Dim | null)[];
   selection: Set<string>;
   labels: boolean;
-  autoRotate: boolean;
   edition: Edition;
   pinned: Set<string>;         // iso3
   pinnedRegions: Set<string>;  // region names
@@ -16,7 +15,6 @@ export interface UICallbacks {
   onAxes(axes: (Dim | null)[]): void;
   onSelection(sel: Set<string>): void;
   onLabels(on: boolean): void;
-  onAutoRotate(on: boolean): void;
   onResetView(): void;
   onFocus(iso3s: Set<string> | null): void;
   onHeatmap(on: boolean): void;
@@ -96,7 +94,7 @@ export function buildUI(data: Data, cb: UICallbacks): UIHandle {
     dims.find((d) => d.id === "hof.idv") ?? dims[1] ?? null,
     null,
   ];
-  const state: UIState = { axes: defaults, selection: new Set(data.countries.map((c) => c.iso3)), labels: true, autoRotate: false, edition: readHashEdition(), pinned: new Set(), pinnedRegions: new Set() };
+  const state: UIState = { axes: defaults, selection: new Set(data.countries.map((c) => c.iso3)), labels: true, edition: readHashEdition(), pinned: new Set(), pinnedRegions: new Set() };
   selects.forEach((sel, i) => { sel.value = state.axes[i]?.id ?? ""; });
 
   const syncAxes = () => {
@@ -114,7 +112,6 @@ export function buildUI(data: Data, cb: UICallbacks): UIHandle {
 
   // --- options ---
   $<HTMLInputElement>("opt-labels").addEventListener("change", (e) => { state.labels = (e.target as HTMLInputElement).checked; cb.onLabels(state.labels); });
-  $<HTMLInputElement>("opt-autorotate").addEventListener("change", (e) => { state.autoRotate = (e.target as HTMLInputElement).checked; cb.onAutoRotate(state.autoRotate); });
   $<HTMLInputElement>("opt-heatmap").addEventListener("change", (e) => cb.onHeatmap((e.target as HTMLInputElement).checked));
   $<HTMLInputElement>("opt-heat-spread").addEventListener("input", (e) => cb.onHeatSpread(Number((e.target as HTMLInputElement).value)));
   $("btn-reset-view").addEventListener("click", () => cb.onResetView());

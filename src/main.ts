@@ -18,7 +18,6 @@ async function main() {
     onAxes: (axes) => { scene.setAxes(axes); updateHint(); },
     onSelection: (sel) => { scene.setSelection(sel); updateHint(); },
     onLabels: (on) => scene.setLabels(on),
-    onAutoRotate: (on) => scene.setAutoRotate(on),
     onResetView: () => scene.resetView(),
     onFocus: (set) => scene.setFocus(set),
     onHeatmap: (on) => scene.setHeatmap(on),

@@ -127,7 +127,6 @@ export class CultureScene {
     this.controls.dampingFactor = 0.08;
     this.controls.minDistance = 4;
     this.controls.maxDistance = 80;
-    this.controls.autoRotateSpeed = 0.8;
     this.controls.addEventListener("start", () => { this.camAnimating = false; });
 
     this.scene.add(new THREE.AmbientLight(0xffffff, 0.7));
@@ -351,15 +350,11 @@ export class CultureScene {
     if (!Number.isFinite(minX)) return { minX: 0, minY: 0, maxX: w, maxY: h };
     return { minX: Math.max(0, minX), minY: Math.max(0, minY), maxX: Math.min(w, maxX), maxY: Math.min(h, maxY) };
   }
-  private autoRotate = false;
   private spaceHeld = false;
-  setAutoRotate(on: boolean) { this.autoRotate = on; this.applyControlMode(); }
-
-  /** 3D: orbit + pan + zoom. 2D/1D: pan + zoom only (left-drag pans), no auto-rotate. */
+  /** 3D: orbit + pan + zoom. 2D/1D: pan + zoom only (left-drag pans). */
   private applyControlMode() {
     const three = this.ndims >= 3;
     this.controls.enableRotate = three;
-    this.controls.autoRotate = three && this.autoRotate;
     // in 3D, holding Space turns left-drag into pan
     this.controls.mouseButtons.LEFT = three && !this.spaceHeld ? THREE.MOUSE.ROTATE : THREE.MOUSE.PAN;
     this.renderer.domElement.classList.toggle("pan-mode", this.spaceHeld && three);
