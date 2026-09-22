@@ -9,6 +9,7 @@ import { Heatmap, type HeatPoint } from "./heatmap";
 const S = 10;            // frame edge length in world units
 const GRID_N = 10;       // grid subdivisions per face
 const MARKER_R = 0.13;
+const MARKER_REF_DIST = 24;   // markers keep the on-screen size they have at this camera distance
 
 interface Marker {
   country: Country;
@@ -322,7 +323,9 @@ export class CultureScene {
       m.mesh.material.depthWrite = fade > 0.5;
       const hov = m === this.hovered ? 1.6 : 1;
       m.mesh.position.set(off.x + m.pos.x.value, off.y + m.pos.y.value, off.z + m.pos.z.value);
-      m.mesh.scale.setScalar(Math.max(s * hov, 1e-4));
+      // constant screen-space size: world radius grows linearly with distance to the camera
+      const dist = this.camera.position.distanceTo(m.mesh.position);
+      m.mesh.scale.setScalar(Math.max(s * hov * dist / MARKER_REF_DIST, 1e-4));
       m.mesh.visible = s > 0.001;
       if (!m.pos.done || !m.scale.done) moving = true;
       if (s > 0.001) heatPts.push({ x: m.mesh.position.x, y: m.mesh.position.y, z: m.mesh.position.z, w: s, region: m.country.region });
