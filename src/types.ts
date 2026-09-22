@@ -12,7 +12,7 @@ export interface Dim {
   editionKeys?: Record<string, string>;
 }
 
-export type Edition = "2015" | "2023" | "both";
+export type Edition = "2015" | "2023";
 
 export interface Country {
   iso3: string;

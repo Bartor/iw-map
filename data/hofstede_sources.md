@@ -111,3 +111,8 @@ request. Output: `data/hofstede_2023.json`, same schema as `hofstede.json`.
   `hofstede.json` coming from the older Hofstede-file `ltowvs` column while this 2023 fetch
   reflects the Culture Factor Group's own updated figures; `pdi`, `uai`, `mas` and `ivr` are
   mostly unchanged between the two sources, with only a handful of small revisions each.
+
+
+## 2015 file rebuilt as a pure edition (2026-09-22)
+
+`data/hofstede.json` was regenerated directly from the official 2015-08-16 CSV with NO gap-filling from theculturefactor.com, so that the 2015 and 2023 editions are independent. 111 rows; ISO3 codes reused from the earlier mapping.

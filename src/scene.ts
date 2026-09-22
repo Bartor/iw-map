@@ -18,9 +18,6 @@ interface Marker {
   pos: Anim3;      // frame-local position, 0..S per axis
   scale: Anim;     // 0 hidden .. 1 visible
   dim: Anim;       // 0 normal .. 1 faded
-  posFrom: Anim3;  // 2015 position (arrow tail) in "both" edition mode
-  hasArrow: boolean;
-  arrow: THREE.ArrowHelper | null;
   visible: boolean;
 }
 
@@ -91,7 +88,7 @@ export class CultureScene {
   private hovered: Marker | null = null;
   private hoveredRegion: string | null = null;
   private focus: Set<string> | null = null;   // external focus (from the list panel)
-  private edition: Edition = "2015";
+  private edition: Edition = "2023";
   private heatmap = new Heatmap(S);
   private heatDirty = true;
   // guide lines from hovered/pinned markers to each active axis, plus value labels at the axis feet
@@ -191,7 +188,7 @@ export class CultureScene {
     label.visible = false;
     mesh.add(label);
     this.markerGroup.add(mesh);
-    this.markers.set(country.iso3, { country, mesh, label, pos: new Anim3(0, 0, 0), scale: new Anim(0, 500, easeOutCubic), dim: new Anim(0, 250, easeOutCubic), posFrom: new Anim3(0, 0, 0), hasArrow: false, arrow: null, visible: false });
+    this.markers.set(country.iso3, { country, mesh, label, pos: new Anim3(0, 0, 0), scale: new Anim(0, 500, easeOutCubic), dim: new Anim(0, 250, easeOutCubic), visible: false });
   }
 
   private resize() {
@@ -278,29 +275,14 @@ export class CultureScene {
     return key === undefined ? undefined : c.values[key];
   }
 
-  /** Value used for the marker position under the current edition mode. */
+  /** Value used for the marker position under the selected edition. */
   currentValue(c: Country, d: Dim): number | undefined {
-    if (this.edition === "2015") return CultureScene.valueOf(c, d, "2015");
-    return CultureScene.valueOf(c, d, "2023") ?? (this.edition === "both" ? CultureScene.valueOf(c, d, "2015") : undefined);
+    return CultureScene.valueOf(c, d, this.edition);
   }
 
   /** Which countries currently have data for every active axis (under the current edition mode). */
   hasAllValues(c: Country): boolean {
     return this.axes.every((d) => !d || this.currentValue(c, d) !== undefined);
-  }
-
-  /** In "both" mode: does the country have a distinct 2015 position on every axis? */
-  private hasArrow(c: Country): boolean {
-    if (this.edition !== "both") return false;
-    let anyEdition = false;
-    for (const d of this.axes) {
-      if (!d) continue;
-      if (d.editionKeys) {
-        anyEdition = true;
-        if (CultureScene.valueOf(c, d, "2015") === undefined || CultureScene.valueOf(c, d, "2023") === undefined) return false;
-      } else if (c.values[d.id] === undefined) return false;
-    }
-    return anyEdition;
   }
 
   setEdition(ed: Edition) {
@@ -323,45 +305,9 @@ export class CultureScene {
       };
       const [x, y, z] = [coord(0), coord(1), coord(2)];
       if (show && !m.visible) m.pos.jump(x, y, z); else m.pos.set(x, y, z, now);
-      // 2015 position (arrow tail); falls back to the current position where 2015 data is missing
-      m.hasArrow = show && this.hasArrow(c);
-      const from = (i: number, cur: number) => {
-        const d = this.axes[i];
-        if (!d || !m.hasArrow) return cur;
-        const v = CultureScene.valueOf(c, d, "2015");
-        return v === undefined ? cur : norm(d, v);
-      };
-      const [fx, fy, fz] = [from(0, x), from(1, y), from(2, z)];
-      if (show && !m.visible) m.posFrom.jump(fx, fy, fz); else m.posFrom.set(fx, fy, fz, now);
       m.scale.set(show ? 1 : 0, now);
       m.visible = show;
     }
-  }
-
-  /** Arrow from the 2015 position to the current marker position ("both" edition mode). */
-  private updateArrow(m: Marker, off: THREE.Vector3, s: number, fade: number) {
-    m.posFrom.update(performance.now());
-    const from = new THREE.Vector3(off.x + m.posFrom.x.value, off.y + m.posFrom.y.value, off.z + m.posFrom.z.value);
-    const to = m.mesh.position;
-    const dir = to.clone().sub(from);
-    const len = dir.length();
-    const show = m.hasArrow && s > 0.5 && len > 0.08;
-    if (!show) { if (m.arrow) m.arrow.visible = false; return; }
-    if (!m.arrow) {
-      const color = REGION_COLORS[m.country.region] ?? REGION_COLORS.Other;
-      m.arrow = new THREE.ArrowHelper(dir.clone().normalize(), from, len, color, 0.3, 0.15);
-      for (const o of [m.arrow.line, m.arrow.cone]) { const mat = o.material as THREE.Material; mat.transparent = true; mat.depthWrite = false; }
-      this.scene.add(m.arrow);
-    }
-    // head size follows the marker's constant screen-space scale
-    const dist = this.camera.position.distanceTo(to);
-    const head = Math.min(len * 0.45, 0.32 * dist / MARKER_REF_DIST);
-    m.arrow.visible = true;
-    m.arrow.position.copy(from);
-    m.arrow.setDirection(dir.normalize());
-    m.arrow.setLength(len - MARKER_R * dist / MARKER_REF_DIST * 0.8, head, head * 0.5);
-    (m.arrow.line.material as THREE.Material).opacity = 0.7 * fade;
-    (m.arrow.cone.material as THREE.Material).opacity = 0.85 * fade;
   }
 
   private tick(now: number) {
@@ -421,7 +367,6 @@ export class CultureScene {
       if (s > 0.001) heatPts.push({ x: m.mesh.position.x, y: m.mesh.position.y, z: m.mesh.position.z, w: s, region: m.country.region });
       m.label.visible = this.showLabels && s > 0.6;
       m.label.element.style.opacity = String(s * (1 - 0.9 * m.dim.value));
-      this.updateArrow(m, off, s, fade);
     }
 
     // flatten territories along collapsed axes so 2D/1D views get a sheet / band, not a slab
