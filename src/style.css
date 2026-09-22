@@ -59,6 +59,7 @@ button:hover { border-color: var(--accent); }
   color: #dfe5f0; font-size: 11px; pointer-events: none; text-shadow: 0 0 4px #000, 0 0 2px #000;
   white-space: nowrap;
 }
+.label.pinned { color: #fff; font-weight: 600; }
 .label > span { display: inline-block; transform: translate(6px, -6px); transition: transform .6s ease; }
 .one-d .label > span { transform: translate(4px, 4px) rotate(-60deg); transform-origin: left center; }
 .axis-label { color: #9fb3d9; font-size: 12px; font-weight: 600; pointer-events: none; text-shadow: 0 0 4px #000; white-space: nowrap; }

@@ -353,5 +353,13 @@ export class CultureScene {
     this.controls.update();
     this.renderer.render(this.scene, this.camera);
     this.labelRenderer.render(this.scene, this.camera);
+    // CSS2DRenderer assigns z-index by depth each frame; keep pinned (and hovered) labels on top
+    for (const m of this.markers.values()) {
+      if (!m.label.visible) continue;
+      const pinned = this.pinned.has(m.country.iso3) || this.pinnedRegions.has(m.country.region);
+      if (pinned) m.label.element.style.zIndex = "100000";
+      if (m === this.hovered) m.label.element.style.zIndex = "100001";
+      m.label.element.classList.toggle("pinned", pinned);
+    }
   }
 }
