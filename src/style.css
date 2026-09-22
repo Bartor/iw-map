@@ -55,8 +55,8 @@ button:hover { border-color: var(--accent); }
   width: 16px; height: 16px; padding: 0; border: none; background: none; color: var(--muted); cursor: pointer;
   display: inline-flex; align-items: center; justify-content: center; margin-left: -4px;
 }
-.chevron svg { width: 12px; height: 12px; fill: currentColor; transform: rotate(90deg); transition: transform .15s; }
-.region.collapsed .chevron svg { transform: rotate(0deg); }
+.chevron .icon { transform: rotate(90deg); transition: transform .15s; }
+.region.collapsed .chevron .icon { transform: rotate(0deg); }
 .region-head .swatch { width: 10px; height: 10px; border-radius: 50%; display: inline-block; }
 .region-head > span:nth-of-type(2) { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; min-width: 0; }
 .region-head .count { color: var(--muted); font-weight: 400; margin-left: auto; }
@@ -102,7 +102,7 @@ button:hover { border-color: var(--accent); }
   margin-left: auto; width: 18px; height: 18px; border: none; background: none; padding: 0; color: var(--muted);
   opacity: .35; cursor: pointer; display: inline-flex; align-items: center; justify-content: center; border-radius: 4px;
 }
-.pin svg { width: 13px; height: 13px; fill: currentColor; }
+
 .country-row:hover .pin, .region-head:hover .pin { opacity: .8; }
 .pin.on { opacity: 1; color: var(--accent); }
 .pin:hover { background: var(--panel-border); }
@@ -120,9 +120,10 @@ button:hover { border-color: var(--accent); }
 
 #panel header h1 { display: flex; align-items: center; gap: 8px; }
 .help {
-  width: 20px; height: 20px; padding: 0; border-radius: 50%; font-size: 12px; font-weight: 700; line-height: 1;
+  width: 22px; height: 22px; padding: 0; border-radius: 50%; display: inline-flex; align-items: center; justify-content: center;
   color: var(--muted); border-color: var(--panel-border);
 }
+.help .icon { width: 15px; height: 15px; }
 .help:hover { color: var(--accent); }
 #help-modal {
   background: var(--panel); color: var(--text); border: 1px solid var(--panel-border); border-radius: 12px; padding: 0;
@@ -131,7 +132,7 @@ button:hover { border-color: var(--accent); }
 #help-modal::backdrop { background: rgba(0,0,0,.55); }
 .modal-head { display: flex; align-items: center; justify-content: space-between; padding: 14px 18px; border-bottom: 1px solid var(--panel-border); position: sticky; top: 0; background: var(--panel); }
 .modal-head h2 { margin: 0; font-size: 16px; }
-.modal-head button { font-size: 18px; line-height: 1; padding: 2px 8px; }
+.modal-head button { padding: 3px 6px; display: inline-flex; }
 .modal-body { padding: 6px 18px 18px; overflow-y: auto; max-height: calc(100vh - 110px); font-size: 13px; line-height: 1.5; }
 .modal-body h3 { font-size: 14px; margin: 18px 0 6px; color: var(--accent); }
 .modal-body h4 { font-size: 13px; margin: 14px 0 4px; }
@@ -150,7 +151,7 @@ button:hover { border-color: var(--accent); }
 .compare-head { display: flex; align-items: center; gap: 8px; padding: 6px 10px; border-bottom: 1px solid var(--panel-border); }
 #compare.collapsed .compare-head { border-bottom: none; }
 .compare-head .count { color: var(--muted); }
-.compare-head button { margin-left: auto; padding: 0 8px; line-height: 1.4; }
+.compare-head button { margin-left: auto; padding: 2px 6px; display: inline-flex; }
 .compare-body { overflow: auto; }
 #compare-table { border-collapse: collapse; table-layout: fixed; min-width: 100%; }
 #compare-table th, #compare-table td { padding: 5px 10px; text-align: right; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; border-bottom: 1px solid var(--panel-border); }
@@ -166,5 +167,12 @@ button:hover { border-color: var(--accent); }
 #compare-table .max { color: var(--accent); font-weight: 600; }
 #compare-table .min { color: #ff7b72; font-weight: 600; }
 #compare-table td.rm { text-align: center; padding: 0 6px; }
-#compare-table .rm button { border: none; background: none; color: var(--muted); padding: 2px 4px; }
+#compare-table .rm button { border: none; background: none; color: var(--muted); padding: 2px 4px; display: inline-flex; }
+#compare-table .rm .icon { width: 13px; height: 13px; }
 #compare-table .rm button:hover { color: var(--text); }
+
+/* Lucide icons: stroke-based, sized here, coloured by currentColor */
+.icon { width: 14px; height: 14px; stroke: currentColor; fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; flex: 0 0 auto; }
+.pin .icon { width: 13px; height: 13px; }
+.pin.on .icon { fill: currentColor; }
+.chevron .icon { width: 13px; height: 13px; }

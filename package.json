@@ -14,6 +14,7 @@
     "vite": "^8.3.0"
   },
   "dependencies": {
+    "lucide": "^1.47.0",
     "three": "^0.186.0"
   }
 }

@@ -1,5 +1,6 @@
 import type { Country, Data, Dim, Edition } from "./types";
 import { REGION_COLORS, REGION_ORDER } from "./regions";
+import { icon, Icons } from "./icons";
 
 export interface UIState {
   axes: (Dim | null)[];
@@ -31,10 +32,6 @@ export interface UIHandle {
   hide(target: { country?: Country; region?: string }): void;
 }
 
-const PIN_SVG = '<svg viewBox="0 0 16 16"><path d="M9.5 1.5 14.5 6.5l-1.4 1.4-.7-.7-3 3 .3 3.3-1.4 1.4L5 11.6 1.6 15l-.6-.6L4.4 11 1.1 7.7l1.4-1.4 3.3.3 3-3-.7-.7z"/></svg>';
-
-const CHEVRON_SVG = '<svg viewBox="0 0 16 16"><path d="M6 3.5 10.5 8 6 12.5 4.8 11.3 8.1 8 4.8 4.7z"/></svg>';
-
 function readCollapsed(): Set<string> {
   try { return new Set(JSON.parse(localStorage.getItem("collapsedRegions") ?? "[]")); } catch { return new Set(); }
 }
@@ -44,7 +41,7 @@ function writeCollapsed(set: Set<string>) {
 
 function makePin(): HTMLButtonElement {
   const b = document.createElement("button");
-  b.type = "button"; b.className = "pin"; b.title = "Pin"; b.innerHTML = PIN_SVG;
+  b.type = "button"; b.className = "pin"; b.title = "Pin"; b.appendChild(icon(Icons.Pin));
   return b;
 }
 
@@ -167,7 +164,7 @@ export function buildUI(data: Data, cb: UICallbacks): UIHandle {
     count.className = "count"; count.textContent = String(cs.length);
     const rpin = makePin();
     const chev = document.createElement("button");
-    chev.type = "button"; chev.className = "chevron"; chev.innerHTML = CHEVRON_SVG;
+    chev.type = "button"; chev.className = "chevron"; chev.appendChild(icon(Icons.ChevronRight));
     head.append(chev, rcb, sw, name, count, rpin);
     wrap.appendChild(head);
     const body = document.createElement("div");
@@ -260,10 +257,13 @@ export function buildUI(data: Data, cb: UICallbacks): UIHandle {
   // --- comparison table of pinned items (columns = active axes) ---
   const compare = $("compare");
   const compareTable = $<HTMLTableElement>("compare-table");
-  $("compare-toggle").addEventListener("click", () => {
-    const collapsed = compare.classList.toggle("collapsed");
-    $("compare-toggle").textContent = collapsed ? "+" : "–";
-  });
+  const compareToggle = $("compare-toggle");
+  const setCompareIcon = (collapsed: boolean) => {
+    compareToggle.replaceChildren(icon(collapsed ? Icons.ChevronUp : Icons.ChevronDown));
+    compareToggle.title = collapsed ? "Expand" : "Collapse";
+  };
+  setCompareIcon(false);
+  compareToggle.addEventListener("click", () => setCompareIcon(compare.classList.toggle("collapsed")));
   let compareSort: { col: number; dir: 1 | -1 } = { col: -1, dir: 1 }; // col -1 = name, else axis index
   const fmtVal = (v: number | undefined) => (v === undefined ? "–" : Number.isInteger(v) ? String(v) : v.toFixed(2));
   const renderCompare = () => {
@@ -336,7 +336,7 @@ export function buildUI(data: Data, cb: UICallbacks): UIHandle {
         }
       });
       const rm = tr.insertCell(); rm.className = "rm";
-      const b = document.createElement("button"); b.type = "button"; b.textContent = "×"; b.title = "Unpin";
+      const b = document.createElement("button"); b.type = "button"; b.title = "Unpin"; b.appendChild(icon(Icons.X));
       b.addEventListener("click", () => togglePin(it.country ? { country: it.country } : { region: it.region }));
       rm.appendChild(b);
       tr.addEventListener("pointerenter", () => cb.onFocus(it.country ? new Set([it.country.iso3]) : new Set((byRegion.get(it.region!) ?? []).map((c) => c.iso3))));
