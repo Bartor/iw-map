@@ -14,12 +14,23 @@ export class Heatmap {
   group = new THREE.Group();
   private layers = new Map<string, MarchingCubes>();
   private densities = new Map<string, Float32Array>();
-  private res = 36;
+  private res = 40;
+  /** fraction of the frame edge the field extends beyond the frame on each side */
+  static PAD = 0.22;
   private sigma = 0.07;   // kernel width, fraction of the frame edge
-  private floor = 0.35;   // min density (in country-peak units) for a territory to show
+  private floor = 0.1;    // min density (in country-peak units); low so adjacent territories meet without gaps
   enabled = false;
 
-  constructor(private frameSize: number) {}
+  // clip shells to the chart frame (world-space planes at the six faces)
+  private clipPlanes = [
+    new THREE.Plane(new THREE.Vector3(1, 0, 0), 0), new THREE.Plane(new THREE.Vector3(-1, 0, 0), 0),
+    new THREE.Plane(new THREE.Vector3(0, 1, 0), 0), new THREE.Plane(new THREE.Vector3(0, -1, 0), 0),
+    new THREE.Plane(new THREE.Vector3(0, 0, 1), 0), new THREE.Plane(new THREE.Vector3(0, 0, -1), 0),
+  ];
+
+  constructor(private frameSize: number) {
+    for (const p of this.clipPlanes) p.constant = frameSize / 2 + 0.02;
+  }
 
   private layer(region: string): MarchingCubes {
     let mc = this.layers.get(region);
@@ -28,11 +39,13 @@ export class Heatmap {
     const mat = new THREE.MeshPhysicalMaterial({
       color, transparent: true, opacity: 0.32, roughness: 0.55, metalness: 0,
       depthWrite: false, side: THREE.DoubleSide, emissive: color, emissiveIntensity: 0.3,
+      clippingPlanes: this.clipPlanes,
     });
     mc = new MarchingCubes(this.res, mat, false, false, 80000);
     mc.isolation = 0;
     mc.renderOrder = 10;
-    mc.scale.setScalar(this.frameSize / 2);
+    mc.scale.setScalar(this.frameSize / 2 * (1 + 2 * Heatmap.PAD));
+    mc.userData.region = region;
     mc.visible = this.enabled;
     this.group.add(mc);
     this.layers.set(region, mc);
@@ -42,6 +55,14 @@ export class Heatmap {
   /** 0..1 spread control: kernel width from tight to wide. */
   setSpread(t: number) { this.sigma = THREE.MathUtils.lerp(0.035, 0.14, t); }
 
+  /** Meshes for raycasting (only visible ones). */
+  get meshes(): THREE.Object3D[] { return [...this.layers.values()].filter((m) => m.visible); }
+
+  /** Emphasise one region shell (null = none). */
+  setHighlight(region: string | null) {
+    for (const [r, mc] of this.layers) (mc.material as THREE.MeshPhysicalMaterial).opacity = r === region ? 0.55 : 0.32;
+  }
+
   setEnabled(on: boolean) {
     this.enabled = on;
     for (const l of this.layers.values()) l.visible = on;
@@ -49,8 +70,8 @@ export class Heatmap {
 
   update(points: HeatPoint[]) {
     if (!this.enabled) return;
-    const N = this.res, N2 = N * N, N3 = N2 * N, S = this.frameSize;
-    const sig = this.sigma * N, inv2s2 = 1 / (2 * sig * sig), reach = Math.ceil(sig * 3);
+    const N = this.res, N2 = N * N, N3 = N2 * N, S = this.frameSize * (1 + 2 * Heatmap.PAD);
+    const sig = this.sigma * N, inv2s2 = 1 / (2 * sig * sig), reach = Math.ceil(sig * 4.5);
 
     // 1. per-region density
     const active = new Set<string>();
@@ -89,6 +110,7 @@ export class Heatmap {
         f[k] = Math.min(v - other, v - this.floor);
       }
       mc.update();
+      mc.geometry.computeBoundingSphere();
       mc.visible = true;
     }
     // hide layers for regions with no visible countries

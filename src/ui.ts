@@ -168,10 +168,16 @@ export function buildUI(data: Data, cb: UICallbacks): UIState {
   return state;
 }
 
-export function showTooltip(info: { country: Country; x: number; y: number } | null, axes: (Dim | null)[]) {
+export function showTooltip(info: { country?: Country; region?: string; count?: number; x: number; y: number } | null, axes: (Dim | null)[]) {
   const tip = $("tooltip");
   if (!info) { tip.hidden = true; return; }
   const { country, x, y } = info;
+  if (!country) {
+    tip.innerHTML = `<b>${info.region}</b><div class="row"><span>most prevalent region here</span></div><div class="row"><span>countries shown</span><span>${info.count ?? 0}</span></div>`;
+    tip.hidden = false;
+    place(tip, x, y);
+    return;
+  }
   const rowsHtml = axes.filter((d): d is Dim => !!d).map((d) => {
     const v = country.values[d.id];
     const off = v !== undefined && (v < d.min || v > d.max) ? " <small>(off scale, clamped)</small>" : "";
@@ -179,6 +185,10 @@ export function showTooltip(info: { country: Country; x: number; y: number } | n
   }).join("");
   tip.innerHTML = `<b>${country.name}</b><div class="row"><span>${country.region}</span></div>${rowsHtml}`;
   tip.hidden = false;
+  place(tip, x, y);
+}
+
+function place(tip: HTMLElement, x: number, y: number) {
   const vp = $("viewport");
   const w = tip.offsetWidth, h = tip.offsetHeight;
   tip.style.left = Math.min(x + 14, vp.clientWidth - w - 8) + "px";

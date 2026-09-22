@@ -20,7 +20,7 @@ interface Marker {
   visible: boolean;
 }
 
-export interface HoverInfo { country: Country; x: number; y: number }
+export interface HoverInfo { country?: Country; region?: string; count?: number; x: number; y: number }
 
 function makeLabel(cls: string, text = ""): CSS2DObject {
   const el = document.createElement("div");
@@ -85,6 +85,7 @@ export class CultureScene {
   private selection = new Set<string>();
   private showLabels = true;
   private hovered: Marker | null = null;
+  private hoveredRegion: string | null = null;
   private focus: Set<string> | null = null;   // external focus (from the list panel)
   private heatmap = new Heatmap(S);
   private heatDirty = true;
@@ -100,6 +101,7 @@ export class CultureScene {
     this.renderer = new THREE.WebGLRenderer({ antialias: true, alpha: false });
     this.renderer.setPixelRatio(Math.min(devicePixelRatio, 2));
     this.renderer.setClearColor(0x0b0e14, 1);
+    this.renderer.localClippingEnabled = true;
     container.appendChild(this.renderer.domElement);
 
     this.labelRenderer = new CSS2DRenderer();
@@ -271,7 +273,9 @@ export class CultureScene {
     this.axisLabels.x.center.set(0.5, 0); this.axisLabels.y.center.set(1, 0.5); this.axisLabels.z.center.set(0, 0.5);
 
     // markers
-    const focus = this.hovered ? new Set([this.hovered.country.iso3]) : this.focus;
+    const focus = this.hovered ? new Set([this.hovered.country.iso3])
+      : this.hoveredRegion ? new Set([...this.markers.values()].filter((m) => m.country.region === this.hoveredRegion).map((m) => m.country.iso3))
+      : this.focus;
     let moving = !(this.ext.x.done && this.ext.y.done && this.ext.z.done);
     const heatPts: HeatPoint[] = [];
     for (const m of this.markers.values()) {
@@ -302,13 +306,26 @@ export class CultureScene {
     this.raycaster.setFromCamera(this.pointer, this.camera);
     const hits = this.raycaster.intersectObjects(this.markerGroup.children.filter((o) => o.visible), false);
     const hit = hits[0] ? this.markers.get(hits[0].object.userData.iso3) ?? null : null;
-    if (hit !== this.hovered) {
-      this.hovered = hit;
-      this.onHover?.(hit ? { country: hit.country, x: this.pointerPx.x, y: this.pointerPx.y } : null);
-      this.renderer.domElement.style.cursor = hit ? "pointer" : "";
-    } else if (hit) {
-      this.onHover?.({ country: hit.country, x: this.pointerPx.x, y: this.pointerPx.y });
+    // region shells are only considered when no country is under the pointer
+    let region: string | null = null;
+    if (!hit && this.heatmap.enabled) {
+      // ignore parts of the shells that the clipping planes cut away (outside the frame)
+      const inside = (p: THREE.Vector3) => Math.abs(p.x) <= S / 2 + 0.05 && Math.abs(p.y) <= S / 2 + 0.05 && Math.abs(p.z) <= S / 2 + 0.05;
+      const rh = this.raycaster.intersectObjects(this.heatmap.meshes, false).find((h) => inside(h.point));
+      region = rh ? (rh.object.userData.region as string) : null;
     }
+    const changed = hit !== this.hovered || region !== this.hoveredRegion;
+    this.hovered = hit;
+    if (region !== this.hoveredRegion) { this.hoveredRegion = region; this.heatmap.setHighlight(region); }
+    if (hit) {
+      this.onHover?.({ country: hit.country, x: this.pointerPx.x, y: this.pointerPx.y });
+    } else if (region) {
+      const count = heatPts.filter((p) => p.region === region && p.w > 0.5).length;
+      this.onHover?.({ region, count, x: this.pointerPx.x, y: this.pointerPx.y });
+    } else if (changed) {
+      this.onHover?.(null);
+    }
+    this.renderer.domElement.style.cursor = hit || region ? "pointer" : "";
 
     // camera
     if (this.camAnimating) {
