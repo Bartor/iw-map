@@ -507,7 +507,7 @@ export class CultureScene {
       if (p.hidden) { span.style.transform = ""; a.m.label.visible = false; continue; }
       // CSS2D anchors the element's bottom-left at the marker; move the span so its box lands at (p.x, p.y)
       span.style.transform = "translate(" + (p.x - a.ax).toFixed(1) + "px, " + (p.y - (a.ay - LABEL_H)).toFixed(1) + "px)";
-      if (p.slot >= 8) {
+      if (p.slot >= 8 || p.slot % 8 !== 0) {
         // leader from marker edge to the nearest point on the label box
         const nx = Math.max(p.x, Math.min(a.ax, p.x + (a.m.label.element.firstElementChild as HTMLElement).offsetWidth));
         const ny = Math.max(p.y, Math.min(a.ay, p.y + LABEL_H));

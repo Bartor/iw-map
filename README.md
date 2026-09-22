@@ -7,7 +7,7 @@ Interactive 3D visualisation of national cultures using two published frameworks
 
 Pick one, two or three dimensions from any dataset and countries are laid out on a line, a square or a cube. Changing the number of axes morphs the frame (line expands into a square, square into a cube) and countries glide to their new positions. Drag to rotate (3D only), hold Space and drag to pan, scroll to zoom. In 2D and 1D the view cannot be rotated and left-drag pans. Hovering a country (in the scene or the list) or a region header fades everything else.
 
-**Avoid overlaps** places labels greedily around their markers so they never overlap each other or other markers, drawing a thin leader line to labels that had to move away; labels that cannot be placed are hidden.
+**Avoid overlaps** places labels greedily so they never overlap each other or markers: every label first tries up-right of its marker at increasing distances (for a consistent look), then other directions, and gets a thin leader line when it had to move away; labels that cannot be placed are hidden.
 
 **Export PNG** downloads (and **Copy** puts on the clipboard) the current chart (WebGL frame plus labels) as a PNG at the screen's device pixel ratio, named after the active axes, with a title and axis subtitle at the top and a "Source: https://bartor.github.io/iw-map/" caption in the bottom margin.
 

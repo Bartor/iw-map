@@ -22,9 +22,10 @@ export interface Placement {
 
 interface Rect { x: number; y: number; w: number; h: number }
 
-const RADII = [7, 16, 28, 42];
-// direction unit vectors: right, left, up, down, and the four diagonals
-const DIRS: Array<[number, number]> = [[1, 0], [-1, 0], [0, -1], [0, 1], [1, -1], [-1, -1], [1, 1], [-1, 1]];
+const RADII = [7, 16, 28, 42, 60, 80];
+// direction unit vectors: preferred up-right first, then right, up, left, down, remaining diagonals
+const DIRS: Array<[number, number]> = [[1, -1], [1, 0], [0, -1], [-1, 0], [0, 1], [-1, -1], [1, 1], [-1, 1]];
+const PREFERRED = 0; // index into DIRS: labels try this direction at every radius before any other direction
 
 const MARKER_R = 7; // px half-size of the keep-out box around a marker
 
@@ -57,7 +58,9 @@ export function placeLabels(items: LabelItem[], width: number, height: number, p
     const last = prev.get(it.id);
     const tryOrder: number[] = [];
     if (last && !last.hidden) tryOrder.push(last.slot);
-    for (let s = 0; s < SLOT_COUNT; s++) if (s !== last?.slot) tryOrder.push(s);
+    // consistent look: walk the preferred direction outwards first, then everything else nearest-first
+    for (let r = 0; r < RADII.length; r++) { const s = r * DIRS.length + PREFERRED; if (s !== last?.slot) tryOrder.push(s); }
+    for (let s = 0; s < SLOT_COUNT; s++) if (s % DIRS.length !== PREFERRED && s !== last?.slot) tryOrder.push(s);
     let chosen: Placement | null = null;
     for (const s of tryOrder) {
       const box = slotBox(it, s);
