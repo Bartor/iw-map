@@ -165,7 +165,8 @@ export function showTooltip(info: { country: Country; x: number; y: number } | n
   const { country, x, y } = info;
   const rowsHtml = axes.filter((d): d is Dim => !!d).map((d) => {
     const v = country.values[d.id];
-    return `<div class="row"><span>${d.short}</span><span>${v === undefined ? "–" : Number.isInteger(v) ? v : v.toFixed(2)}</span></div>`;
+    const off = v !== undefined && (v < d.min || v > d.max) ? " <small>(off scale, clamped)</small>" : "";
+    return `<div class="row"><span>${d.short}</span><span>${v === undefined ? "–" : Number.isInteger(v) ? v : v.toFixed(2)}${off}</span></div>`;
   }).join("");
   tip.innerHTML = `<b>${country.name}</b><div class="row"><span>${country.region}</span></div>${rowsHtml}`;
   tip.hidden = false;

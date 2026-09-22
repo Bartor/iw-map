@@ -220,7 +220,7 @@ export class CultureScene {
         if (!d) return 0;
         const v = c.values[d.id];
         if (v === undefined) return m.pos[axisKeys[i]].target;
-        return ((v - d.min) / (d.max - d.min)) * S;
+        return THREE.MathUtils.clamp((v - d.min) / (d.max - d.min), 0, 1) * S;
       };
       const [x, y, z] = [coord(0), coord(1), coord(2)];
       if (show && !m.visible) m.pos.jump(x, y, z); else m.pos.set(x, y, z, now);
