@@ -8,7 +8,11 @@ export interface Dim {
   max: number;
   lowLabel?: string;
   highLabel?: string;
+  /** For dimensions with several editions: edition id -> key in Country.values */
+  editionKeys?: Record<string, string>;
 }
+
+export type Edition = "2015" | "2023" | "both";
 
 export interface Country {
   iso3: string;
@@ -28,4 +32,6 @@ export interface Data {
   dims: Dim[];
   countries: Country[];
   datasets: DatasetInfo[];
+  /** Hofstede edition ids available (e.g. ["2015","2023"]) */
+  hofEditions: string[];
 }

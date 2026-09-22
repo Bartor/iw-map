@@ -22,13 +22,15 @@ async function main() {
     onFocus: (set) => scene.setFocus(set),
     onHeatmap: (on) => scene.setHeatmap(on),
     onHeatSpread: (t) => scene.setHeatSpread(t),
+    onEdition: (ed) => { scene.setEdition(ed); updateHint(); },
     onPins: (countries, regions) => scene.setPins(countries, regions),
   });
   const state = ui.state;
 
-  scene.onHover = (info) => { if (!isContextMenuOpen()) showTooltip(info, state.axes); };
+  scene.onHover = (info) => { if (!isContextMenuOpen()) showTooltip(info, state.axes, state.edition); };
   scene.onContextMenu = (info) => showContextMenu(info, ui);
   scene.setHeatSpread(0.5);
+  scene.setEdition(state.edition);
   scene.setSelection(state.selection);
   scene.setAxes(state.axes);
   updateHint();

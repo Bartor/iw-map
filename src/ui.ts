@@ -1,4 +1,4 @@
-import type { Country, Data, Dim } from "./types";
+import type { Country, Data, Dim, Edition } from "./types";
 import { REGION_COLORS, REGION_ORDER } from "./regions";
 
 export interface UIState {
@@ -6,6 +6,7 @@ export interface UIState {
   selection: Set<string>;
   labels: boolean;
   autoRotate: boolean;
+  edition: Edition;
   pinned: Set<string>;         // iso3
   pinnedRegions: Set<string>;  // region names
 }
@@ -20,6 +21,7 @@ export interface UICallbacks {
   onHeatmap(on: boolean): void;
   onHeatSpread(t: number): void;
   onPins(countries: Set<string>, regions: Set<string>): void;
+  onEdition(ed: Edition): void;
 }
 
 export interface UIHandle {
@@ -47,6 +49,16 @@ function makePin(): HTMLButtonElement {
 }
 
 const $ = <T extends HTMLElement>(id: string) => document.getElementById(id) as T;
+
+function readHashEdition(): Edition {
+  const m = location.hash.match(/ed=(2015|2023|both)/);
+  return (m ? m[1] : "2015") as Edition;
+}
+
+function writeHash(axes: (Dim | null)[], edition: Edition) {
+  const a = encodeURIComponent(axes.filter(Boolean).map((d) => d!.id).join(","));
+  history.replaceState(null, "", "#axes=" + a + (edition !== "2015" ? "&ed=" + edition : ""));
+}
 
 function readHashAxes(dims: Dim[]): (Dim | null)[] | null {
   const m = location.hash.match(/axes=([^&]*)/);
@@ -86,7 +98,7 @@ export function buildUI(data: Data, cb: UICallbacks): UIHandle {
     dims.find((d) => d.id === "hof.idv") ?? dims[1] ?? null,
     null,
   ];
-  const state: UIState = { axes: defaults, selection: new Set(data.countries.map((c) => c.iso3)), labels: true, autoRotate: false, pinned: new Set(), pinnedRegions: new Set() };
+  const state: UIState = { axes: defaults, selection: new Set(data.countries.map((c) => c.iso3)), labels: true, autoRotate: false, edition: readHashEdition(), pinned: new Set(), pinnedRegions: new Set() };
   selects.forEach((sel, i) => { sel.value = state.axes[i]?.id ?? ""; });
 
   const syncAxes = () => {
@@ -95,7 +107,7 @@ export function buildUI(data: Data, cb: UICallbacks): UIHandle {
     state.axes = picked;
     selects[2].disabled = !picked[1];
     if (!picked[1]) selects[2].value = "";
-    history.replaceState(null, "", "#axes=" + encodeURIComponent(picked.filter(Boolean).map((d) => d!.id).join(",")));
+    writeHash(picked, state.edition);
     cb.onAxes(picked);
     refreshRows();
   };
@@ -108,6 +120,24 @@ export function buildUI(data: Data, cb: UICallbacks): UIHandle {
   $<HTMLInputElement>("opt-heatmap").addEventListener("change", (e) => cb.onHeatmap((e.target as HTMLInputElement).checked));
   $<HTMLInputElement>("opt-heat-spread").addEventListener("input", (e) => cb.onHeatSpread(Number((e.target as HTMLInputElement).value)));
   $("btn-reset-view").addEventListener("click", () => cb.onResetView());
+
+  // --- Hofstede edition switch (only when more than one edition is loaded) ---
+  const edSection = $("edition-section");
+  if (data.hofEditions.length > 1) {
+    edSection.hidden = false;
+    const btns = [...$("edition-switch").querySelectorAll<HTMLButtonElement>("button")];
+    const apply = (ed: Edition) => {
+      state.edition = ed;
+      for (const b of btns) b.classList.toggle("on", b.dataset.ed === ed);
+      writeHash(state.axes, ed);
+      cb.onEdition(ed);
+      refreshRows();
+    };
+    for (const b of btns) b.addEventListener("click", () => apply(b.dataset.ed as Edition));
+    for (const b of btns) b.classList.toggle("on", b.dataset.ed === state.edition);
+  } else {
+    state.edition = "2015";
+  }
 
   // --- country list ---
   const list = $("country-list");
@@ -223,7 +253,12 @@ export function buildUI(data: Data, cb: UICallbacks): UIHandle {
     cb.onSelection(state.selection);
   };
 
-  const hasAll = (c: Country) => state.axes.every((d) => !d || d.id in c.values);
+  const valueFor = (c: Country, d: Dim): number | undefined => {
+    if (!d.editionKeys) return c.values[d.id];
+    const v2015 = c.values[d.editionKeys["2015"]], v2023 = c.values[d.editionKeys["2023"]];
+    return state.edition === "2015" ? v2015 : state.edition === "2023" ? v2023 : (v2023 ?? v2015);
+  };
+  const hasAll = (c: Country) => state.axes.every((d) => !d || valueFor(c, d) !== undefined);
   const refreshRows = () => {
     for (const r of rows.values()) {
       r.el.classList.toggle("nodata", !hasAll(r.country));
@@ -263,7 +298,7 @@ export function buildUI(data: Data, cb: UICallbacks): UIHandle {
 
 export function isContextMenuOpen(): boolean { return !$("ctx-menu").hidden; }
 
-export function showTooltip(info: { country?: Country; region?: string; count?: number; x: number; y: number } | null, axes: (Dim | null)[]) {
+export function showTooltip(info: { country?: Country; region?: string; count?: number; x: number; y: number } | null, axes: (Dim | null)[], edition: Edition = "2015") {
   const tip = $("tooltip");
   if (!info) { tip.hidden = true; return; }
   const { country, x, y } = info;
@@ -274,9 +309,19 @@ export function showTooltip(info: { country?: Country; region?: string; count?: 
     return;
   }
   const rowsHtml = axes.filter((d): d is Dim => !!d).map((d) => {
-    const v = country.values[d.id];
+    const fmt = (v: number | undefined) => (v === undefined ? "–" : Number.isInteger(v) ? String(v) : v.toFixed(2));
+    let v: number | undefined;
+    let text: string;
+    if (d.editionKeys && edition === "both") {
+      const a = country.values[d.editionKeys["2015"]], b = country.values[d.editionKeys["2023"]];
+      v = b ?? a;
+      text = a !== undefined && b !== undefined && a !== b ? fmt(a) + " → " + fmt(b) : fmt(v);
+    } else {
+      v = d.editionKeys ? country.values[d.editionKeys[edition]] : country.values[d.id];
+      text = fmt(v);
+    }
     const off = v !== undefined && (v < d.min || v > d.max) ? " <small>(off scale, clamped)</small>" : "";
-    return `<div class="row"><span>${d.short}</span><span>${v === undefined ? "–" : Number.isInteger(v) ? v : v.toFixed(2)}${off}</span></div>`;
+    return `<div class="row"><span>${d.short}</span><span>${text}${off}</span></div>`;
   }).join("");
   tip.innerHTML = `<b>${country.name}</b><div class="row"><span>${country.region}</span></div>${rowsHtml}`;
   tip.hidden = false;

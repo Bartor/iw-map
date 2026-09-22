@@ -51,17 +51,17 @@ export async function loadData(): Promise<Data> {
     { file: "../data/hofstede_2023.json", id: "hof2023", short: "2023", label: "Hofstede · Culture Factor 2023" },
   ];
   const presentEditions = HOF_EDITIONS.filter((e) => files[e.file]);
+  const hofEditions = presentEditions.map((e) => e.short);
+  if (presentEditions.length) {
+    // one set of Hofstede dimensions; per-edition values live under <editionId>.<dim> in Country.values
+    const editionKeys = (key: string) => Object.fromEntries(presentEditions.map((e) => [e.short, e.id + "." + key]));
+    for (const [key, label, short, lo, hi] of HOF_DIMS) {
+      dims.push({ id: "hof." + key, dataset: "hof", datasetLabel: "Hofstede", label, short, min: 0, max: 100, lowLabel: lo, highLabel: hi, editionKeys: editionKeys(key) });
+    }
+  }
   for (const ed of presentEditions) {
     const raw = files[ed.file] as HofRaw;
-    const multi = presentEditions.length > 1;
-    datasets.push({ id: ed.id, label: multi ? ed.label : "Hofstede (6-D)", sources: raw.meta.sources, notes: raw.meta.notes });
-    for (const [key, label, short, lo, hi] of HOF_DIMS) {
-      dims.push({
-        id: ed.id + "." + key, dataset: ed.id, datasetLabel: multi ? ed.label : "Hofstede",
-        label: multi ? label + " (" + ed.short + ")" : label, short: multi ? short + " " + ed.short : short,
-        min: 0, max: 100, lowLabel: lo, highLabel: hi,
-      });
-    }
+    datasets.push({ id: ed.id, label: ed.label, sources: raw.meta.sources, notes: raw.meta.notes });
     for (const row of raw.countries) {
       const c = getCountry(row.iso3 ?? "_" + row.name.replace(/[^a-z0-9]+/gi, "_").toUpperCase(), row.name);
       for (const [key] of HOF_DIMS) {
@@ -99,5 +99,5 @@ export async function loadData(): Promise<Data> {
   }
 
   const list = [...countries.values()].sort((a, b) => a.name.localeCompare(b.name));
-  return { dims, countries: list, datasets };
+  return { dims, countries: list, datasets, hofEditions };
 }
