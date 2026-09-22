@@ -14,7 +14,7 @@
 html, body { margin: 0; height: 100%; background: var(--bg); color: var(--text); overflow: hidden; }
 #app { display: flex; height: 100vh; width: 100vw; }
 #panel {
-  width: 320px; flex: 0 0 320px; background: var(--panel); border-right: 1px solid var(--panel-border);
+  width: 380px; flex: 0 0 380px; background: var(--panel); border-right: 1px solid var(--panel-border);
   display: flex; flex-direction: column; gap: 14px; padding: 16px; overflow: hidden;
 }
 #panel header h1 { margin: 0; font-size: 18px; font-weight: 600; }
