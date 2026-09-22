@@ -89,6 +89,10 @@ export class CultureScene {
   private focus: Set<string> | null = null;   // external focus (from the list panel)
   private heatmap = new Heatmap(S);
   private heatDirty = true;
+  // guide lines from hovered/pinned markers to each active axis, plus value labels at the axis feet
+  private guideGeo = new THREE.BufferGeometry();
+  private guides = new THREE.LineSegments(this.guideGeo, new THREE.LineBasicMaterial({ vertexColors: true, transparent: true, opacity: 0.75, depthWrite: false }));
+  private guideLabels: CSS2DObject[] = [];
 
   private camPos = new Anim3(0, 0, 0, 1100, easeOutCubic);
   private camTarget = new Anim3(0, 0, 0, 1100, easeOutCubic);
@@ -131,6 +135,9 @@ export class CultureScene {
     for (const l of [...Object.values(this.axisLabels), ...Object.values(this.tickLabels).flat()]) this.scene.add(l);
     this.scene.add(this.markerGroup);
     this.scene.add(this.heatmap.group);
+    this.guides.renderOrder = 5;
+    this.guides.frustumCulled = false;
+    this.scene.add(this.guides);
 
     for (const c of countries) this.addMarker(c);
 
@@ -316,6 +323,43 @@ export class CultureScene {
     if (this.heatmap.enabled && (moving || this.heatDirty)) {
       this.heatmap.update(heatPts);
       this.heatDirty = false;
+    }
+
+    // guide lines for hovered / pinned markers
+    {
+      const pts: number[] = [], cols: number[] = [];
+      let li = 0;
+      const col = new THREE.Color();
+      const fmt = (v: number) => (Number.isInteger(v) ? String(v) : v.toFixed(2));
+      const label = (i: number, x: number, y: number, z: number, text: string, cx: number, cy: number) => {
+        let l = this.guideLabels[i];
+        if (!l) { l = makeLabel("guide-label"); this.scene.add(l); this.guideLabels[i] = l; }
+        l.position.set(x, y, z); l.center.set(cx, cy);
+        (l.element.firstChild as HTMLElement).textContent = text;
+        l.visible = true;
+      };
+      for (const m of this.markers.values()) {
+        const active = m === this.hovered || this.pinned.has(m.country.iso3) || this.pinnedRegions.has(m.country.region);
+        if (!active || m.scale.value < 0.5) continue;
+        col.set(REGION_COLORS[m.country.region] ?? REGION_COLORS.Other);
+        const p = m.mesh.position;
+        const feet: Array<[number, number, number, number, number, number, number, number]> = [];
+        // [foot x, y, z, axis index, label centre x, y, valueX, ...] — one foot per active axis
+        if (this.axes[0] && ey + ez > 0.01) feet.push([p.x, off.y, off.z, 0, 0.5, 0, 0, 0]);
+        if (this.axes[1]) feet.push([off.x, p.y, off.z, 1, 1, 0.5, 0, 0]);
+        if (this.axes[2]) feet.push([off.x + S * ex, off.y, p.z, 2, 0, 0.5, 0, 0]);
+        for (const [fx, fy, fz, ai, cx, cy] of feet) {
+          pts.push(p.x, p.y, p.z, fx, fy, fz);
+          cols.push(col.r, col.g, col.b, col.r, col.g, col.b);
+          const d = this.axes[ai]!;
+          const v = m.country.values[d.id];
+          if (v !== undefined) label(li++, fx, fy, fz, fmt(v), cx, cy);
+        }
+      }
+      for (let i = li; i < this.guideLabels.length; i++) this.guideLabels[i].visible = false;
+      this.guideGeo.setAttribute("position", new THREE.Float32BufferAttribute(pts, 3));
+      this.guideGeo.setAttribute("color", new THREE.Float32BufferAttribute(cols, 3));
+      this.guides.visible = pts.length > 0;
     }
 
     // hover
