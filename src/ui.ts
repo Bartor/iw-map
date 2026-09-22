@@ -86,7 +86,10 @@ export function buildUI(data: Data, cb: UICallbacks): UIHandle {
     dims.find((d) => d.id === "hof2023.idv") ?? dims.find((d) => d.id === "hof.idv") ?? dims[1] ?? null,
     null,
   ];
-  const state: UIState = { axes: defaults, selection: new Set(data.countries.map((c) => c.iso3)), labels: true, pinned: new Set(), pinnedRegions: new Set() };
+  // narrow screens cannot fit ~150 labels; start with them off there
+  const narrow = window.matchMedia("(max-width: 600px)").matches;
+  const state: UIState = { axes: defaults, selection: new Set(data.countries.map((c) => c.iso3)), labels: !narrow, pinned: new Set(), pinnedRegions: new Set() };
+  $<HTMLInputElement>("opt-labels").checked = state.labels;
   selects.forEach((sel, i) => { sel.value = state.axes[i]?.id ?? ""; });
 
   const syncAxes = () => {
@@ -123,9 +126,10 @@ export function buildUI(data: Data, cb: UICallbacks): UIHandle {
   };
   closeBtn.addEventListener("click", () => setSidebar(true));
   openBtn.addEventListener("click", () => setSidebar(false));
-  let storedCollapsed = false;
-  try { storedCollapsed = localStorage.getItem("sidebarCollapsed") === "1"; } catch { /* ignore */ }
-  setSidebar(storedCollapsed);
+  // phones start with the drawer closed unless the user chose otherwise
+  let storedCollapsed: boolean | null = null;
+  try { const v = localStorage.getItem("sidebarCollapsed"); storedCollapsed = v === null ? null : v === "1"; } catch { /* ignore */ }
+  setSidebar(storedCollapsed ?? window.matchMedia("(max-width: 800px)").matches);
 
   // --- country list ---
   const list = $("country-list");

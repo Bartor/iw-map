@@ -99,6 +99,7 @@ export class CultureScene {
   private camTarget = new Anim3(0, 0, 0, 1100, easeOutCubic);
   private camAnimating = false;
   private lastNdims = -1;
+  private userMovedCamera = false;
 
   onHover: ((info: HoverInfo | null) => void) | null = null;
   /** Right-click on the chart; info is the hovered country/region (or null) plus pointer position. */
@@ -126,7 +127,7 @@ export class CultureScene {
     this.controls.dampingFactor = 0.08;
     this.controls.minDistance = 4;
     this.controls.maxDistance = 80;
-    this.controls.addEventListener("start", () => { this.camAnimating = false; });
+    this.controls.addEventListener("start", () => { this.camAnimating = false; this.userMovedCamera = true; });
 
     this.scene.add(new THREE.AmbientLight(0xffffff, 0.7));
     const key = new THREE.DirectionalLight(0xffffff, 1.2); key.position.set(5, 10, 8); this.scene.add(key);
@@ -212,6 +213,8 @@ export class CultureScene {
     this.camera.updateProjectionMatrix();
     this.renderer.setSize(w, h);
     this.labelRenderer.setSize(w, h);
+    // keep the automatic framing valid when the viewport changes shape (e.g. sidebar drawer, rotation)
+    if (!this.userMovedCamera && this.ndims > 0) this.resetView();
   }
 
   get ndims() { return this.axes.filter(Boolean).length; }
@@ -362,6 +365,7 @@ export class CultureScene {
   }
 
   resetView() {
+    this.userMovedCamera = false;
     const n = this.ndims;
     const tanHalf = Math.tan(THREE.MathUtils.degToRad(this.camera.fov / 2));
     const aspect = this.camera.aspect || 1;

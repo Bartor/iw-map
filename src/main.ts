@@ -35,6 +35,7 @@ async function main() {
   scene.onContextMenu = (info) => showContextMenu(info, ui);
   scene.onClick = (info) => ui.togglePin(info);
   scene.setHeatSpread(0.5);
+  scene.setLabels(state.labels);
   scene.setSelection(state.selection);
   scene.setAxes(state.axes);
   updateHint();
