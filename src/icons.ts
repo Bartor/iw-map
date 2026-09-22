@@ -1,4 +1,4 @@
-import { createElement, ChevronRight, ChevronDown, ChevronUp, Pin, CircleHelp, X, Download, PanelLeftClose, PanelLeftOpen, type IconNode } from "lucide";
+import { createElement, ChevronRight, ChevronDown, ChevronUp, Pin, CircleHelp, X, Download, Copy, Check, PanelLeftClose, PanelLeftOpen, type IconNode } from "lucide";
 
 /** Create an inline Lucide SVG icon (24x24 viewBox, sized by CSS). */
 export function icon(node: IconNode, cls = ""): SVGElement {
@@ -8,4 +8,4 @@ export function icon(node: IconNode, cls = ""): SVGElement {
   return svg;
 }
 
-export const Icons = { ChevronRight, ChevronDown, ChevronUp, Pin, CircleHelp, X, Download, PanelLeftClose, PanelLeftOpen };
+export const Icons = { ChevronRight, ChevronDown, ChevronUp, Pin, CircleHelp, X, Download, Copy, Check, PanelLeftClose, PanelLeftOpen };

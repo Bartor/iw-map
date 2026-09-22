@@ -20,6 +20,7 @@ export interface UICallbacks {
   onHeatSpread(t: number): void;
   onPins(countries: Set<string>, regions: Set<string>): void;
   onExport(): void;
+  onCopy(): Promise<void>;
 }
 
 export interface UIHandle {
@@ -112,6 +113,17 @@ export function buildUI(data: Data, cb: UICallbacks): UIHandle {
   $("btn-reset-view").addEventListener("click", () => cb.onResetView());
   $("btn-export").prepend(icon(Icons.Download));
   $("btn-export").addEventListener("click", () => cb.onExport());
+  const copyBtn = $("btn-copy");
+  const setCopyState = (state: "idle" | "done" | "fail") => {
+    copyBtn.replaceChildren(icon(state === "done" ? Icons.Check : state === "fail" ? Icons.X : Icons.Copy), document.createTextNode(state === "done" ? "Copied" : state === "fail" ? "Not allowed" : "Copy"));
+    copyBtn.classList.toggle("ok", state === "done");
+  };
+  setCopyState("idle");
+  copyBtn.addEventListener("click", async () => {
+    try { await cb.onCopy(); setCopyState("done"); }
+    catch (err) { console.warn(err); setCopyState("fail"); }
+    setTimeout(() => setCopyState("idle"), 1800);
+  });
 
   // --- sidebar collapse (expanded by default, remembered per browser) ---
   const app = document.getElementById("app")!;

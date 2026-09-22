@@ -254,7 +254,25 @@ export class CultureScene {
   setLabels(on: boolean) { this.showLabels = on; }
 
   /** Render the current view (WebGL + HTML labels) to a PNG and trigger a download. */
-  exportPNG(filename = "cultural-dimensions.png") {
+  async exportPNG(filename = "cultural-dimensions.png") {
+    const blob = await this.renderPNG();
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.download = filename;
+    a.href = url;
+    a.click();
+    setTimeout(() => URL.revokeObjectURL(url), 10000);
+  }
+
+  /** Copy the current view as a PNG to the clipboard. Throws if the browser refuses. */
+  async copyPNG() {
+    const blob = await this.renderPNG();
+    if (!("ClipboardItem" in window) || !navigator.clipboard?.write) throw new Error("Clipboard images are not supported in this browser");
+    await navigator.clipboard.write([new ClipboardItem({ "image/png": blob })]);
+  }
+
+  /** Composite WebGL frame + HTML labels, cropped to the rendered content, as a PNG blob. */
+  renderPNG(): Promise<Blob> {
     const src = this.renderer.domElement;
     const dpr = this.renderer.getPixelRatio();
     const out = document.createElement("canvas");
@@ -324,10 +342,7 @@ export class CultureScene {
     crop.width = Math.max(1, x1 - x0); crop.height = Math.max(1, y1 - y0);
     crop.getContext("2d")!.drawImage(out, x0, y0, crop.width, crop.height, 0, 0, crop.width, crop.height);
 
-    const a = document.createElement("a");
-    a.download = filename;
-    a.href = crop.toDataURL("image/png");
-    a.click();
+    return new Promise((resolve, reject) => crop.toBlob((b) => (b ? resolve(b) : reject(new Error("PNG encoding failed"))), "image/png"));
   }
 
   /** Screen-space (CSS px) bounding box of the frame, visible markers and visible labels. */

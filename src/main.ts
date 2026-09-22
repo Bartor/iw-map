@@ -26,6 +26,7 @@ async function main() {
       const parts = state.axes.filter(Boolean).map((d) => d!.short.replace(/[^a-z0-9]+/gi, "-").toLowerCase());
       scene.exportPNG("cultural-dimensions-" + (parts.join("_") || "chart") + ".png");
     },
+    onCopy: () => scene.copyPNG(),
     onPins: (countries, regions) => scene.setPins(countries, regions),
   });
   const state = ui.state;
