@@ -15,6 +15,8 @@ export interface UICallbacks {
   onAutoRotate(on: boolean): void;
   onResetView(): void;
   onFocus(iso3s: Set<string> | null): void;
+  onHeatmap(on: boolean): void;
+  onHeatSpread(t: number): void;
 }
 
 const $ = <T extends HTMLElement>(id: string) => document.getElementById(id) as T;
@@ -76,6 +78,8 @@ export function buildUI(data: Data, cb: UICallbacks): UIState {
   // --- options ---
   $<HTMLInputElement>("opt-labels").addEventListener("change", (e) => { state.labels = (e.target as HTMLInputElement).checked; cb.onLabels(state.labels); });
   $<HTMLInputElement>("opt-autorotate").addEventListener("change", (e) => { state.autoRotate = (e.target as HTMLInputElement).checked; cb.onAutoRotate(state.autoRotate); });
+  $<HTMLInputElement>("opt-heatmap").addEventListener("change", (e) => cb.onHeatmap((e.target as HTMLInputElement).checked));
+  $<HTMLInputElement>("opt-heat-spread").addEventListener("input", (e) => cb.onHeatSpread(Number((e.target as HTMLInputElement).value)));
   $("btn-reset-view").addEventListener("click", () => cb.onResetView());
 
   // --- country list ---
@@ -157,7 +161,7 @@ export function buildUI(data: Data, cb: UICallbacks): UIState {
   // --- sources footer ---
   const foot = $("sources");
   foot.innerHTML = data.datasets.map((ds) => {
-    const links = ds.sources.slice(0, 3).map((u, i) => `<a href="${u}" target="_blank" rel="noopener">[${i + 1}]</a>`).join(" ");
+    const links = ds.sources.slice(0, 3).map((u, i) => `<a href="${u.split(" ")[0]}" title="${u}" target="_blank" rel="noopener">[${i + 1}]</a>`).join(" ");
     return `<div><b>${ds.label}</b> ${links}</div>`;
   }).join("") + `<div>${data.countries.length} countries · drag to rotate · scroll to zoom</div>`;
 

@@ -69,10 +69,16 @@ export async function loadData(): Promise<Data> {
     }
     const [tsMin, tsMax] = allTS.length ? niceRange(allTS) : [-2.5, 2.5];
     const [ssMin, ssMax] = allSS.length ? niceRange(allSS) : [-2.5, 2.5];
+    const SHORT: Record<string, string> = {
+      wvs_official_2022_map: "2022 map", wvs2023_latest_per_country: "2023 map (latest per country)",
+      wvs_wave7_2017_2022: "Wave 7 (2017–22)", wvs_wave6_2010_2014: "Wave 6 (2010–14)", wvs_wave5_2005_2009: "Wave 5 (2005–09)",
+    };
     for (const ed of iw.editions) {
+      if (!(ed.id in SHORT)) continue; // skip raw multi-row country-year table
+      const label = SHORT[ed.id];
       const tag = ed.approximate ? " (approx.)" : "";
-      dims.push({ id: `iw.${ed.id}.trad_sec`, dataset: "iw", datasetLabel: `Inglehart–Welzel · ${ed.label}`, label: `Traditional vs Secular-rational — ${ed.label}${tag}`, short: `Trad.→Secular (${ed.label})`, min: tsMin, max: tsMax, lowLabel: "traditional", highLabel: "secular-rational" });
-      dims.push({ id: `iw.${ed.id}.surv_self`, dataset: "iw", datasetLabel: `Inglehart–Welzel · ${ed.label}`, label: `Survival vs Self-expression — ${ed.label}${tag}`, short: `Survival→Self-expr. (${ed.label})`, min: ssMin, max: ssMax, lowLabel: "survival", highLabel: "self-expression" });
+      dims.push({ id: `iw.${ed.id}.trad_sec`, dataset: "iw", datasetLabel: `Inglehart–Welzel · ${label}`, label: `Traditional vs Secular-rational — ${label}${tag}`, short: `Trad.→Secular (${label})`, min: tsMin, max: tsMax, lowLabel: "traditional", highLabel: "secular-rational" });
+      dims.push({ id: `iw.${ed.id}.surv_self`, dataset: "iw", datasetLabel: `Inglehart–Welzel · ${label}`, label: `Survival vs Self-expression — ${label}${tag}`, short: `Survival→Self-expr. (${label})`, min: ssMin, max: ssMax, lowLabel: "survival", highLabel: "self-expression" });
       for (const row of ed.countries) {
         const c = getCountry(row.iso3 ?? "_" + row.name.replace(/[^a-z0-9]+/gi, "_").toUpperCase(), row.name);
         if (typeof row.trad_sec === "number") c.values[`iw.${ed.id}.trad_sec`] = row.trad_sec;

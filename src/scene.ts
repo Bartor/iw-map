@@ -4,6 +4,7 @@ import { CSS2DRenderer, CSS2DObject } from "three/examples/jsm/renderers/CSS2DRe
 import type { Country, Dim } from "./types";
 import { Anim, Anim3, easeOutCubic } from "./tween";
 import { REGION_COLORS } from "./regions";
+import { Heatmap, type HeatPoint } from "./heatmap";
 
 const S = 10;            // frame edge length in world units
 const GRID_N = 10;       // grid subdivisions per face
@@ -85,6 +86,8 @@ export class CultureScene {
   private showLabels = true;
   private hovered: Marker | null = null;
   private focus: Set<string> | null = null;   // external focus (from the list panel)
+  private heatmap = new Heatmap(S);
+  private heatDirty = true;
 
   private camPos = new Anim3(0, 0, 0, 1100, easeOutCubic);
   private camTarget = new Anim3(0, 0, 0, 1100, easeOutCubic);
@@ -121,6 +124,7 @@ export class CultureScene {
     this.scene.add(this.frame);
     for (const l of [...Object.values(this.axisLabels), ...Object.values(this.tickLabels).flat()]) this.scene.add(l);
     this.scene.add(this.markerGroup);
+    this.scene.add(this.heatmap.group);
 
     for (const c of countries) this.addMarker(c);
 
@@ -188,6 +192,8 @@ export class CultureScene {
 
   /** Highlight these countries and fade all others; null clears. */
   setFocus(iso3s: Set<string> | null) { this.focus = iso3s; }
+  setHeatmap(on: boolean) { this.heatmap.setEnabled(on); this.heatDirty = true; }
+  setHeatSpread(t: number) { this.heatmap.setSpread(t); this.heatDirty = true; }
   setLabels(on: boolean) { this.showLabels = on; }
   setAutoRotate(on: boolean) { this.controls.autoRotate = on; }
 
@@ -266,6 +272,8 @@ export class CultureScene {
 
     // markers
     const focus = this.hovered ? new Set([this.hovered.country.iso3]) : this.focus;
+    let moving = !(this.ext.x.done && this.ext.y.done && this.ext.z.done);
+    const heatPts: HeatPoint[] = [];
     for (const m of this.markers.values()) {
       m.dim.set(focus && !focus.has(m.country.iso3) ? 1 : 0, now);
       m.pos.update(now); m.scale.update(now); m.dim.update(now);
@@ -277,8 +285,17 @@ export class CultureScene {
       m.mesh.position.set(off.x + m.pos.x.value, off.y + m.pos.y.value, off.z + m.pos.z.value);
       m.mesh.scale.setScalar(Math.max(s * hov, 1e-4));
       m.mesh.visible = s > 0.001;
+      if (!m.pos.done || !m.scale.done) moving = true;
+      if (s > 0.001) heatPts.push({ x: m.mesh.position.x, y: m.mesh.position.y, z: m.mesh.position.z, w: s, region: m.country.region });
       m.label.visible = this.showLabels && s > 0.6;
       m.label.element.style.opacity = String(s * (1 - 0.9 * m.dim.value));
+    }
+
+    // flatten territories along collapsed axes so 2D/1D views get a sheet / band, not a slab
+    this.heatmap.group.scale.set(1, THREE.MathUtils.lerp(0.06, 1, ey), THREE.MathUtils.lerp(0.06, 1, ez));
+    if (this.heatmap.enabled && (moving || this.heatDirty)) {
+      this.heatmap.update(heatPts);
+      this.heatDirty = false;
     }
 
     // hover

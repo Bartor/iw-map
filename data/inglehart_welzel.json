@@ -1,0 +1,5725 @@
+{
+  "meta": {
+    "sources": [
+      "https://www.worldvaluessurvey.org/WVSNewsShow.jsp?ID=467 (CulturalMapFinalEVSWVS_2023.xlsx, official underlying country-year TradAgg/SurvSAgg scores behind the WVS 2023 Cultural Map)",
+      "https://www.worldvaluessurvey.org/WVSNewsShow.jsp?ID=428 (Cultural_Map_scores_2022.xls, official WVS 2022 Cultural Map country scores, one point per country)",
+      "https://www.worldvaluessurvey.org/WVSContents.jsp?CMSID=Findings (Inglehart-Welzel Cultural Map overview)"
+    ],
+    "notes": "All numeric values were pulled directly from official World Values Survey Association downloadable data files (.xlsx/.xls), not estimated from images. trad_sec = Traditional(+)/Secular-rational(-) is inverted here to match the convention trad_sec negative=secular, positive=traditional as used in the WVS TradAgg column (higher TradAgg = more traditional). surv_self = Survival(-)/Self-expression(+) values, higher = more self-expression, from SurvSAgg. The 'wvs2023_country_year_raw' and wave-band editions are derived from the same underlying 2023 data file (413 country-survey-year observations spanning WVS waves 1-7, 1981-2022); wave-band editions average all observations whose survey year falls in that wave's date range for each country. The 'wvs_official_2022_map' edition is the exact single-point-per-country dataset WVS published to accompany their 2022 map graphic. No values were fabricated or eyeballed from map images."
+  },
+  "editions": [
+    {
+      "id": "wvs_official_2022_map",
+      "label": "WVS official Cultural Map 2022 version (one point per country)",
+      "source": "https://www.worldvaluessurvey.org/WVSNewsShow.jsp?ID=428",
+      "countries": [
+        {
+          "iso3": "ALB",
+          "name": "Albania",
+          "trad_sec": -0.7427,
+          "surv_self": -0.8041
+        },
+        {
+          "iso3": "DZA",
+          "name": "Algeria",
+          "trad_sec": -0.7815,
+          "surv_self": -0.8931
+        },
+        {
+          "iso3": "AND",
+          "name": "Andorra",
+          "trad_sec": 0.581,
+          "surv_self": 2.2133
+        },
+        {
+          "iso3": "ARG",
+          "name": "Argentina",
+          "trad_sec": -0.3892,
+          "surv_self": 0.2208
+        },
+        {
+          "iso3": "ARM",
+          "name": "Armenia",
+          "trad_sec": -0.2671,
+          "surv_self": -0.8811
+        },
+        {
+          "iso3": "AUS",
+          "name": "Australia",
+          "trad_sec": 0.5861,
+          "surv_self": 2.2878
+        },
+        {
+          "iso3": "AUT",
+          "name": "Austria",
+          "trad_sec": 0.6494,
+          "surv_self": 1.9707
+        },
+        {
+          "iso3": "AZE",
+          "name": "Azerbaijan",
+          "trad_sec": -0.3991,
+          "surv_self": -0.8237
+        },
+        {
+          "iso3": "BGD",
+          "name": "Bangladesh",
+          "trad_sec": -1.5029,
+          "surv_self": -0.6538
+        },
+        {
+          "iso3": "BLR",
+          "name": "Belarus",
+          "trad_sec": 0.3043,
+          "surv_self": -0.305
+        },
+        {
+          "iso3": "BEL",
+          "name": "Belgium",
+          "trad_sec": 0.1731,
+          "surv_self": 1.5024
+        },
+        {
+          "iso3": "BOL",
+          "name": "Bolivia",
+          "trad_sec": -1.2245,
+          "surv_self": -0.3472
+        },
+        {
+          "iso3": "BIH",
+          "name": "Bosnia H.",
+          "trad_sec": -0.056,
+          "surv_self": -0.6599
+        },
+        {
+          "iso3": "BRA",
+          "name": "Brazil",
+          "trad_sec": -0.2974,
+          "surv_self": -0.0703
+        },
+        {
+          "iso3": "BGR",
+          "name": "Bulgaria",
+          "trad_sec": 0.6798,
+          "surv_self": -0.5258
+        },
+        {
+          "iso3": "BFA",
+          "name": "Burkina Faso",
+          "trad_sec": -1.2191,
+          "surv_self": -0.7723
+        },
+        {
+          "iso3": "CAN",
+          "name": "Canada",
+          "trad_sec": 0.8303,
+          "surv_self": 2.0828
+        },
+        {
+          "iso3": "CHL",
+          "name": "Chile",
+          "trad_sec": 0.2228,
+          "surv_self": -0.0841
+        },
+        {
+          "iso3": "CHN",
+          "name": "China",
+          "trad_sec": 0.5978,
+          "surv_self": -0.1034
+        },
+        {
+          "iso3": "COL",
+          "name": "Colombia",
+          "trad_sec": -1.5596,
+          "surv_self": 0.3034
+        },
+        {
+          "iso3": "HRV",
+          "name": "Croatia",
+          "trad_sec": 0.1096,
+          "surv_self": 0.1029
+        },
+        {
+          "iso3": "CYP",
+          "name": "Cyprus",
+          "trad_sec": -0.4094,
+          "surv_self": -0.4662
+        },
+        {
+          "iso3": "CZE",
+          "name": "Czech Republic",
+          "trad_sec": 1.2023,
+          "surv_self": 1.0102
+        },
+        {
+          "iso3": "DNK",
+          "name": "Denmark",
+          "trad_sec": 1.0599,
+          "surv_self": 2.9177
+        },
+        {
+          "iso3": "ECU",
+          "name": "Ecuador",
+          "trad_sec": -1.7194,
+          "surv_self": 0.0574
+        },
+        {
+          "iso3": "EGY",
+          "name": "Egypt",
+          "trad_sec": -0.8544,
+          "surv_self": -2.2318
+        },
+        {
+          "iso3": "EST",
+          "name": "Estonia",
+          "trad_sec": 0.9173,
+          "surv_self": 0.7233
+        },
+        {
+          "iso3": "ETH",
+          "name": "Ethiopia",
+          "trad_sec": -1.3282,
+          "surv_self": -0.9461
+        },
+        {
+          "iso3": "FIN",
+          "name": "Finland",
+          "trad_sec": 0.8324,
+          "surv_self": 2.4782
+        },
+        {
+          "iso3": "FRA",
+          "name": "France",
+          "trad_sec": 0.4982,
+          "surv_self": 1.9251
+        },
+        {
+          "iso3": "GEO",
+          "name": "Georgia",
+          "trad_sec": -1.0152,
+          "surv_self": -0.7901
+        },
+        {
+          "iso3": "DEU",
+          "name": "Germany",
+          "trad_sec": 0.9232,
+          "surv_self": 2.1853
+        },
+        {
+          "iso3": "GHA",
+          "name": "Ghana",
+          "trad_sec": -1.8382,
+          "surv_self": -1.012
+        },
+        {
+          "iso3": "GBR",
+          "name": "Great Britain",
+          "trad_sec": 0.4361,
+          "surv_self": 2.3601
+        },
+        {
+          "iso3": "GRC",
+          "name": "Greece",
+          "trad_sec": 0.2741,
+          "surv_self": -0.2541
+        },
+        {
+          "iso3": "GTM",
+          "name": "Guatemala",
+          "trad_sec": -0.9979,
+          "surv_self": 0.0369
+        },
+        {
+          "iso3": "HTI",
+          "name": "Haiti",
+          "trad_sec": -0.8497,
+          "surv_self": 0.0989
+        },
+        {
+          "iso3": "HKG",
+          "name": "Hong Kong SAR",
+          "trad_sec": 1.4738,
+          "surv_self": -0.0425
+        },
+        {
+          "iso3": "HUN",
+          "name": "Hungary",
+          "trad_sec": 0.6063,
+          "surv_self": 0.0435
+        },
+        {
+          "iso3": "ISL",
+          "name": "Iceland",
+          "trad_sec": 0.5439,
+          "surv_self": 2.9391
+        },
+        {
+          "iso3": "IND",
+          "name": "India",
+          "trad_sec": -0.706,
+          "surv_self": -0.8354
+        },
+        {
+          "iso3": "IDN",
+          "name": "Indonesia",
+          "trad_sec": -1.2229,
+          "surv_self": -0.8016
+        },
+        {
+          "iso3": "IRN",
+          "name": "Iran",
+          "trad_sec": -0.5399,
+          "surv_self": -0.8931
+        },
+        {
+          "iso3": "IRQ",
+          "name": "Iraq",
+          "trad_sec": -0.8453,
+          "surv_self": -1.3176
+        },
+        {
+          "iso3": "ISR",
+          "name": "Israel",
+          "trad_sec": 0.2079,
+          "surv_self": 0.6117
+        },
+        {
+          "iso3": "ITA",
+          "name": "Italy",
+          "trad_sec": 0.366,
+          "surv_self": 0.827
+        },
+        {
+          "iso3": "JPN",
+          "name": "Japan",
+          "trad_sec": 1.6413,
+          "surv_self": 1.328
+        },
+        {
+          "iso3": "JOR",
+          "name": "Jordan",
+          "trad_sec": -1.5819,
+          "surv_self": -1.1787
+        },
+        {
+          "iso3": "KAZ",
+          "name": "Kazakhstan",
+          "trad_sec": -0.1244,
+          "surv_self": -0.6592
+        },
+        {
+          "iso3": "KEN",
+          "name": "Kenya",
+          "trad_sec": -0.9219,
+          "surv_self": -0.2438
+        },
+        {
+          "iso3": "KGZ",
+          "name": "Kyrgyzstan",
+          "trad_sec": -1.3907,
+          "surv_self": -0.5218
+        },
+        {
+          "iso3": "LVA",
+          "name": "Latvia",
+          "trad_sec": 0.8526,
+          "surv_self": -0.0437
+        },
+        {
+          "iso3": "LBN",
+          "name": "Lebanon",
+          "trad_sec": -0.5351,
+          "surv_self": -1.0517
+        },
+        {
+          "iso3": "LBY",
+          "name": "Libya",
+          "trad_sec": -1.76,
+          "surv_self": -1.0943
+        },
+        {
+          "iso3": "LTU",
+          "name": "Lithuania",
+          "trad_sec": 0.8768,
+          "surv_self": -0.1708
+        },
+        {
+          "iso3": "LUX",
+          "name": "Luxembourg",
+          "trad_sec": 0.3576,
+          "surv_self": 1.4038
+        },
+        {
+          "iso3": "MAC",
+          "name": "Macau SAR",
+          "trad_sec": 1.2884,
+          "surv_self": 0.2204
+        },
+        {
+          "iso3": "MYS",
+          "name": "Malaysia",
+          "trad_sec": 0.0626,
+          "surv_self": -0.3586
+        },
+        {
+          "iso3": "MDV",
+          "name": "Maldives",
+          "trad_sec": -1.3784,
+          "surv_self": -0.6282
+        },
+        {
+          "iso3": "MLI",
+          "name": "Mali",
+          "trad_sec": -1.377,
+          "surv_self": -0.0817
+        },
+        {
+          "iso3": "MEX",
+          "name": "Mexico",
+          "trad_sec": -1.0533,
+          "surv_self": 0.2646
+        },
+        {
+          "iso3": "MDA",
+          "name": "Moldova",
+          "trad_sec": 0.181,
+          "surv_self": -1.5339
+        },
+        {
+          "iso3": "MNG",
+          "name": "Mongolia",
+          "trad_sec": 0.766,
+          "surv_self": 0.1637
+        },
+        {
+          "iso3": "MNE",
+          "name": "Montenegro",
+          "trad_sec": -0.4212,
+          "surv_self": 0.0046
+        },
+        {
+          "iso3": "MAR",
+          "name": "Morocco",
+          "trad_sec": -0.3144,
+          "surv_self": -0.789
+        },
+        {
+          "iso3": "MMR",
+          "name": "Myanmar",
+          "trad_sec": -1.0314,
+          "surv_self": -0.9107
+        },
+        {
+          "iso3": "MKD",
+          "name": "N.Macedonia",
+          "trad_sec": 0.0949,
+          "surv_self": -0.2422
+        },
+        {
+          "iso3": "NLD",
+          "name": "Netherlands",
+          "trad_sec": 0.7353,
+          "surv_self": 2.526
+        },
+        {
+          "iso3": "NZL",
+          "name": "New Zealand",
+          "trad_sec": 0.5741,
+          "surv_self": 2.8837
+        },
+        {
+          "iso3": "NIC",
+          "name": "Nicaragua",
+          "trad_sec": -1.7124,
+          "surv_self": -0.3198
+        },
+        {
+          "iso3": "NGA",
+          "name": "Nigeria",
+          "trad_sec": -1.376,
+          "surv_self": -1.0732
+        },
+        {
+          "iso3": "NOR",
+          "name": "Norway",
+          "trad_sec": 0.9669,
+          "surv_self": 3.064
+        },
+        {
+          "iso3": "PAK",
+          "name": "Pakistan",
+          "trad_sec": -1.3847,
+          "surv_self": -0.5933
+        },
+        {
+          "iso3": "PSE",
+          "name": "Palestine",
+          "trad_sec": -0.92,
+          "surv_self": -1.3409
+        },
+        {
+          "iso3": "PER",
+          "name": "Peru",
+          "trad_sec": -1.0529,
+          "surv_self": -0.5308
+        },
+        {
+          "iso3": "PHL",
+          "name": "Philippines",
+          "trad_sec": -1.4085,
+          "surv_self": 0.1441
+        },
+        {
+          "iso3": "POL",
+          "name": "Poland",
+          "trad_sec": -0.38,
+          "surv_self": 0.633
+        },
+        {
+          "iso3": "PRT",
+          "name": "Portugal",
+          "trad_sec": -0.2541,
+          "surv_self": 0.3592
+        },
+        {
+          "iso3": "PRI",
+          "name": "Puerto Rico",
+          "trad_sec": -1.5459,
+          "surv_self": 0.704
+        },
+        {
+          "iso3": "QAT",
+          "name": "Qatar",
+          "trad_sec": -2.1667,
+          "surv_self": -0.7143
+        },
+        {
+          "iso3": "ROU",
+          "name": "Romania",
+          "trad_sec": -0.3847,
+          "surv_self": -0.7772
+        },
+        {
+          "iso3": "RUS",
+          "name": "Russia",
+          "trad_sec": 0.4008,
+          "surv_self": -0.5822
+        },
+        {
+          "iso3": "RWA",
+          "name": "Rwanda",
+          "trad_sec": -1.0919,
+          "surv_self": -0.6842
+        },
+        {
+          "iso3": "SAU",
+          "name": "Saudi Arabia",
+          "trad_sec": -1.5044,
+          "surv_self": -0.4165
+        },
+        {
+          "iso3": "SRB",
+          "name": "Serbia",
+          "trad_sec": 0.3216,
+          "surv_self": -0.5605
+        },
+        {
+          "iso3": "SGP",
+          "name": "Singapore",
+          "trad_sec": 0.0998,
+          "surv_self": -0.0969
+        },
+        {
+          "iso3": "SVK",
+          "name": "Slovakia",
+          "trad_sec": 0.6074,
+          "surv_self": 0.5786
+        },
+        {
+          "iso3": "SVN",
+          "name": "Slovenia",
+          "trad_sec": 0.8013,
+          "surv_self": 1.2543
+        },
+        {
+          "iso3": "ZAF",
+          "name": "South Africa",
+          "trad_sec": -0.2609,
+          "surv_self": 0.0555
+        },
+        {
+          "iso3": "KOR",
+          "name": "South Korea",
+          "trad_sec": 1.4681,
+          "surv_self": -0.461
+        },
+        {
+          "iso3": "ESP",
+          "name": "Spain",
+          "trad_sec": 0.6131,
+          "surv_self": 1.459
+        },
+        {
+          "iso3": "SWE",
+          "name": "Sweden",
+          "trad_sec": 1.1486,
+          "surv_self": 3.1443
+        },
+        {
+          "iso3": "CHE",
+          "name": "Switzerland",
+          "trad_sec": 0.7119,
+          "surv_self": 2.3786
+        },
+        {
+          "iso3": "TWN",
+          "name": "Taiwan",
+          "trad_sec": 1.1386,
+          "surv_self": -0.124
+        },
+        {
+          "iso3": "TJK",
+          "name": "Tajikistan",
+          "trad_sec": -1.368,
+          "surv_self": -0.6182
+        },
+        {
+          "iso3": "TZA",
+          "name": "Tanzania",
+          "trad_sec": -1.7986,
+          "surv_self": -0.6515
+        },
+        {
+          "iso3": "THA",
+          "name": "Thailand",
+          "trad_sec": 0.2653,
+          "surv_self": 0.0954
+        },
+        {
+          "iso3": "TTO",
+          "name": "Trinidad",
+          "trad_sec": -1.7478,
+          "surv_self": -0.328
+        },
+        {
+          "iso3": "TUN",
+          "name": "Tunisia",
+          "trad_sec": -0.5979,
+          "surv_self": -1.4111
+        },
+        {
+          "iso3": "TUR",
+          "name": "Turkey",
+          "trad_sec": -0.453,
+          "surv_self": -0.6763
+        },
+        {
+          "iso3": "USA",
+          "name": "USA",
+          "trad_sec": 0.1691,
+          "surv_self": 1.4329
+        },
+        {
+          "iso3": "UGA",
+          "name": "Uganda",
+          "trad_sec": -1.2223,
+          "surv_self": -0.9319
+        },
+        {
+          "iso3": "UKR",
+          "name": "Ukraine",
+          "trad_sec": 0.4424,
+          "surv_self": -0.4777
+        },
+        {
+          "iso3": "URY",
+          "name": "Uruguay",
+          "trad_sec": -0.1728,
+          "surv_self": 0.8025
+        },
+        {
+          "iso3": "UZB",
+          "name": "Uzbekistan",
+          "trad_sec": -1.323,
+          "surv_self": -0.5776
+        },
+        {
+          "iso3": "VEN",
+          "name": "Venezuela",
+          "trad_sec": -1.0559,
+          "surv_self": -0.216
+        },
+        {
+          "iso3": "VNM",
+          "name": "Vietnam",
+          "trad_sec": -0.429,
+          "surv_self": 0.6425
+        },
+        {
+          "iso3": "YEM",
+          "name": "Yemen",
+          "trad_sec": -1.3648,
+          "surv_self": -1.23
+        },
+        {
+          "iso3": "ZMB",
+          "name": "Zambia",
+          "trad_sec": -0.5102,
+          "surv_self": -0.8859
+        },
+        {
+          "iso3": "ZWE",
+          "name": "Zimbabwe",
+          "trad_sec": -0.5933,
+          "surv_self": -1.8473
+        }
+      ]
+    },
+    {
+      "id": "wvs2023_latest_per_country",
+      "label": "WVS 2023 data file, most recent survey year per country (approximates 2023 map)",
+      "source": "https://www.worldvaluessurvey.org/WVSNewsShow.jsp?ID=467",
+      "countries": [
+        {
+          "iso3": "ALB",
+          "name": "Albania",
+          "year": 2018,
+          "trad_sec": -0.7451,
+          "surv_self": -0.8307
+        },
+        {
+          "iso3": "DZA",
+          "name": "Algeria",
+          "year": 2014,
+          "trad_sec": -0.7798,
+          "surv_self": -0.9247
+        },
+        {
+          "iso3": "AND",
+          "name": "Andorra",
+          "year": 2018,
+          "trad_sec": 0.5486,
+          "surv_self": 2.1823
+        },
+        {
+          "iso3": "ARG",
+          "name": "Argentina",
+          "year": 2017,
+          "trad_sec": -0.4009,
+          "surv_self": 0.1913
+        },
+        {
+          "iso3": "ARM",
+          "name": "Armenia",
+          "year": 2021,
+          "trad_sec": -1.311,
+          "surv_self": -0.71
+        },
+        {
+          "iso3": "AUS",
+          "name": "Australia",
+          "year": 2018,
+          "trad_sec": 0.5493,
+          "surv_self": 2.2627
+        },
+        {
+          "iso3": "AUT",
+          "name": "Austria",
+          "year": 2018,
+          "trad_sec": 0.6196,
+          "surv_self": 1.94
+        },
+        {
+          "iso3": "AZE",
+          "name": "Azerbaijan",
+          "year": 2018,
+          "trad_sec": -0.4055,
+          "surv_self": -0.8403
+        },
+        {
+          "iso3": "BGD",
+          "name": "Bangladesh",
+          "year": 2018,
+          "trad_sec": -1.5034,
+          "surv_self": -0.6875
+        },
+        {
+          "iso3": "BLR",
+          "name": "Belarus",
+          "year": 2018,
+          "trad_sec": 0.292,
+          "surv_self": -0.3205
+        },
+        {
+          "iso3": "BEL",
+          "name": "Belgium",
+          "year": 2009,
+          "trad_sec": 0.1427,
+          "surv_self": 1.481
+        },
+        {
+          "iso3": "BOL",
+          "name": "Bolivia",
+          "year": 2017,
+          "trad_sec": -1.2266,
+          "surv_self": -0.3828
+        },
+        {
+          "iso3": "BIH",
+          "name": "Bosnia and Herzegovina",
+          "year": 2019,
+          "trad_sec": -0.0654,
+          "surv_self": -0.6772
+        },
+        {
+          "iso3": "BRA",
+          "name": "Brazil",
+          "year": 2018,
+          "trad_sec": -0.3078,
+          "surv_self": -0.0973
+        },
+        {
+          "iso3": "BGR",
+          "name": "Bulgaria",
+          "year": 2017,
+          "trad_sec": 0.6678,
+          "surv_self": -0.538
+        },
+        {
+          "iso3": "BFA",
+          "name": "Burkina Faso",
+          "year": 2007,
+          "trad_sec": -1.2225,
+          "surv_self": -0.8016
+        },
+        {
+          "iso3": "CAN",
+          "name": "Canada",
+          "year": 2020,
+          "trad_sec": 0.7975,
+          "surv_self": 2.0555
+        },
+        {
+          "iso3": "CHL",
+          "name": "Chile",
+          "year": 2018,
+          "trad_sec": 0.2133,
+          "surv_self": -0.1089
+        },
+        {
+          "iso3": "CHN",
+          "name": "China",
+          "year": 2018,
+          "trad_sec": 0.5755,
+          "surv_self": -0.1071
+        },
+        {
+          "iso3": "COL",
+          "name": "Colombia",
+          "year": 2018,
+          "trad_sec": -1.5681,
+          "surv_self": 0.2642
+        },
+        {
+          "iso3": "HRV",
+          "name": "Croatia",
+          "year": 2017,
+          "trad_sec": 0.0937,
+          "surv_self": 0.0821
+        },
+        {
+          "iso3": "CYP",
+          "name": "Cyprus",
+          "year": 2019,
+          "trad_sec": -0.4121,
+          "surv_self": -0.4995
+        },
+        {
+          "iso3": "CZE",
+          "name": "Czechia",
+          "year": 2022,
+          "trad_sec": 1.3322,
+          "surv_self": 0.7298
+        },
+        {
+          "iso3": "DNK",
+          "name": "Denmark",
+          "year": 2017,
+          "trad_sec": 1.0181,
+          "surv_self": 2.8933
+        },
+        {
+          "iso3": "DOM",
+          "name": "Dominican Republic",
+          "year": 1996,
+          "trad_sec": -1.0012,
+          "surv_self": -0.1476
+        },
+        {
+          "iso3": "ECU",
+          "name": "Ecuador",
+          "year": 2018,
+          "trad_sec": -1.7248,
+          "surv_self": 0.0182
+        },
+        {
+          "iso3": "EGY",
+          "name": "Egypt",
+          "year": 2018,
+          "trad_sec": -0.8544,
+          "surv_self": -2.2318
+        },
+        {
+          "iso3": "EST",
+          "name": "Estonia",
+          "year": 2018,
+          "trad_sec": 0.8958,
+          "surv_self": 0.7035
+        },
+        {
+          "iso3": "ETH",
+          "name": "Ethiopia",
+          "year": 2020,
+          "trad_sec": -1.3259,
+          "surv_self": -0.9801
+        },
+        {
+          "iso3": "FIN",
+          "name": "Finland",
+          "year": 2017,
+          "trad_sec": 0.7985,
+          "surv_self": 2.446
+        },
+        {
+          "iso3": "FRA",
+          "name": "France",
+          "year": 2018,
+          "trad_sec": 0.4644,
+          "surv_self": 1.9024
+        },
+        {
+          "iso3": "GEO",
+          "name": "Georgia",
+          "year": 2018,
+          "trad_sec": -1.0179,
+          "surv_self": -0.8171
+        },
+        {
+          "iso3": "DEU",
+          "name": "Germany",
+          "year": 2018,
+          "trad_sec": 0.8909,
+          "surv_self": 2.1561
+        },
+        {
+          "iso3": "DEU",
+          "name": "Germany West",
+          "year": 1981,
+          "trad_sec": 0.9124,
+          "surv_self": 0.0614
+        },
+        {
+          "iso3": "GHA",
+          "name": "Ghana",
+          "year": 2012,
+          "trad_sec": -1.8358,
+          "surv_self": -1.0443
+        },
+        {
+          "iso3": "GBR",
+          "name": "Great Britain",
+          "year": 2022,
+          "trad_sec": 0.9808,
+          "surv_self": 2.2364
+        },
+        {
+          "iso3": "GRC",
+          "name": "Greece",
+          "year": 2017,
+          "trad_sec": 0.2686,
+          "surv_self": -0.2853
+        },
+        {
+          "iso3": "GTM",
+          "name": "Guatemala",
+          "year": 2020,
+          "trad_sec": -1.006,
+          "surv_self": 0.0042
+        },
+        {
+          "iso3": "HTI",
+          "name": "Haiti",
+          "year": 2016,
+          "trad_sec": -0.8593,
+          "surv_self": 0.0686
+        },
+        {
+          "iso3": "HKG",
+          "name": "Hong Kong SAR",
+          "year": 2018,
+          "trad_sec": 1.4589,
+          "surv_self": -0.0582
+        },
+        {
+          "iso3": "HUN",
+          "name": "Hungary",
+          "year": 2018,
+          "trad_sec": 0.5932,
+          "surv_self": 0.0235
+        },
+        {
+          "iso3": "ISL",
+          "name": "Iceland",
+          "year": 2017,
+          "trad_sec": 0.5042,
+          "surv_self": 2.908
+        },
+        {
+          "iso3": "IND",
+          "name": "India",
+          "year": 2012,
+          "trad_sec": -0.7095,
+          "surv_self": -0.8615
+        },
+        {
+          "iso3": "IDN",
+          "name": "Indonesia",
+          "year": 2018,
+          "trad_sec": -1.2194,
+          "surv_self": -0.8403
+        },
+        {
+          "iso3": "IRN",
+          "name": "Iran",
+          "year": 2020,
+          "trad_sec": -0.5392,
+          "surv_self": -0.9236
+        },
+        {
+          "iso3": "IRQ",
+          "name": "Iraq",
+          "year": 2018,
+          "trad_sec": -0.8453,
+          "surv_self": -1.3175
+        },
+        {
+          "iso3": "IRL",
+          "name": "Ireland",
+          "year": 2008,
+          "trad_sec": -0.8482,
+          "surv_self": 1.1297
+        },
+        {
+          "iso3": "ISR",
+          "name": "Israel",
+          "year": 2001,
+          "trad_sec": 0.192,
+          "surv_self": 0.584
+        },
+        {
+          "iso3": "ITA",
+          "name": "Italy",
+          "year": 2018,
+          "trad_sec": 0.347,
+          "surv_self": 0.8011
+        },
+        {
+          "iso3": "JPN",
+          "name": "Japan",
+          "year": 2019,
+          "trad_sec": 1.6146,
+          "surv_self": 1.302
+        },
+        {
+          "iso3": "JOR",
+          "name": "Jordan",
+          "year": 2018,
+          "trad_sec": -1.5785,
+          "surv_self": -1.209
+        },
+        {
+          "iso3": "KAZ",
+          "name": "Kazakhstan",
+          "year": 2018,
+          "trad_sec": -0.1288,
+          "surv_self": -0.6824
+        },
+        {
+          "iso3": "KEN",
+          "name": "Kenya",
+          "year": 2021,
+          "trad_sec": -0.9285,
+          "surv_self": -0.2731
+        },
+        {
+          "iso3": "XKX",
+          "name": "Kosovo",
+          "year": 2008,
+          "trad_sec": -1.1318,
+          "surv_self": -0.4243
+        },
+        {
+          "iso3": "KGZ",
+          "name": "Kyrgyzstan",
+          "year": 2020,
+          "trad_sec": -1.3943,
+          "surv_self": -0.5518
+        },
+        {
+          "iso3": "LVA",
+          "name": "Latvia",
+          "year": 2021,
+          "trad_sec": 0.8398,
+          "surv_self": -0.0484
+        },
+        {
+          "iso3": "LBN",
+          "name": "Lebanon",
+          "year": 2018,
+          "trad_sec": -0.5352,
+          "surv_self": -1.0751
+        },
+        {
+          "iso3": "LBY",
+          "name": "Libya",
+          "year": 2022,
+          "trad_sec": -1.7575,
+          "surv_self": -1.1256
+        },
+        {
+          "iso3": "LTU",
+          "name": "Lithuania",
+          "year": 2018,
+          "trad_sec": 0.8619,
+          "surv_self": -0.1841
+        },
+        {
+          "iso3": "LUX",
+          "name": "Luxembourg",
+          "year": 2008,
+          "trad_sec": 0.3274,
+          "surv_self": 1.3817
+        },
+        {
+          "iso3": "MAC",
+          "name": "Macau SAR",
+          "year": 2019,
+          "trad_sec": 1.2713,
+          "surv_self": 0.2036
+        },
+        {
+          "iso3": "MYS",
+          "name": "Malaysia",
+          "year": 2018,
+          "trad_sec": 0.0546,
+          "surv_self": -0.3823
+        },
+        {
+          "iso3": "MDV",
+          "name": "Maldives",
+          "year": 2021,
+          "trad_sec": -1.378,
+          "surv_self": -0.6482
+        },
+        {
+          "iso3": "MLI",
+          "name": "Mali",
+          "year": 2007,
+          "trad_sec": -1.3851,
+          "surv_self": -0.114
+        },
+        {
+          "iso3": "MLT",
+          "name": "Malta",
+          "year": 2008,
+          "trad_sec": -1.2713,
+          "surv_self": 0.1761
+        },
+        {
+          "iso3": "MEX",
+          "name": "Mexico",
+          "year": 2018,
+          "trad_sec": -1.0603,
+          "surv_self": 0.226
+        },
+        {
+          "iso3": "MDA",
+          "name": "Moldova",
+          "year": 2008,
+          "trad_sec": 0.1818,
+          "surv_self": -1.5502
+        },
+        {
+          "iso3": "MNG",
+          "name": "Mongolia",
+          "year": 2020,
+          "trad_sec": 0.7472,
+          "surv_self": 0.147
+        },
+        {
+          "iso3": "MNE",
+          "name": "Montenegro",
+          "year": 2019,
+          "trad_sec": -0.4359,
+          "surv_self": -0.0171
+        },
+        {
+          "iso3": "MAR",
+          "name": "Morocco",
+          "year": 2021,
+          "trad_sec": -0.3176,
+          "surv_self": -0.8135
+        },
+        {
+          "iso3": "MMR",
+          "name": "Myanmar",
+          "year": 2020,
+          "trad_sec": -1.0254,
+          "surv_self": -0.9508
+        },
+        {
+          "iso3": "NLD",
+          "name": "Netherlands",
+          "year": 2022,
+          "trad_sec": 1.1562,
+          "surv_self": 2.3876
+        },
+        {
+          "iso3": "NZL",
+          "name": "New Zealand",
+          "year": 2020,
+          "trad_sec": 0.5317,
+          "surv_self": 2.8566
+        },
+        {
+          "iso3": "NIC",
+          "name": "Nicaragua",
+          "year": 2020,
+          "trad_sec": -1.7126,
+          "surv_self": -0.3604
+        },
+        {
+          "iso3": "NGA",
+          "name": "Nigeria",
+          "year": 2018,
+          "trad_sec": -1.3736,
+          "surv_self": -1.1028
+        },
+        {
+          "iso3": "MKD",
+          "name": "North Macedonia",
+          "year": 2019,
+          "trad_sec": 0.0872,
+          "surv_self": -0.2686
+        },
+        {
+          "iso3": "GBR-NIR",
+          "name": "Northern Ireland",
+          "year": 2022,
+          "trad_sec": 0.1189,
+          "surv_self": 1.6764
+        },
+        {
+          "iso3": "NOR",
+          "name": "Norway",
+          "year": 2018,
+          "trad_sec": 0.9265,
+          "surv_self": 3.0307
+        },
+        {
+          "iso3": "PAK",
+          "name": "Pakistan",
+          "year": 2018,
+          "trad_sec": -1.3833,
+          "surv_self": -0.633
+        },
+        {
+          "iso3": "PSE",
+          "name": "Palestine",
+          "year": 2013,
+          "trad_sec": -0.9166,
+          "surv_self": -1.3679
+        },
+        {
+          "iso3": "PER",
+          "name": "Peru",
+          "year": 2018,
+          "trad_sec": -1.0557,
+          "surv_self": -0.5629
+        },
+        {
+          "iso3": "PHL",
+          "name": "Philippines",
+          "year": 2019,
+          "trad_sec": -1.4145,
+          "surv_self": 0.1057
+        },
+        {
+          "iso3": "POL",
+          "name": "Poland",
+          "year": 2017,
+          "trad_sec": -0.431,
+          "surv_self": 0.5982
+        },
+        {
+          "iso3": "PRT",
+          "name": "Portugal",
+          "year": 2020,
+          "trad_sec": -0.2696,
+          "surv_self": 0.3353
+        },
+        {
+          "iso3": "PRI",
+          "name": "Puerto Rico",
+          "year": 2018,
+          "trad_sec": -1.5551,
+          "surv_self": 0.6597
+        },
+        {
+          "iso3": "QAT",
+          "name": "Qatar",
+          "year": 2010,
+          "trad_sec": -2.1667,
+          "surv_self": -0.7143
+        },
+        {
+          "iso3": "ROU",
+          "name": "Romania",
+          "year": 2018,
+          "trad_sec": -0.3876,
+          "surv_self": -0.8017
+        },
+        {
+          "iso3": "RUS",
+          "name": "Russia",
+          "year": 2017,
+          "trad_sec": 0.3895,
+          "surv_self": -0.595
+        },
+        {
+          "iso3": "RWA",
+          "name": "Rwanda",
+          "year": 2012,
+          "trad_sec": -1.0995,
+          "surv_self": -0.7069
+        },
+        {
+          "iso3": "SAU",
+          "name": "Saudi Arabia",
+          "year": 2003,
+          "trad_sec": -1.5044,
+          "surv_self": -0.4165
+        },
+        {
+          "iso3": "SRB",
+          "name": "Serbia",
+          "year": 2018,
+          "trad_sec": 0.3106,
+          "surv_self": -0.577
+        },
+        {
+          "iso3": "SGP",
+          "name": "Singapore",
+          "year": 2020,
+          "trad_sec": 0.0888,
+          "surv_self": -0.1201
+        },
+        {
+          "iso3": "SVK",
+          "name": "Slovakia",
+          "year": 2022,
+          "trad_sec": 0.7261,
+          "surv_self": 0.1217
+        },
+        {
+          "iso3": "SVN",
+          "name": "Slovenia",
+          "year": 2017,
+          "trad_sec": 0.7767,
+          "surv_self": 1.231
+        },
+        {
+          "iso3": "ZAF",
+          "name": "South Africa",
+          "year": 2013,
+          "trad_sec": -0.2706,
+          "surv_self": 0.027
+        },
+        {
+          "iso3": "KOR",
+          "name": "South Korea",
+          "year": 2018,
+          "trad_sec": 1.4536,
+          "surv_self": -0.4708
+        },
+        {
+          "iso3": "ESP",
+          "name": "Spain",
+          "year": 2017,
+          "trad_sec": 0.5884,
+          "surv_self": 1.4319
+        },
+        {
+          "iso3": "SWE",
+          "name": "Sweden",
+          "year": 2017,
+          "trad_sec": 1.1067,
+          "surv_self": 3.1133
+        },
+        {
+          "iso3": "CHE",
+          "name": "Switzerland",
+          "year": 2017,
+          "trad_sec": 0.6754,
+          "surv_self": 2.3516
+        },
+        {
+          "iso3": "TWN",
+          "name": "Taiwan ROC",
+          "year": 2019,
+          "trad_sec": 1.1261,
+          "surv_self": -0.1447
+        },
+        {
+          "iso3": "TJK",
+          "name": "Tajikistan",
+          "year": 2020,
+          "trad_sec": -1.368,
+          "surv_self": -0.6182
+        },
+        {
+          "iso3": "TZA",
+          "name": "Tanzania",
+          "year": 2001,
+          "trad_sec": -1.8021,
+          "surv_self": -0.6821
+        },
+        {
+          "iso3": "THA",
+          "name": "Thailand",
+          "year": 2018,
+          "trad_sec": 0.2545,
+          "surv_self": 0.0658
+        },
+        {
+          "iso3": "TTO",
+          "name": "Trinidad and Tobago",
+          "year": 2010,
+          "trad_sec": -1.7556,
+          "surv_self": -0.3584
+        },
+        {
+          "iso3": "TUN",
+          "name": "Tunisia",
+          "year": 2019,
+          "trad_sec": -0.5962,
+          "surv_self": -1.4324
+        },
+        {
+          "iso3": "TUR",
+          "name": "Turkey",
+          "year": 2018,
+          "trad_sec": -0.4563,
+          "surv_self": -0.7041
+        },
+        {
+          "iso3": "UGA",
+          "name": "Uganda",
+          "year": 2001,
+          "trad_sec": -1.2236,
+          "surv_self": -0.9602
+        },
+        {
+          "iso3": "UKR",
+          "name": "Ukraine",
+          "year": 2020,
+          "trad_sec": 0.4312,
+          "surv_self": -0.493
+        },
+        {
+          "iso3": "USA",
+          "name": "United States",
+          "year": 2017,
+          "trad_sec": 0.1444,
+          "surv_self": 1.4034
+        },
+        {
+          "iso3": "URY",
+          "name": "Uruguay",
+          "year": 2022,
+          "trad_sec": -0.3293,
+          "surv_self": 1.3611
+        },
+        {
+          "iso3": "UZB",
+          "name": "Uzbekistan",
+          "year": 2011,
+          "trad_sec": -1.323,
+          "surv_self": -0.5776
+        },
+        {
+          "iso3": "VEN",
+          "name": "Venezuela",
+          "year": 2021,
+          "trad_sec": -1.0603,
+          "surv_self": -0.2503
+        },
+        {
+          "iso3": "VNM",
+          "name": "Vietnam",
+          "year": 2020,
+          "trad_sec": -0.4429,
+          "surv_self": 0.6128
+        },
+        {
+          "iso3": "YEM",
+          "name": "Yemen",
+          "year": 2014,
+          "trad_sec": -1.3641,
+          "surv_self": -1.2543
+        },
+        {
+          "iso3": "ZMB",
+          "name": "Zambia",
+          "year": 2007,
+          "trad_sec": -0.5099,
+          "surv_self": -0.9148
+        },
+        {
+          "iso3": "ZWE",
+          "name": "Zimbabwe",
+          "year": 2020,
+          "trad_sec": -0.585,
+          "surv_self": -1.8709
+        }
+      ]
+    },
+    {
+      "id": "wvs_wave7_2017_2022",
+      "label": "WVS Wave 7 (2017-2022) average per country",
+      "source": "https://www.worldvaluessurvey.org/WVSNewsShow.jsp?ID=467",
+      "countries": [
+        {
+          "iso3": "ALB",
+          "name": "Albania",
+          "trad_sec": -0.7451,
+          "surv_self": -0.8307
+        },
+        {
+          "iso3": "AND",
+          "name": "Andorra",
+          "trad_sec": 0.5486,
+          "surv_self": 2.1823
+        },
+        {
+          "iso3": "ARG",
+          "name": "Argentina",
+          "trad_sec": -0.4009,
+          "surv_self": 0.1913
+        },
+        {
+          "iso3": "ARM",
+          "name": "Armenia",
+          "trad_sec": -0.7918,
+          "surv_self": -0.8051
+        },
+        {
+          "iso3": "AUS",
+          "name": "Australia",
+          "trad_sec": 0.5493,
+          "surv_self": 2.2627
+        },
+        {
+          "iso3": "AUT",
+          "name": "Austria",
+          "trad_sec": 0.6196,
+          "surv_self": 1.94
+        },
+        {
+          "iso3": "AZE",
+          "name": "Azerbaijan",
+          "trad_sec": -0.4055,
+          "surv_self": -0.8403
+        },
+        {
+          "iso3": "BGD",
+          "name": "Bangladesh",
+          "trad_sec": -1.5034,
+          "surv_self": -0.6875
+        },
+        {
+          "iso3": "BLR",
+          "name": "Belarus",
+          "trad_sec": 0.292,
+          "surv_self": -0.3205
+        },
+        {
+          "iso3": "BOL",
+          "name": "Bolivia",
+          "trad_sec": -1.2266,
+          "surv_self": -0.3828
+        },
+        {
+          "iso3": "BIH",
+          "name": "Bosnia and Herzegovina",
+          "trad_sec": -0.0654,
+          "surv_self": -0.6772
+        },
+        {
+          "iso3": "BRA",
+          "name": "Brazil",
+          "trad_sec": -0.3078,
+          "surv_self": -0.0973
+        },
+        {
+          "iso3": "BGR",
+          "name": "Bulgaria",
+          "trad_sec": 0.6678,
+          "surv_self": -0.538
+        },
+        {
+          "iso3": "CAN",
+          "name": "Canada",
+          "trad_sec": 0.7975,
+          "surv_self": 2.0555
+        },
+        {
+          "iso3": "CHL",
+          "name": "Chile",
+          "trad_sec": 0.2133,
+          "surv_self": -0.1089
+        },
+        {
+          "iso3": "CHN",
+          "name": "China",
+          "trad_sec": 0.5755,
+          "surv_self": -0.1071
+        },
+        {
+          "iso3": "COL",
+          "name": "Colombia",
+          "trad_sec": -1.5681,
+          "surv_self": 0.2642
+        },
+        {
+          "iso3": "HRV",
+          "name": "Croatia",
+          "trad_sec": 0.0937,
+          "surv_self": 0.0821
+        },
+        {
+          "iso3": "CYP",
+          "name": "Cyprus",
+          "trad_sec": -0.4121,
+          "surv_self": -0.4995
+        },
+        {
+          "iso3": "CZE",
+          "name": "Czechia",
+          "trad_sec": 1.2542,
+          "surv_self": 0.8614
+        },
+        {
+          "iso3": "DNK",
+          "name": "Denmark",
+          "trad_sec": 1.0181,
+          "surv_self": 2.8933
+        },
+        {
+          "iso3": "ECU",
+          "name": "Ecuador",
+          "trad_sec": -1.7248,
+          "surv_self": 0.0182
+        },
+        {
+          "iso3": "EGY",
+          "name": "Egypt",
+          "trad_sec": -0.8544,
+          "surv_self": -2.2318
+        },
+        {
+          "iso3": "EST",
+          "name": "Estonia",
+          "trad_sec": 0.8958,
+          "surv_self": 0.7035
+        },
+        {
+          "iso3": "ETH",
+          "name": "Ethiopia",
+          "trad_sec": -1.3259,
+          "surv_self": -0.9801
+        },
+        {
+          "iso3": "FIN",
+          "name": "Finland",
+          "trad_sec": 0.7985,
+          "surv_self": 2.446
+        },
+        {
+          "iso3": "FRA",
+          "name": "France",
+          "trad_sec": 0.4644,
+          "surv_self": 1.9024
+        },
+        {
+          "iso3": "GEO",
+          "name": "Georgia",
+          "trad_sec": -1.0179,
+          "surv_self": -0.8171
+        },
+        {
+          "iso3": "DEU",
+          "name": "Germany",
+          "trad_sec": 0.9867,
+          "surv_self": 2.0653
+        },
+        {
+          "iso3": "GBR",
+          "name": "Great Britain",
+          "trad_sec": 0.6903,
+          "surv_self": 2.2848
+        },
+        {
+          "iso3": "GRC",
+          "name": "Greece",
+          "trad_sec": 0.2686,
+          "surv_self": -0.2853
+        },
+        {
+          "iso3": "GTM",
+          "name": "Guatemala",
+          "trad_sec": -1.006,
+          "surv_self": 0.0042
+        },
+        {
+          "iso3": "HKG",
+          "name": "Hong Kong SAR",
+          "trad_sec": 1.4589,
+          "surv_self": -0.0582
+        },
+        {
+          "iso3": "HUN",
+          "name": "Hungary",
+          "trad_sec": 0.5932,
+          "surv_self": 0.0235
+        },
+        {
+          "iso3": "ISL",
+          "name": "Iceland",
+          "trad_sec": 0.5042,
+          "surv_self": 2.908
+        },
+        {
+          "iso3": "IDN",
+          "name": "Indonesia",
+          "trad_sec": -1.2194,
+          "surv_self": -0.8403
+        },
+        {
+          "iso3": "IRN",
+          "name": "Iran",
+          "trad_sec": -0.5392,
+          "surv_self": -0.9236
+        },
+        {
+          "iso3": "IRQ",
+          "name": "Iraq",
+          "trad_sec": -0.8453,
+          "surv_self": -1.3175
+        },
+        {
+          "iso3": "ITA",
+          "name": "Italy",
+          "trad_sec": 0.347,
+          "surv_self": 0.8011
+        },
+        {
+          "iso3": "JPN",
+          "name": "Japan",
+          "trad_sec": 1.6146,
+          "surv_self": 1.302
+        },
+        {
+          "iso3": "JOR",
+          "name": "Jordan",
+          "trad_sec": -1.5785,
+          "surv_self": -1.209
+        },
+        {
+          "iso3": "KAZ",
+          "name": "Kazakhstan",
+          "trad_sec": -0.1288,
+          "surv_self": -0.6824
+        },
+        {
+          "iso3": "KEN",
+          "name": "Kenya",
+          "trad_sec": -0.9285,
+          "surv_self": -0.2731
+        },
+        {
+          "iso3": "KGZ",
+          "name": "Kyrgyzstan",
+          "trad_sec": -1.3943,
+          "surv_self": -0.5518
+        },
+        {
+          "iso3": "LVA",
+          "name": "Latvia",
+          "trad_sec": 0.8398,
+          "surv_self": -0.0484
+        },
+        {
+          "iso3": "LBN",
+          "name": "Lebanon",
+          "trad_sec": -0.5352,
+          "surv_self": -1.0751
+        },
+        {
+          "iso3": "LBY",
+          "name": "Libya",
+          "trad_sec": -1.7575,
+          "surv_self": -1.1256
+        },
+        {
+          "iso3": "LTU",
+          "name": "Lithuania",
+          "trad_sec": 0.8619,
+          "surv_self": -0.1841
+        },
+        {
+          "iso3": "MAC",
+          "name": "Macau SAR",
+          "trad_sec": 1.2713,
+          "surv_self": 0.2036
+        },
+        {
+          "iso3": "MYS",
+          "name": "Malaysia",
+          "trad_sec": 0.0546,
+          "surv_self": -0.3823
+        },
+        {
+          "iso3": "MDV",
+          "name": "Maldives",
+          "trad_sec": -1.378,
+          "surv_self": -0.6482
+        },
+        {
+          "iso3": "MEX",
+          "name": "Mexico",
+          "trad_sec": -1.0603,
+          "surv_self": 0.226
+        },
+        {
+          "iso3": "MNG",
+          "name": "Mongolia",
+          "trad_sec": 0.7472,
+          "surv_self": 0.147
+        },
+        {
+          "iso3": "MNE",
+          "name": "Montenegro",
+          "trad_sec": -0.4359,
+          "surv_self": -0.0171
+        },
+        {
+          "iso3": "MAR",
+          "name": "Morocco",
+          "trad_sec": -0.3176,
+          "surv_self": -0.8135
+        },
+        {
+          "iso3": "MMR",
+          "name": "Myanmar",
+          "trad_sec": -1.0254,
+          "surv_self": -0.9508
+        },
+        {
+          "iso3": "NLD",
+          "name": "Netherlands",
+          "trad_sec": 0.9265,
+          "surv_self": 2.4451
+        },
+        {
+          "iso3": "NZL",
+          "name": "New Zealand",
+          "trad_sec": 0.5317,
+          "surv_self": 2.8566
+        },
+        {
+          "iso3": "NIC",
+          "name": "Nicaragua",
+          "trad_sec": -1.7126,
+          "surv_self": -0.3604
+        },
+        {
+          "iso3": "NGA",
+          "name": "Nigeria",
+          "trad_sec": -1.3736,
+          "surv_self": -1.1028
+        },
+        {
+          "iso3": "MKD",
+          "name": "North Macedonia",
+          "trad_sec": 0.0872,
+          "surv_self": -0.2686
+        },
+        {
+          "iso3": "GBR-NIR",
+          "name": "Northern Ireland",
+          "trad_sec": 0.1189,
+          "surv_self": 1.6764
+        },
+        {
+          "iso3": "NOR",
+          "name": "Norway",
+          "trad_sec": 0.9265,
+          "surv_self": 3.0307
+        },
+        {
+          "iso3": "PAK",
+          "name": "Pakistan",
+          "trad_sec": -1.3833,
+          "surv_self": -0.633
+        },
+        {
+          "iso3": "PER",
+          "name": "Peru",
+          "trad_sec": -1.0557,
+          "surv_self": -0.5629
+        },
+        {
+          "iso3": "PHL",
+          "name": "Philippines",
+          "trad_sec": -1.4145,
+          "surv_self": 0.1057
+        },
+        {
+          "iso3": "POL",
+          "name": "Poland",
+          "trad_sec": -0.431,
+          "surv_self": 0.5982
+        },
+        {
+          "iso3": "PRT",
+          "name": "Portugal",
+          "trad_sec": -0.2696,
+          "surv_self": 0.3353
+        },
+        {
+          "iso3": "PRI",
+          "name": "Puerto Rico",
+          "trad_sec": -1.5551,
+          "surv_self": 0.6597
+        },
+        {
+          "iso3": "ROU",
+          "name": "Romania",
+          "trad_sec": -0.3876,
+          "surv_self": -0.8017
+        },
+        {
+          "iso3": "RUS",
+          "name": "Russia",
+          "trad_sec": 0.3895,
+          "surv_self": -0.595
+        },
+        {
+          "iso3": "SRB",
+          "name": "Serbia",
+          "trad_sec": 0.3968,
+          "surv_self": -0.3578
+        },
+        {
+          "iso3": "SGP",
+          "name": "Singapore",
+          "trad_sec": 0.0888,
+          "surv_self": -0.1201
+        },
+        {
+          "iso3": "SVK",
+          "name": "Slovakia",
+          "trad_sec": 0.6567,
+          "surv_self": 0.34
+        },
+        {
+          "iso3": "SVN",
+          "name": "Slovenia",
+          "trad_sec": 0.7767,
+          "surv_self": 1.231
+        },
+        {
+          "iso3": "KOR",
+          "name": "South Korea",
+          "trad_sec": 1.4536,
+          "surv_self": -0.4708
+        },
+        {
+          "iso3": "ESP",
+          "name": "Spain",
+          "trad_sec": 0.5884,
+          "surv_self": 1.4319
+        },
+        {
+          "iso3": "SWE",
+          "name": "Sweden",
+          "trad_sec": 1.1067,
+          "surv_self": 3.1133
+        },
+        {
+          "iso3": "CHE",
+          "name": "Switzerland",
+          "trad_sec": 0.6754,
+          "surv_self": 2.3516
+        },
+        {
+          "iso3": "TWN",
+          "name": "Taiwan ROC",
+          "trad_sec": 1.1261,
+          "surv_self": -0.1447
+        },
+        {
+          "iso3": "TJK",
+          "name": "Tajikistan",
+          "trad_sec": -1.368,
+          "surv_self": -0.6182
+        },
+        {
+          "iso3": "THA",
+          "name": "Thailand",
+          "trad_sec": 0.2545,
+          "surv_self": 0.0658
+        },
+        {
+          "iso3": "TUN",
+          "name": "Tunisia",
+          "trad_sec": -0.5962,
+          "surv_self": -1.4324
+        },
+        {
+          "iso3": "TUR",
+          "name": "Turkey",
+          "trad_sec": -0.4563,
+          "surv_self": -0.7041
+        },
+        {
+          "iso3": "UKR",
+          "name": "Ukraine",
+          "trad_sec": 0.4312,
+          "surv_self": -0.493
+        },
+        {
+          "iso3": "USA",
+          "name": "United States",
+          "trad_sec": 0.1444,
+          "surv_self": 1.4034
+        },
+        {
+          "iso3": "URY",
+          "name": "Uruguay",
+          "trad_sec": -0.3293,
+          "surv_self": 1.3611
+        },
+        {
+          "iso3": "VEN",
+          "name": "Venezuela",
+          "trad_sec": -1.0603,
+          "surv_self": -0.2503
+        },
+        {
+          "iso3": "VNM",
+          "name": "Vietnam",
+          "trad_sec": -0.4429,
+          "surv_self": 0.6128
+        },
+        {
+          "iso3": "ZWE",
+          "name": "Zimbabwe",
+          "trad_sec": -0.585,
+          "surv_self": -1.8709
+        }
+      ]
+    },
+    {
+      "id": "wvs_wave6_2010_2014",
+      "label": "WVS Wave 6 (2010-2014) average per country",
+      "source": "https://www.worldvaluessurvey.org/WVSNewsShow.jsp?ID=467",
+      "countries": [
+        {
+          "iso3": "DZA",
+          "name": "Algeria",
+          "trad_sec": -0.7798,
+          "surv_self": -0.9247
+        },
+        {
+          "iso3": "ARG",
+          "name": "Argentina",
+          "trad_sec": -0.2281,
+          "surv_self": 0.2524
+        },
+        {
+          "iso3": "ARM",
+          "name": "Armenia",
+          "trad_sec": -0.7332,
+          "surv_self": -1.1946
+        },
+        {
+          "iso3": "AUS",
+          "name": "Australia",
+          "trad_sec": 0.2047,
+          "surv_self": 1.9704
+        },
+        {
+          "iso3": "AZE",
+          "name": "Azerbaijan",
+          "trad_sec": -0.6144,
+          "surv_self": -1.2906
+        },
+        {
+          "iso3": "BRA",
+          "name": "Brazil",
+          "trad_sec": -0.7749,
+          "surv_self": -0.0476
+        },
+        {
+          "iso3": "CHL",
+          "name": "Chile",
+          "trad_sec": -0.2848,
+          "surv_self": 0.1588
+        },
+        {
+          "iso3": "CHN",
+          "name": "China",
+          "trad_sec": 0.8367,
+          "surv_self": -0.4146
+        },
+        {
+          "iso3": "COL",
+          "name": "Colombia",
+          "trad_sec": -1.7836,
+          "surv_self": 0.1075
+        },
+        {
+          "iso3": "CYP",
+          "name": "Cyprus",
+          "trad_sec": -0.2705,
+          "surv_self": -0.4057
+        },
+        {
+          "iso3": "ECU",
+          "name": "Ecuador",
+          "trad_sec": -1.7368,
+          "surv_self": -0.2254
+        },
+        {
+          "iso3": "EST",
+          "name": "Estonia",
+          "trad_sec": 1.2531,
+          "surv_self": -0.3337
+        },
+        {
+          "iso3": "GEO",
+          "name": "Georgia",
+          "trad_sec": -0.7419,
+          "surv_self": -1.4389
+        },
+        {
+          "iso3": "DEU",
+          "name": "Germany",
+          "trad_sec": 0.8784,
+          "surv_self": 1.1578
+        },
+        {
+          "iso3": "GHA",
+          "name": "Ghana",
+          "trad_sec": -1.8358,
+          "surv_self": -1.0443
+        },
+        {
+          "iso3": "HKG",
+          "name": "Hong Kong SAR",
+          "trad_sec": 0.9073,
+          "surv_self": 0.3418
+        },
+        {
+          "iso3": "IND",
+          "name": "India",
+          "trad_sec": -0.7095,
+          "surv_self": -0.8615
+        },
+        {
+          "iso3": "IRQ",
+          "name": "Iraq",
+          "trad_sec": -0.8317,
+          "surv_self": -1.3664
+        },
+        {
+          "iso3": "JPN",
+          "name": "Japan",
+          "trad_sec": 1.6356,
+          "surv_self": 0.825
+        },
+        {
+          "iso3": "JOR",
+          "name": "Jordan",
+          "trad_sec": -1.3856,
+          "surv_self": -1.5157
+        },
+        {
+          "iso3": "KAZ",
+          "name": "Kazakhstan",
+          "trad_sec": -0.2756,
+          "surv_self": -0.6643
+        },
+        {
+          "iso3": "KGZ",
+          "name": "Kyrgyzstan",
+          "trad_sec": -0.5778,
+          "surv_self": -0.7412
+        },
+        {
+          "iso3": "LBN",
+          "name": "Lebanon",
+          "trad_sec": -0.0946,
+          "surv_self": -0.8915
+        },
+        {
+          "iso3": "LBY",
+          "name": "Libya",
+          "trad_sec": -1.5803,
+          "surv_self": -1.0003
+        },
+        {
+          "iso3": "MYS",
+          "name": "Malaysia",
+          "trad_sec": -1.0314,
+          "surv_self": -0.7061
+        },
+        {
+          "iso3": "MEX",
+          "name": "Mexico",
+          "trad_sec": -1.6247,
+          "surv_self": 0.5775
+        },
+        {
+          "iso3": "MAR",
+          "name": "Morocco",
+          "trad_sec": -1.0582,
+          "surv_self": -1.513
+        },
+        {
+          "iso3": "NLD",
+          "name": "Netherlands",
+          "trad_sec": 0.7245,
+          "surv_self": 2.0992
+        },
+        {
+          "iso3": "NZL",
+          "name": "New Zealand",
+          "trad_sec": 0.0984,
+          "surv_self": 2.2988
+        },
+        {
+          "iso3": "NGA",
+          "name": "Nigeria",
+          "trad_sec": -1.2867,
+          "surv_self": -0.7758
+        },
+        {
+          "iso3": "PAK",
+          "name": "Pakistan",
+          "trad_sec": -1.1524,
+          "surv_self": -0.6211
+        },
+        {
+          "iso3": "PSE",
+          "name": "Palestine",
+          "trad_sec": -0.9166,
+          "surv_self": -1.3679
+        },
+        {
+          "iso3": "PER",
+          "name": "Peru",
+          "trad_sec": -0.9687,
+          "surv_self": -0.3334
+        },
+        {
+          "iso3": "PHL",
+          "name": "Philippines",
+          "trad_sec": -1.2617,
+          "surv_self": -0.0688
+        },
+        {
+          "iso3": "POL",
+          "name": "Poland",
+          "trad_sec": -0.55,
+          "surv_self": 0.0636
+        },
+        {
+          "iso3": "QAT",
+          "name": "Qatar",
+          "trad_sec": -2.1667,
+          "surv_self": -0.7143
+        },
+        {
+          "iso3": "ROU",
+          "name": "Romania",
+          "trad_sec": -0.2074,
+          "surv_self": -1.1548
+        },
+        {
+          "iso3": "RUS",
+          "name": "Russia",
+          "trad_sec": 0.4641,
+          "surv_self": -0.8636
+        },
+        {
+          "iso3": "RWA",
+          "name": "Rwanda",
+          "trad_sec": -1.0995,
+          "surv_self": -0.7069
+        },
+        {
+          "iso3": "SVN",
+          "name": "Slovenia",
+          "trad_sec": 0.9501,
+          "surv_self": 0.8514
+        },
+        {
+          "iso3": "ZAF",
+          "name": "South Africa",
+          "trad_sec": -0.2706,
+          "surv_self": 0.027
+        },
+        {
+          "iso3": "KOR",
+          "name": "South Korea",
+          "trad_sec": 0.9422,
+          "surv_self": -0.2722
+        },
+        {
+          "iso3": "ESP",
+          "name": "Spain",
+          "trad_sec": 0.5043,
+          "surv_self": 0.7605
+        },
+        {
+          "iso3": "SWE",
+          "name": "Sweden",
+          "trad_sec": 1.3213,
+          "surv_self": 2.8992
+        },
+        {
+          "iso3": "TWN",
+          "name": "Taiwan ROC",
+          "trad_sec": 1.1514,
+          "surv_self": -0.233
+        },
+        {
+          "iso3": "THA",
+          "name": "Thailand",
+          "trad_sec": -0.2299,
+          "surv_self": -0.146
+        },
+        {
+          "iso3": "TTO",
+          "name": "Trinidad and Tobago",
+          "trad_sec": -1.7556,
+          "surv_self": -0.3584
+        },
+        {
+          "iso3": "TUN",
+          "name": "Tunisia",
+          "trad_sec": -0.8196,
+          "surv_self": -1.7053
+        },
+        {
+          "iso3": "TUR",
+          "name": "Turkey",
+          "trad_sec": -1.0215,
+          "surv_self": -0.7316
+        },
+        {
+          "iso3": "UKR",
+          "name": "Ukraine",
+          "trad_sec": 0.5243,
+          "surv_self": -1.1968
+        },
+        {
+          "iso3": "USA",
+          "name": "United States",
+          "trad_sec": -0.3327,
+          "surv_self": 1.2924
+        },
+        {
+          "iso3": "URY",
+          "name": "Uruguay",
+          "trad_sec": -0.1871,
+          "surv_self": 0.7684
+        },
+        {
+          "iso3": "UZB",
+          "name": "Uzbekistan",
+          "trad_sec": -1.323,
+          "surv_self": -0.5776
+        },
+        {
+          "iso3": "YEM",
+          "name": "Yemen",
+          "trad_sec": -1.3641,
+          "surv_self": -1.2543
+        },
+        {
+          "iso3": "ZWE",
+          "name": "Zimbabwe",
+          "trad_sec": -1.2293,
+          "surv_self": -0.9282
+        }
+      ]
+    },
+    {
+      "id": "wvs_wave5_2005_2009",
+      "label": "WVS Wave 5 (2005-2009) average per country",
+      "source": "https://www.worldvaluessurvey.org/WVSNewsShow.jsp?ID=467",
+      "countries": [
+        {
+          "iso3": "ALB",
+          "name": "Albania",
+          "trad_sec": 0.2893,
+          "surv_self": -0.9417
+        },
+        {
+          "iso3": "AND",
+          "name": "Andorra",
+          "trad_sec": 0.7471,
+          "surv_self": 1.8003
+        },
+        {
+          "iso3": "ARG",
+          "name": "Argentina",
+          "trad_sec": -0.8204,
+          "surv_self": 0.4401
+        },
+        {
+          "iso3": "ARM",
+          "name": "Armenia",
+          "trad_sec": -0.4199,
+          "surv_self": -0.941
+        },
+        {
+          "iso3": "AUS",
+          "name": "Australia",
+          "trad_sec": -0.1413,
+          "surv_self": 1.9825
+        },
+        {
+          "iso3": "AUT",
+          "name": "Austria",
+          "trad_sec": 0.3808,
+          "surv_self": 0.9845
+        },
+        {
+          "iso3": "AZE",
+          "name": "Azerbaijan",
+          "trad_sec": 0.2175,
+          "surv_self": -0.7063
+        },
+        {
+          "iso3": "BLR",
+          "name": "Belarus",
+          "trad_sec": 0.2125,
+          "surv_self": -0.7006
+        },
+        {
+          "iso3": "BEL",
+          "name": "Belgium",
+          "trad_sec": 0.1427,
+          "surv_self": 1.481
+        },
+        {
+          "iso3": "BIH",
+          "name": "Bosnia and Herzegovina",
+          "trad_sec": 0.0841,
+          "surv_self": -0.8172
+        },
+        {
+          "iso3": "BRA",
+          "name": "Brazil",
+          "trad_sec": -0.8655,
+          "surv_self": -0.0151
+        },
+        {
+          "iso3": "BGR",
+          "name": "Bulgaria",
+          "trad_sec": 1.0195,
+          "surv_self": -0.7263
+        },
+        {
+          "iso3": "BFA",
+          "name": "Burkina Faso",
+          "trad_sec": -1.2225,
+          "surv_self": -0.8016
+        },
+        {
+          "iso3": "CAN",
+          "name": "Canada",
+          "trad_sec": -0.6645,
+          "surv_self": 1.9799
+        },
+        {
+          "iso3": "CHL",
+          "name": "Chile",
+          "trad_sec": -0.6427,
+          "surv_self": -0.2001
+        },
+        {
+          "iso3": "CHN",
+          "name": "China",
+          "trad_sec": 0.6575,
+          "surv_self": -0.4792
+        },
+        {
+          "iso3": "COL",
+          "name": "Colombia",
+          "trad_sec": -1.8038,
+          "surv_self": 0.1707
+        },
+        {
+          "iso3": "HRV",
+          "name": "Croatia",
+          "trad_sec": -0.0851,
+          "surv_self": -0.1161
+        },
+        {
+          "iso3": "CYP",
+          "name": "Cyprus",
+          "trad_sec": -0.5546,
+          "surv_self": -0.3332
+        },
+        {
+          "iso3": "CZE",
+          "name": "Czechia",
+          "trad_sec": 1.0252,
+          "surv_self": 0.539
+        },
+        {
+          "iso3": "DNK",
+          "name": "Denmark",
+          "trad_sec": 0.5521,
+          "surv_self": 2.8345
+        },
+        {
+          "iso3": "EST",
+          "name": "Estonia",
+          "trad_sec": 0.9329,
+          "surv_self": -0.2816
+        },
+        {
+          "iso3": "ETH",
+          "name": "Ethiopia",
+          "trad_sec": -0.5911,
+          "surv_self": -0.705
+        },
+        {
+          "iso3": "FIN",
+          "name": "Finland",
+          "trad_sec": 0.6191,
+          "surv_self": 1.7244
+        },
+        {
+          "iso3": "FRA",
+          "name": "France",
+          "trad_sec": 0.5131,
+          "surv_self": 1.4584
+        },
+        {
+          "iso3": "GEO",
+          "name": "Georgia",
+          "trad_sec": -0.7001,
+          "surv_self": -1.2297
+        },
+        {
+          "iso3": "DEU",
+          "name": "Germany",
+          "trad_sec": 1.2627,
+          "surv_self": 1.0695
+        },
+        {
+          "iso3": "GHA",
+          "name": "Ghana",
+          "trad_sec": -1.7933,
+          "surv_self": -0.7335
+        },
+        {
+          "iso3": "GBR",
+          "name": "Great Britain",
+          "trad_sec": -0.1289,
+          "surv_self": 1.7917
+        },
+        {
+          "iso3": "GRC",
+          "name": "Greece",
+          "trad_sec": 0.0348,
+          "surv_self": 0.0266
+        },
+        {
+          "iso3": "HUN",
+          "name": "Hungary",
+          "trad_sec": 0.6658,
+          "surv_self": -0.3505
+        },
+        {
+          "iso3": "ISL",
+          "name": "Iceland",
+          "trad_sec": 0.1477,
+          "surv_self": 2.4265
+        },
+        {
+          "iso3": "IND",
+          "name": "India",
+          "trad_sec": -0.425,
+          "surv_self": -0.1516
+        },
+        {
+          "iso3": "IDN",
+          "name": "Indonesia",
+          "trad_sec": -0.4349,
+          "surv_self": -1.1102
+        },
+        {
+          "iso3": "IRL",
+          "name": "Ireland",
+          "trad_sec": -0.8482,
+          "surv_self": 1.1297
+        },
+        {
+          "iso3": "ITA",
+          "name": "Italy",
+          "trad_sec": -0.1518,
+          "surv_self": 0.4499
+        },
+        {
+          "iso3": "JPN",
+          "name": "Japan",
+          "trad_sec": 1.8573,
+          "surv_self": 0.782
+        },
+        {
+          "iso3": "JOR",
+          "name": "Jordan",
+          "trad_sec": -1.6496,
+          "surv_self": -1.3244
+        },
+        {
+          "iso3": "XKX",
+          "name": "Kosovo",
+          "trad_sec": -1.1318,
+          "surv_self": -0.4243
+        },
+        {
+          "iso3": "LVA",
+          "name": "Latvia",
+          "trad_sec": 0.8944,
+          "surv_self": -0.469
+        },
+        {
+          "iso3": "LTU",
+          "name": "Lithuania",
+          "trad_sec": 0.9937,
+          "surv_self": -0.7097
+        },
+        {
+          "iso3": "LUX",
+          "name": "Luxembourg",
+          "trad_sec": 0.3274,
+          "surv_self": 1.3817
+        },
+        {
+          "iso3": "MYS",
+          "name": "Malaysia",
+          "trad_sec": -0.6166,
+          "surv_self": -0.4325
+        },
+        {
+          "iso3": "MLI",
+          "name": "Mali",
+          "trad_sec": -1.3851,
+          "surv_self": -0.114
+        },
+        {
+          "iso3": "MLT",
+          "name": "Malta",
+          "trad_sec": -1.2713,
+          "surv_self": 0.1761
+        },
+        {
+          "iso3": "MEX",
+          "name": "Mexico",
+          "trad_sec": -1.5155,
+          "surv_self": 0.6342
+        },
+        {
+          "iso3": "MDA",
+          "name": "Moldova",
+          "trad_sec": 0.5046,
+          "surv_self": -1.6088
+        },
+        {
+          "iso3": "MNE",
+          "name": "Montenegro",
+          "trad_sec": 0.1857,
+          "surv_self": -0.6552
+        },
+        {
+          "iso3": "NLD",
+          "name": "Netherlands",
+          "trad_sec": 0.2997,
+          "surv_self": 2.0427
+        },
+        {
+          "iso3": "MKD",
+          "name": "North Macedonia",
+          "trad_sec": 0.1247,
+          "surv_self": -0.1168
+        },
+        {
+          "iso3": "GBR-NIR",
+          "name": "Northern Ireland",
+          "trad_sec": -0.5301,
+          "surv_self": 0.5452
+        },
+        {
+          "iso3": "NOR",
+          "name": "Norway",
+          "trad_sec": 0.7594,
+          "surv_self": 2.6598
+        },
+        {
+          "iso3": "POL",
+          "name": "Poland",
+          "trad_sec": -0.4597,
+          "surv_self": -0.242
+        },
+        {
+          "iso3": "PRT",
+          "name": "Portugal",
+          "trad_sec": -0.1569,
+          "surv_self": 0.2179
+        },
+        {
+          "iso3": "ROU",
+          "name": "Romania",
+          "trad_sec": -0.0907,
+          "surv_self": -1.323
+        },
+        {
+          "iso3": "RUS",
+          "name": "Russia",
+          "trad_sec": 0.5157,
+          "surv_self": -0.9757
+        },
+        {
+          "iso3": "RWA",
+          "name": "Rwanda",
+          "trad_sec": -1.2734,
+          "surv_self": -1.134
+        },
+        {
+          "iso3": "SRB",
+          "name": "Serbia",
+          "trad_sec": 0.3621,
+          "surv_self": -0.5132
+        },
+        {
+          "iso3": "SVK",
+          "name": "Slovakia",
+          "trad_sec": 0.2202,
+          "surv_self": 0.2471
+        },
+        {
+          "iso3": "SVN",
+          "name": "Slovenia",
+          "trad_sec": 0.7547,
+          "surv_self": 0.8081
+        },
+        {
+          "iso3": "KOR",
+          "name": "South Korea",
+          "trad_sec": 1.0321,
+          "surv_self": -0.4202
+        },
+        {
+          "iso3": "ESP",
+          "name": "Spain",
+          "trad_sec": 0.1541,
+          "surv_self": 1.0069
+        },
+        {
+          "iso3": "SWE",
+          "name": "Sweden",
+          "trad_sec": 1.3743,
+          "surv_self": 2.9901
+        },
+        {
+          "iso3": "CHE",
+          "name": "Switzerland",
+          "trad_sec": 0.2852,
+          "surv_self": 1.9402
+        },
+        {
+          "iso3": "TWN",
+          "name": "Taiwan ROC",
+          "trad_sec": 1.426,
+          "surv_self": -0.9439
+        },
+        {
+          "iso3": "THA",
+          "name": "Thailand",
+          "trad_sec": -0.6849,
+          "surv_self": -0.1889
+        },
+        {
+          "iso3": "TTO",
+          "name": "Trinidad and Tobago",
+          "trad_sec": -1.7749,
+          "surv_self": -0.3058
+        },
+        {
+          "iso3": "TUR",
+          "name": "Turkey",
+          "trad_sec": -1.0049,
+          "surv_self": -0.9506
+        },
+        {
+          "iso3": "UKR",
+          "name": "Ukraine",
+          "trad_sec": 0.3233,
+          "surv_self": -1.167
+        },
+        {
+          "iso3": "USA",
+          "name": "United States",
+          "trad_sec": -0.6254,
+          "surv_self": 1.2739
+        },
+        {
+          "iso3": "URY",
+          "name": "Uruguay",
+          "trad_sec": -0.4857,
+          "surv_self": 0.9673
+        },
+        {
+          "iso3": "VNM",
+          "name": "Vietnam",
+          "trad_sec": -0.5065,
+          "surv_self": -0.0587
+        },
+        {
+          "iso3": "ZMB",
+          "name": "Zambia",
+          "trad_sec": -0.5099,
+          "surv_self": -0.9148
+        }
+      ]
+    },
+    {
+      "id": "wvs2023_country_year_raw",
+      "label": "WVS 2023 data file - all 413 country-survey-year observations (waves 1-7, 1981-2022), raw",
+      "source": "https://www.worldvaluessurvey.org/WVSNewsShow.jsp?ID=467",
+      "countries": [
+        {
+          "iso3": "ALB",
+          "name": "Albania",
+          "year": 1998,
+          "trad_sec": 0.5705,
+          "surv_self": -1.0103
+        },
+        {
+          "iso3": "ALB",
+          "name": "Albania",
+          "year": 2002,
+          "trad_sec": 0.1334,
+          "surv_self": -0.7854
+        },
+        {
+          "iso3": "ALB",
+          "name": "Albania",
+          "year": 2008,
+          "trad_sec": 0.2893,
+          "surv_self": -0.9417
+        },
+        {
+          "iso3": "ALB",
+          "name": "Albania",
+          "year": 2018,
+          "trad_sec": -0.7451,
+          "surv_self": -0.8307
+        },
+        {
+          "iso3": "DZA",
+          "name": "Algeria",
+          "year": 2002,
+          "trad_sec": -1.2697,
+          "surv_self": -1.197
+        },
+        {
+          "iso3": "DZA",
+          "name": "Algeria",
+          "year": 2014,
+          "trad_sec": -0.7798,
+          "surv_self": -0.9247
+        },
+        {
+          "iso3": "AND",
+          "name": "Andorra",
+          "year": 2005,
+          "trad_sec": 0.7471,
+          "surv_self": 1.8003
+        },
+        {
+          "iso3": "AND",
+          "name": "Andorra",
+          "year": 2018,
+          "trad_sec": 0.5486,
+          "surv_self": 2.1823
+        },
+        {
+          "iso3": "AZE",
+          "name": "Azerbaijan",
+          "year": 1997,
+          "trad_sec": -0.1471,
+          "surv_self": -1.1256
+        },
+        {
+          "iso3": "AZE",
+          "name": "Azerbaijan",
+          "year": 2008,
+          "trad_sec": 0.2175,
+          "surv_self": -0.7063
+        },
+        {
+          "iso3": "AZE",
+          "name": "Azerbaijan",
+          "year": 2011,
+          "trad_sec": -0.6144,
+          "surv_self": -1.2906
+        },
+        {
+          "iso3": "AZE",
+          "name": "Azerbaijan",
+          "year": 2018,
+          "trad_sec": -0.4055,
+          "surv_self": -0.8403
+        },
+        {
+          "iso3": "ARG",
+          "name": "Argentina",
+          "year": 1984,
+          "trad_sec": 0.1463,
+          "surv_self": -0.3663
+        },
+        {
+          "iso3": "ARG",
+          "name": "Argentina",
+          "year": 1991,
+          "trad_sec": -0.4098,
+          "surv_self": -0.1955
+        },
+        {
+          "iso3": "ARG",
+          "name": "Argentina",
+          "year": 1995,
+          "trad_sec": -0.4857,
+          "surv_self": 0.3798
+        },
+        {
+          "iso3": "ARG",
+          "name": "Argentina",
+          "year": 1999,
+          "trad_sec": -0.8918,
+          "surv_self": 0.1257
+        },
+        {
+          "iso3": "ARG",
+          "name": "Argentina",
+          "year": 2006,
+          "trad_sec": -0.8204,
+          "surv_self": 0.4401
+        },
+        {
+          "iso3": "ARG",
+          "name": "Argentina",
+          "year": 2013,
+          "trad_sec": -0.2281,
+          "surv_self": 0.2524
+        },
+        {
+          "iso3": "ARG",
+          "name": "Argentina",
+          "year": 2017,
+          "trad_sec": -0.4009,
+          "surv_self": 0.1913
+        },
+        {
+          "iso3": "AUS",
+          "name": "Australia",
+          "year": 1995,
+          "trad_sec": -0.4769,
+          "surv_self": 1.9388
+        },
+        {
+          "iso3": "AUS",
+          "name": "Australia",
+          "year": 2005,
+          "trad_sec": -0.1413,
+          "surv_self": 1.9825
+        },
+        {
+          "iso3": "AUS",
+          "name": "Australia",
+          "year": 2012,
+          "trad_sec": 0.2047,
+          "surv_self": 1.9704
+        },
+        {
+          "iso3": "AUS",
+          "name": "Australia",
+          "year": 2018,
+          "trad_sec": 0.5493,
+          "surv_self": 2.2627
+        },
+        {
+          "iso3": "AUT",
+          "name": "Austria",
+          "year": 1990,
+          "trad_sec": 0.0422,
+          "surv_self": 0.6895
+        },
+        {
+          "iso3": "AUT",
+          "name": "Austria",
+          "year": 1999,
+          "trad_sec": 0.2093,
+          "surv_self": 1.3775
+        },
+        {
+          "iso3": "AUT",
+          "name": "Austria",
+          "year": 2008,
+          "trad_sec": 0.3808,
+          "surv_self": 0.9845
+        },
+        {
+          "iso3": "AUT",
+          "name": "Austria",
+          "year": 2018,
+          "trad_sec": 0.6196,
+          "surv_self": 1.94
+        },
+        {
+          "iso3": "BGD",
+          "name": "Bangladesh",
+          "year": 2002,
+          "trad_sec": -1.1001,
+          "surv_self": -1.0374
+        },
+        {
+          "iso3": "BGD",
+          "name": "Bangladesh",
+          "year": 2018,
+          "trad_sec": -1.5034,
+          "surv_self": -0.6875
+        },
+        {
+          "iso3": "ARM",
+          "name": "Armenia",
+          "year": 1997,
+          "trad_sec": 0.6815,
+          "surv_self": -0.9502
+        },
+        {
+          "iso3": "ARM",
+          "name": "Armenia",
+          "year": 2008,
+          "trad_sec": -0.4199,
+          "surv_self": -0.941
+        },
+        {
+          "iso3": "ARM",
+          "name": "Armenia",
+          "year": 2011,
+          "trad_sec": -0.7332,
+          "surv_self": -1.1946
+        },
+        {
+          "iso3": "ARM",
+          "name": "Armenia",
+          "year": 2018,
+          "trad_sec": -0.2727,
+          "surv_self": -0.9003
+        },
+        {
+          "iso3": "ARM",
+          "name": "Armenia",
+          "year": 2021,
+          "trad_sec": -1.311,
+          "surv_self": -0.71
+        },
+        {
+          "iso3": "BEL",
+          "name": "Belgium",
+          "year": 1981,
+          "trad_sec": 0.0871,
+          "surv_self": 0.0249
+        },
+        {
+          "iso3": "BEL",
+          "name": "Belgium",
+          "year": 1990,
+          "trad_sec": 0.3527,
+          "surv_self": 0.7933
+        },
+        {
+          "iso3": "BEL",
+          "name": "Belgium",
+          "year": 1999,
+          "trad_sec": 0.4317,
+          "surv_self": 1.1217
+        },
+        {
+          "iso3": "BEL",
+          "name": "Belgium",
+          "year": 2009,
+          "trad_sec": 0.1427,
+          "surv_self": 1.481
+        },
+        {
+          "iso3": "BOL",
+          "name": "Bolivia",
+          "year": 2017,
+          "trad_sec": -1.2266,
+          "surv_self": -0.3828
+        },
+        {
+          "iso3": "BIH",
+          "name": "Bosnia and Herzegovina",
+          "year": 1998,
+          "trad_sec": 0.091,
+          "surv_self": -0.4261
+        },
+        {
+          "iso3": "BIH",
+          "name": "Bosnia and Herzegovina",
+          "year": 2001,
+          "trad_sec": 0.5112,
+          "surv_self": -0.6469
+        },
+        {
+          "iso3": "BIH",
+          "name": "Bosnia and Herzegovina",
+          "year": 2008,
+          "trad_sec": 0.0841,
+          "surv_self": -0.8172
+        },
+        {
+          "iso3": "BIH",
+          "name": "Bosnia and Herzegovina",
+          "year": 2019,
+          "trad_sec": -0.0654,
+          "surv_self": -0.6772
+        },
+        {
+          "iso3": "BRA",
+          "name": "Brazil",
+          "year": 1991,
+          "trad_sec": -0.7773,
+          "surv_self": -0.5852
+        },
+        {
+          "iso3": "BRA",
+          "name": "Brazil",
+          "year": 1997,
+          "trad_sec": -1.0628,
+          "surv_self": -0.4012
+        },
+        {
+          "iso3": "BRA",
+          "name": "Brazil",
+          "year": 2006,
+          "trad_sec": -0.8655,
+          "surv_self": -0.0151
+        },
+        {
+          "iso3": "BRA",
+          "name": "Brazil",
+          "year": 2014,
+          "trad_sec": -0.7749,
+          "surv_self": -0.0476
+        },
+        {
+          "iso3": "BRA",
+          "name": "Brazil",
+          "year": 2018,
+          "trad_sec": -0.3078,
+          "surv_self": -0.0973
+        },
+        {
+          "iso3": "BGR",
+          "name": "Bulgaria",
+          "year": 1991,
+          "trad_sec": 1.5285,
+          "surv_self": -0.708
+        },
+        {
+          "iso3": "BGR",
+          "name": "Bulgaria",
+          "year": 1997,
+          "trad_sec": 1.0415,
+          "surv_self": -0.3683
+        },
+        {
+          "iso3": "BGR",
+          "name": "Bulgaria",
+          "year": 1999,
+          "trad_sec": 1.2182,
+          "surv_self": -0.8047
+        },
+        {
+          "iso3": "BGR",
+          "name": "Bulgaria",
+          "year": 2006,
+          "trad_sec": 1.157,
+          "surv_self": -0.5455
+        },
+        {
+          "iso3": "BGR",
+          "name": "Bulgaria",
+          "year": 2008,
+          "trad_sec": 0.8819,
+          "surv_self": -0.9071
+        },
+        {
+          "iso3": "BGR",
+          "name": "Bulgaria",
+          "year": 2017,
+          "trad_sec": 0.6678,
+          "surv_self": -0.538
+        },
+        {
+          "iso3": "MMR",
+          "name": "Myanmar",
+          "year": 2020,
+          "trad_sec": -1.0254,
+          "surv_self": -0.9508
+        },
+        {
+          "iso3": "BLR",
+          "name": "Belarus",
+          "year": 1990,
+          "trad_sec": 1.1291,
+          "surv_self": -0.7168
+        },
+        {
+          "iso3": "BLR",
+          "name": "Belarus",
+          "year": 1996,
+          "trad_sec": 1.0105,
+          "surv_self": -1.3675
+        },
+        {
+          "iso3": "BLR",
+          "name": "Belarus",
+          "year": 2000,
+          "trad_sec": 0.9312,
+          "surv_self": -0.645
+        },
+        {
+          "iso3": "BLR",
+          "name": "Belarus",
+          "year": 2008,
+          "trad_sec": 0.2125,
+          "surv_self": -0.7006
+        },
+        {
+          "iso3": "BLR",
+          "name": "Belarus",
+          "year": 2018,
+          "trad_sec": 0.292,
+          "surv_self": -0.3205
+        },
+        {
+          "iso3": "CAN",
+          "name": "Canada",
+          "year": 1982,
+          "trad_sec": -0.8283,
+          "surv_self": 0.9583
+        },
+        {
+          "iso3": "CAN",
+          "name": "Canada",
+          "year": 1990,
+          "trad_sec": -0.2205,
+          "surv_self": 1.3636
+        },
+        {
+          "iso3": "CAN",
+          "name": "Canada",
+          "year": 2000,
+          "trad_sec": -0.5518,
+          "surv_self": 1.8667
+        },
+        {
+          "iso3": "CAN",
+          "name": "Canada",
+          "year": 2006,
+          "trad_sec": -0.6645,
+          "surv_self": 1.9799
+        },
+        {
+          "iso3": "CAN",
+          "name": "Canada",
+          "year": 2020,
+          "trad_sec": 0.7975,
+          "surv_self": 2.0555
+        },
+        {
+          "iso3": "CHL",
+          "name": "Chile",
+          "year": 1990,
+          "trad_sec": -0.9105,
+          "surv_self": -0.6511
+        },
+        {
+          "iso3": "CHL",
+          "name": "Chile",
+          "year": 1996,
+          "trad_sec": -0.6946,
+          "surv_self": -0.3896
+        },
+        {
+          "iso3": "CHL",
+          "name": "Chile",
+          "year": 2000,
+          "trad_sec": -0.8709,
+          "surv_self": -0.1281
+        },
+        {
+          "iso3": "CHL",
+          "name": "Chile",
+          "year": 2006,
+          "trad_sec": -0.6427,
+          "surv_self": -0.2001
+        },
+        {
+          "iso3": "CHL",
+          "name": "Chile",
+          "year": 2012,
+          "trad_sec": -0.2848,
+          "surv_self": 0.1588
+        },
+        {
+          "iso3": "CHL",
+          "name": "Chile",
+          "year": 2018,
+          "trad_sec": 0.2133,
+          "surv_self": -0.1089
+        },
+        {
+          "iso3": "CHN",
+          "name": "China",
+          "year": 2007,
+          "trad_sec": 0.6575,
+          "surv_self": -0.4792
+        },
+        {
+          "iso3": "CHN",
+          "name": "China",
+          "year": 2013,
+          "trad_sec": 0.8367,
+          "surv_self": -0.4146
+        },
+        {
+          "iso3": "CHN",
+          "name": "China",
+          "year": 2018,
+          "trad_sec": 0.5755,
+          "surv_self": -0.1071
+        },
+        {
+          "iso3": "TWN",
+          "name": "Taiwan ROC",
+          "year": 1998,
+          "trad_sec": 0.6459,
+          "surv_self": -0.6573
+        },
+        {
+          "iso3": "TWN",
+          "name": "Taiwan ROC",
+          "year": 2006,
+          "trad_sec": 1.426,
+          "surv_self": -0.9439
+        },
+        {
+          "iso3": "TWN",
+          "name": "Taiwan ROC",
+          "year": 2012,
+          "trad_sec": 1.1514,
+          "surv_self": -0.233
+        },
+        {
+          "iso3": "TWN",
+          "name": "Taiwan ROC",
+          "year": 2019,
+          "trad_sec": 1.1261,
+          "surv_self": -0.1447
+        },
+        {
+          "iso3": "COL",
+          "name": "Colombia",
+          "year": 2005,
+          "trad_sec": -1.8038,
+          "surv_self": 0.1707
+        },
+        {
+          "iso3": "COL",
+          "name": "Colombia",
+          "year": 2012,
+          "trad_sec": -1.7836,
+          "surv_self": 0.1075
+        },
+        {
+          "iso3": "COL",
+          "name": "Colombia",
+          "year": 2018,
+          "trad_sec": -1.5681,
+          "surv_self": 0.2642
+        },
+        {
+          "iso3": "HRV",
+          "name": "Croatia",
+          "year": 1996,
+          "trad_sec": 1.1586,
+          "surv_self": 0.2834
+        },
+        {
+          "iso3": "HRV",
+          "name": "Croatia",
+          "year": 2008,
+          "trad_sec": -0.0851,
+          "surv_self": -0.1161
+        },
+        {
+          "iso3": "HRV",
+          "name": "Croatia",
+          "year": 2017,
+          "trad_sec": 0.0937,
+          "surv_self": 0.0821
+        },
+        {
+          "iso3": "CYP",
+          "name": "Cyprus",
+          "year": 2006,
+          "trad_sec": -0.5436,
+          "surv_self": -0.05
+        },
+        {
+          "iso3": "CYP",
+          "name": "Cyprus",
+          "year": 2008,
+          "trad_sec": -0.5656,
+          "surv_self": -0.6164
+        },
+        {
+          "iso3": "CYP",
+          "name": "Cyprus",
+          "year": 2011,
+          "trad_sec": -0.2705,
+          "surv_self": -0.4057
+        },
+        {
+          "iso3": "CYP",
+          "name": "Cyprus",
+          "year": 2019,
+          "trad_sec": -0.4121,
+          "surv_self": -0.4995
+        },
+        {
+          "iso3": "CZE",
+          "name": "Czechia",
+          "year": 1991,
+          "trad_sec": 1.218,
+          "surv_self": 0.2379
+        },
+        {
+          "iso3": "CZE",
+          "name": "Czechia",
+          "year": 1998,
+          "trad_sec": 1.142,
+          "surv_self": 0.8495
+        },
+        {
+          "iso3": "CZE",
+          "name": "Czechia",
+          "year": 1999,
+          "trad_sec": 1.2938,
+          "surv_self": 0.8201
+        },
+        {
+          "iso3": "CZE",
+          "name": "Czechia",
+          "year": 2008,
+          "trad_sec": 1.0252,
+          "surv_self": 0.539
+        },
+        {
+          "iso3": "CZE",
+          "name": "Czechia",
+          "year": 2017,
+          "trad_sec": 1.1762,
+          "surv_self": 0.993
+        },
+        {
+          "iso3": "CZE",
+          "name": "Czechia",
+          "year": 2022,
+          "trad_sec": 1.3322,
+          "surv_self": 0.7298
+        },
+        {
+          "iso3": "DNK",
+          "name": "Denmark",
+          "year": 1981,
+          "trad_sec": 0.9694,
+          "surv_self": 1.4263
+        },
+        {
+          "iso3": "DNK",
+          "name": "Denmark",
+          "year": 1999,
+          "trad_sec": 0.8263,
+          "surv_self": 2.4685
+        },
+        {
+          "iso3": "DNK",
+          "name": "Denmark",
+          "year": 2008,
+          "trad_sec": 0.5521,
+          "surv_self": 2.8345
+        },
+        {
+          "iso3": "DNK",
+          "name": "Denmark",
+          "year": 2017,
+          "trad_sec": 1.0181,
+          "surv_self": 2.8933
+        },
+        {
+          "iso3": "DOM",
+          "name": "Dominican Republic",
+          "year": 1996,
+          "trad_sec": -1.0012,
+          "surv_self": -0.1476
+        },
+        {
+          "iso3": "ECU",
+          "name": "Ecuador",
+          "year": 2013,
+          "trad_sec": -1.7368,
+          "surv_self": -0.2254
+        },
+        {
+          "iso3": "ECU",
+          "name": "Ecuador",
+          "year": 2018,
+          "trad_sec": -1.7248,
+          "surv_self": 0.0182
+        },
+        {
+          "iso3": "ETH",
+          "name": "Ethiopia",
+          "year": 2007,
+          "trad_sec": -0.5911,
+          "surv_self": -0.705
+        },
+        {
+          "iso3": "ETH",
+          "name": "Ethiopia",
+          "year": 2020,
+          "trad_sec": -1.3259,
+          "surv_self": -0.9801
+        },
+        {
+          "iso3": "EST",
+          "name": "Estonia",
+          "year": 1996,
+          "trad_sec": 1.5762,
+          "surv_self": -0.7091
+        },
+        {
+          "iso3": "EST",
+          "name": "Estonia",
+          "year": 1999,
+          "trad_sec": 1.4488,
+          "surv_self": -0.7672
+        },
+        {
+          "iso3": "EST",
+          "name": "Estonia",
+          "year": 2008,
+          "trad_sec": 0.9329,
+          "surv_self": -0.2816
+        },
+        {
+          "iso3": "EST",
+          "name": "Estonia",
+          "year": 2011,
+          "trad_sec": 1.2531,
+          "surv_self": -0.3337
+        },
+        {
+          "iso3": "EST",
+          "name": "Estonia",
+          "year": 2018,
+          "trad_sec": 0.8958,
+          "surv_self": 0.7035
+        },
+        {
+          "iso3": "FIN",
+          "name": "Finland",
+          "year": 1990,
+          "trad_sec": 0.9304,
+          "surv_self": 1.4171
+        },
+        {
+          "iso3": "FIN",
+          "name": "Finland",
+          "year": 1996,
+          "trad_sec": 0.5625,
+          "surv_self": 1.224
+        },
+        {
+          "iso3": "FIN",
+          "name": "Finland",
+          "year": 2000,
+          "trad_sec": 0.4443,
+          "surv_self": 1.3131
+        },
+        {
+          "iso3": "FIN",
+          "name": "Finland",
+          "year": 2005,
+          "trad_sec": 0.4291,
+          "surv_self": 1.5986
+        },
+        {
+          "iso3": "FIN",
+          "name": "Finland",
+          "year": 2009,
+          "trad_sec": 0.8092,
+          "surv_self": 1.8503
+        },
+        {
+          "iso3": "FIN",
+          "name": "Finland",
+          "year": 2017,
+          "trad_sec": 0.7985,
+          "surv_self": 2.446
+        },
+        {
+          "iso3": "FRA",
+          "name": "France",
+          "year": 1981,
+          "trad_sec": 0.5146,
+          "surv_self": 0.109
+        },
+        {
+          "iso3": "FRA",
+          "name": "France",
+          "year": 1990,
+          "trad_sec": 0.485,
+          "surv_self": 0.7001
+        },
+        {
+          "iso3": "FRA",
+          "name": "France",
+          "year": 1999,
+          "trad_sec": 0.3941,
+          "surv_self": 1.1427
+        },
+        {
+          "iso3": "FRA",
+          "name": "France",
+          "year": 2006,
+          "trad_sec": 0.5523,
+          "surv_self": 1.5083
+        },
+        {
+          "iso3": "FRA",
+          "name": "France",
+          "year": 2008,
+          "trad_sec": 0.474,
+          "surv_self": 1.4086
+        },
+        {
+          "iso3": "FRA",
+          "name": "France",
+          "year": 2018,
+          "trad_sec": 0.4644,
+          "surv_self": 1.9024
+        },
+        {
+          "iso3": "GEO",
+          "name": "Georgia",
+          "year": 1996,
+          "trad_sec": -0.113,
+          "surv_self": -1.116
+        },
+        {
+          "iso3": "GEO",
+          "name": "Georgia",
+          "year": 2008,
+          "trad_sec": -0.5989,
+          "surv_self": -1.1431
+        },
+        {
+          "iso3": "GEO",
+          "name": "Georgia",
+          "year": 2009,
+          "trad_sec": -0.8013,
+          "surv_self": -1.3164
+        },
+        {
+          "iso3": "GEO",
+          "name": "Georgia",
+          "year": 2014,
+          "trad_sec": -0.7419,
+          "surv_self": -1.4389
+        },
+        {
+          "iso3": "GEO",
+          "name": "Georgia",
+          "year": 2018,
+          "trad_sec": -1.0179,
+          "surv_self": -0.8171
+        },
+        {
+          "iso3": "PSE",
+          "name": "Palestine",
+          "year": 2013,
+          "trad_sec": -0.9166,
+          "surv_self": -1.3679
+        },
+        {
+          "iso3": "DEU",
+          "name": "Germany West",
+          "year": 1981,
+          "trad_sec": 0.9124,
+          "surv_self": 0.0614
+        },
+        {
+          "iso3": "DEU",
+          "name": "Germany",
+          "year": 1990,
+          "trad_sec": 1.1408,
+          "surv_self": 0.7078
+        },
+        {
+          "iso3": "DEU",
+          "name": "Germany",
+          "year": 1997,
+          "trad_sec": 1.7471,
+          "surv_self": 1.1482
+        },
+        {
+          "iso3": "DEU",
+          "name": "Germany",
+          "year": 1999,
+          "trad_sec": 1.3125,
+          "surv_self": 0.7267
+        },
+        {
+          "iso3": "DEU",
+          "name": "Germany",
+          "year": 2006,
+          "trad_sec": 1.3379,
+          "surv_self": 1.15
+        },
+        {
+          "iso3": "DEU",
+          "name": "Germany",
+          "year": 2008,
+          "trad_sec": 1.1875,
+          "surv_self": 0.989
+        },
+        {
+          "iso3": "DEU",
+          "name": "Germany",
+          "year": 2013,
+          "trad_sec": 0.8784,
+          "surv_self": 1.1578
+        },
+        {
+          "iso3": "DEU",
+          "name": "Germany",
+          "year": 2017,
+          "trad_sec": 1.0825,
+          "surv_self": 1.9744
+        },
+        {
+          "iso3": "DEU",
+          "name": "Germany",
+          "year": 2018,
+          "trad_sec": 0.8909,
+          "surv_self": 2.1561
+        },
+        {
+          "iso3": "GHA",
+          "name": "Ghana",
+          "year": 2007,
+          "trad_sec": -1.7933,
+          "surv_self": -0.7335
+        },
+        {
+          "iso3": "GHA",
+          "name": "Ghana",
+          "year": 2012,
+          "trad_sec": -1.8358,
+          "surv_self": -1.0443
+        },
+        {
+          "iso3": "GRC",
+          "name": "Greece",
+          "year": 1999,
+          "trad_sec": 0.4523,
+          "surv_self": 0.6203
+        },
+        {
+          "iso3": "GRC",
+          "name": "Greece",
+          "year": 2008,
+          "trad_sec": 0.0348,
+          "surv_self": 0.0266
+        },
+        {
+          "iso3": "GRC",
+          "name": "Greece",
+          "year": 2017,
+          "trad_sec": 0.2686,
+          "surv_self": -0.2853
+        },
+        {
+          "iso3": "GTM",
+          "name": "Guatemala",
+          "year": 2004,
+          "trad_sec": -1.5335,
+          "surv_self": -0.4366
+        },
+        {
+          "iso3": "GTM",
+          "name": "Guatemala",
+          "year": 2020,
+          "trad_sec": -1.006,
+          "surv_self": 0.0042
+        },
+        {
+          "iso3": "HTI",
+          "name": "Haiti",
+          "year": 2016,
+          "trad_sec": -0.8593,
+          "surv_self": 0.0686
+        },
+        {
+          "iso3": "HKG",
+          "name": "Hong Kong SAR",
+          "year": 2014,
+          "trad_sec": 0.9073,
+          "surv_self": 0.3418
+        },
+        {
+          "iso3": "HKG",
+          "name": "Hong Kong SAR",
+          "year": 2018,
+          "trad_sec": 1.4589,
+          "surv_self": -0.0582
+        },
+        {
+          "iso3": "HUN",
+          "name": "Hungary",
+          "year": 1991,
+          "trad_sec": 0.6218,
+          "surv_self": -0.6398
+        },
+        {
+          "iso3": "HUN",
+          "name": "Hungary",
+          "year": 1998,
+          "trad_sec": 0.7914,
+          "surv_self": -0.0795
+        },
+        {
+          "iso3": "HUN",
+          "name": "Hungary",
+          "year": 1999,
+          "trad_sec": 0.5006,
+          "surv_self": -0.9366
+        },
+        {
+          "iso3": "HUN",
+          "name": "Hungary",
+          "year": 2008,
+          "trad_sec": 0.6302,
+          "surv_self": -0.3962
+        },
+        {
+          "iso3": "HUN",
+          "name": "Hungary",
+          "year": 2009,
+          "trad_sec": 0.7014,
+          "surv_self": -0.3049
+        },
+        {
+          "iso3": "HUN",
+          "name": "Hungary",
+          "year": 2018,
+          "trad_sec": 0.5932,
+          "surv_self": 0.0235
+        },
+        {
+          "iso3": "ISL",
+          "name": "Iceland",
+          "year": 1984,
+          "trad_sec": -0.3376,
+          "surv_self": 0.8786
+        },
+        {
+          "iso3": "ISL",
+          "name": "Iceland",
+          "year": 1990,
+          "trad_sec": 0.0557,
+          "surv_self": 1.3558
+        },
+        {
+          "iso3": "ISL",
+          "name": "Iceland",
+          "year": 1999,
+          "trad_sec": -0.0068,
+          "surv_self": 1.9856
+        },
+        {
+          "iso3": "ISL",
+          "name": "Iceland",
+          "year": 2009,
+          "trad_sec": 0.1477,
+          "surv_self": 2.4265
+        },
+        {
+          "iso3": "ISL",
+          "name": "Iceland",
+          "year": 2017,
+          "trad_sec": 0.5042,
+          "surv_self": 2.908
+        },
+        {
+          "iso3": "IND",
+          "name": "India",
+          "year": 1990,
+          "trad_sec": -0.4449,
+          "surv_self": -0.4867
+        },
+        {
+          "iso3": "IND",
+          "name": "India",
+          "year": 1995,
+          "trad_sec": -0.6316,
+          "surv_self": -0.3579
+        },
+        {
+          "iso3": "IND",
+          "name": "India",
+          "year": 2001,
+          "trad_sec": -0.1296,
+          "surv_self": -0.0674
+        },
+        {
+          "iso3": "IND",
+          "name": "India",
+          "year": 2006,
+          "trad_sec": -0.425,
+          "surv_self": -0.1516
+        },
+        {
+          "iso3": "IND",
+          "name": "India",
+          "year": 2012,
+          "trad_sec": -0.7095,
+          "surv_self": -0.8615
+        },
+        {
+          "iso3": "IDN",
+          "name": "Indonesia",
+          "year": 2001,
+          "trad_sec": -0.7937,
+          "surv_self": -1.0773
+        },
+        {
+          "iso3": "IDN",
+          "name": "Indonesia",
+          "year": 2006,
+          "trad_sec": -0.4349,
+          "surv_self": -1.1102
+        },
+        {
+          "iso3": "IDN",
+          "name": "Indonesia",
+          "year": 2018,
+          "trad_sec": -1.2194,
+          "surv_self": -0.8403
+        },
+        {
+          "iso3": "IRN",
+          "name": "Iran",
+          "year": 2020,
+          "trad_sec": -0.5392,
+          "surv_self": -0.9236
+        },
+        {
+          "iso3": "IRQ",
+          "name": "Iraq",
+          "year": 2013,
+          "trad_sec": -0.8317,
+          "surv_self": -1.3664
+        },
+        {
+          "iso3": "IRQ",
+          "name": "Iraq",
+          "year": 2018,
+          "trad_sec": -0.8453,
+          "surv_self": -1.3175
+        },
+        {
+          "iso3": "IRL",
+          "name": "Ireland",
+          "year": 1981,
+          "trad_sec": -1.3699,
+          "surv_self": 0.1272
+        },
+        {
+          "iso3": "IRL",
+          "name": "Ireland",
+          "year": 1990,
+          "trad_sec": -1.3405,
+          "surv_self": 0.7591
+        },
+        {
+          "iso3": "IRL",
+          "name": "Ireland",
+          "year": 1999,
+          "trad_sec": -1.0838,
+          "surv_self": 1.0528
+        },
+        {
+          "iso3": "IRL",
+          "name": "Ireland",
+          "year": 2008,
+          "trad_sec": -0.8482,
+          "surv_self": 1.1297
+        },
+        {
+          "iso3": "ISR",
+          "name": "Israel",
+          "year": 2001,
+          "trad_sec": 0.192,
+          "surv_self": 0.584
+        },
+        {
+          "iso3": "ITA",
+          "name": "Italy",
+          "year": 1981,
+          "trad_sec": 0.2299,
+          "surv_self": -0.4916
+        },
+        {
+          "iso3": "ITA",
+          "name": "Italy",
+          "year": 1990,
+          "trad_sec": 0.0062,
+          "surv_self": 0.4009
+        },
+        {
+          "iso3": "ITA",
+          "name": "Italy",
+          "year": 1999,
+          "trad_sec": 0.0244,
+          "surv_self": 0.7275
+        },
+        {
+          "iso3": "ITA",
+          "name": "Italy",
+          "year": 2005,
+          "trad_sec": -0.1518,
+          "surv_self": 0.4499
+        },
+        {
+          "iso3": "ITA",
+          "name": "Italy",
+          "year": 2018,
+          "trad_sec": 0.347,
+          "surv_self": 0.8011
+        },
+        {
+          "iso3": "JPN",
+          "name": "Japan",
+          "year": 1981,
+          "trad_sec": 1.4388,
+          "surv_self": 0.0075
+        },
+        {
+          "iso3": "JPN",
+          "name": "Japan",
+          "year": 1990,
+          "trad_sec": 1.5879,
+          "surv_self": 0.2253
+        },
+        {
+          "iso3": "JPN",
+          "name": "Japan",
+          "year": 1995,
+          "trad_sec": 1.0679,
+          "surv_self": 0.7294
+        },
+        {
+          "iso3": "JPN",
+          "name": "Japan",
+          "year": 2000,
+          "trad_sec": 1.8083,
+          "surv_self": 0.888
+        },
+        {
+          "iso3": "JPN",
+          "name": "Japan",
+          "year": 2005,
+          "trad_sec": 1.8573,
+          "surv_self": 0.782
+        },
+        {
+          "iso3": "JPN",
+          "name": "Japan",
+          "year": 2010,
+          "trad_sec": 1.6356,
+          "surv_self": 0.825
+        },
+        {
+          "iso3": "JPN",
+          "name": "Japan",
+          "year": 2019,
+          "trad_sec": 1.6146,
+          "surv_self": 1.302
+        },
+        {
+          "iso3": "KAZ",
+          "name": "Kazakhstan",
+          "year": 2011,
+          "trad_sec": -0.2756,
+          "surv_self": -0.6643
+        },
+        {
+          "iso3": "KAZ",
+          "name": "Kazakhstan",
+          "year": 2018,
+          "trad_sec": -0.1288,
+          "surv_self": -0.6824
+        },
+        {
+          "iso3": "JOR",
+          "name": "Jordan",
+          "year": 2001,
+          "trad_sec": -1.4442,
+          "surv_self": -1.4644
+        },
+        {
+          "iso3": "JOR",
+          "name": "Jordan",
+          "year": 2007,
+          "trad_sec": -1.6496,
+          "surv_self": -1.3244
+        },
+        {
+          "iso3": "JOR",
+          "name": "Jordan",
+          "year": 2014,
+          "trad_sec": -1.3856,
+          "surv_self": -1.5157
+        },
+        {
+          "iso3": "JOR",
+          "name": "Jordan",
+          "year": 2018,
+          "trad_sec": -1.5785,
+          "surv_self": -1.209
+        },
+        {
+          "iso3": "KEN",
+          "name": "Kenya",
+          "year": 2021,
+          "trad_sec": -0.9285,
+          "surv_self": -0.2731
+        },
+        {
+          "iso3": "KOR",
+          "name": "South Korea",
+          "year": 2001,
+          "trad_sec": 1.2965,
+          "surv_self": -0.2359
+        },
+        {
+          "iso3": "KOR",
+          "name": "South Korea",
+          "year": 2005,
+          "trad_sec": 1.0321,
+          "surv_self": -0.4202
+        },
+        {
+          "iso3": "KOR",
+          "name": "South Korea",
+          "year": 2010,
+          "trad_sec": 0.9422,
+          "surv_self": -0.2722
+        },
+        {
+          "iso3": "KOR",
+          "name": "South Korea",
+          "year": 2018,
+          "trad_sec": 1.4536,
+          "surv_self": -0.4708
+        },
+        {
+          "iso3": "KGZ",
+          "name": "Kyrgyzstan",
+          "year": 2003,
+          "trad_sec": 0.0892,
+          "surv_self": -1.0645
+        },
+        {
+          "iso3": "KGZ",
+          "name": "Kyrgyzstan",
+          "year": 2011,
+          "trad_sec": -0.5778,
+          "surv_self": -0.7412
+        },
+        {
+          "iso3": "KGZ",
+          "name": "Kyrgyzstan",
+          "year": 2020,
+          "trad_sec": -1.3943,
+          "surv_self": -0.5518
+        },
+        {
+          "iso3": "LBN",
+          "name": "Lebanon",
+          "year": 2013,
+          "trad_sec": -0.0946,
+          "surv_self": -0.8915
+        },
+        {
+          "iso3": "LBN",
+          "name": "Lebanon",
+          "year": 2018,
+          "trad_sec": -0.5352,
+          "surv_self": -1.0751
+        },
+        {
+          "iso3": "LVA",
+          "name": "Latvia",
+          "year": 1996,
+          "trad_sec": 1.5785,
+          "surv_self": -0.4236
+        },
+        {
+          "iso3": "LVA",
+          "name": "Latvia",
+          "year": 1999,
+          "trad_sec": 0.9131,
+          "surv_self": -0.973
+        },
+        {
+          "iso3": "LVA",
+          "name": "Latvia",
+          "year": 2008,
+          "trad_sec": 0.8944,
+          "surv_self": -0.469
+        },
+        {
+          "iso3": "LVA",
+          "name": "Latvia",
+          "year": 2021,
+          "trad_sec": 0.8398,
+          "surv_self": -0.0484
+        },
+        {
+          "iso3": "LBY",
+          "name": "Libya",
+          "year": 2014,
+          "trad_sec": -1.5803,
+          "surv_self": -1.0003
+        },
+        {
+          "iso3": "LBY",
+          "name": "Libya",
+          "year": 2022,
+          "trad_sec": -1.7575,
+          "surv_self": -1.1256
+        },
+        {
+          "iso3": "LTU",
+          "name": "Lithuania",
+          "year": 1997,
+          "trad_sec": 1.112,
+          "surv_self": -1.0707
+        },
+        {
+          "iso3": "LTU",
+          "name": "Lithuania",
+          "year": 1999,
+          "trad_sec": 1.0468,
+          "surv_self": -0.752
+        },
+        {
+          "iso3": "LTU",
+          "name": "Lithuania",
+          "year": 2008,
+          "trad_sec": 0.9937,
+          "surv_self": -0.7097
+        },
+        {
+          "iso3": "LTU",
+          "name": "Lithuania",
+          "year": 2018,
+          "trad_sec": 0.8619,
+          "surv_self": -0.1841
+        },
+        {
+          "iso3": "LUX",
+          "name": "Luxembourg",
+          "year": 1999,
+          "trad_sec": 0.3912,
+          "surv_self": 1.3552
+        },
+        {
+          "iso3": "LUX",
+          "name": "Luxembourg",
+          "year": 2008,
+          "trad_sec": 0.3274,
+          "surv_self": 1.3817
+        },
+        {
+          "iso3": "MAC",
+          "name": "Macau SAR",
+          "year": 2019,
+          "trad_sec": 1.2713,
+          "surv_self": 0.2036
+        },
+        {
+          "iso3": "MYS",
+          "name": "Malaysia",
+          "year": 2006,
+          "trad_sec": -0.6166,
+          "surv_self": -0.4325
+        },
+        {
+          "iso3": "MYS",
+          "name": "Malaysia",
+          "year": 2012,
+          "trad_sec": -1.0314,
+          "surv_self": -0.7061
+        },
+        {
+          "iso3": "MYS",
+          "name": "Malaysia",
+          "year": 2018,
+          "trad_sec": 0.0546,
+          "surv_self": -0.3823
+        },
+        {
+          "iso3": "MDV",
+          "name": "Maldives",
+          "year": 2021,
+          "trad_sec": -1.378,
+          "surv_self": -0.6482
+        },
+        {
+          "iso3": "MLI",
+          "name": "Mali",
+          "year": 2007,
+          "trad_sec": -1.3851,
+          "surv_self": -0.114
+        },
+        {
+          "iso3": "MLT",
+          "name": "Malta",
+          "year": 1991,
+          "trad_sec": -1.7259,
+          "surv_self": -0.2663
+        },
+        {
+          "iso3": "MLT",
+          "name": "Malta",
+          "year": 1999,
+          "trad_sec": -1.4583,
+          "surv_self": -0.3479
+        },
+        {
+          "iso3": "MLT",
+          "name": "Malta",
+          "year": 2008,
+          "trad_sec": -1.2713,
+          "surv_self": 0.1761
+        },
+        {
+          "iso3": "MEX",
+          "name": "Mexico",
+          "year": 1981,
+          "trad_sec": -0.9729,
+          "surv_self": -0.7036
+        },
+        {
+          "iso3": "MEX",
+          "name": "Mexico",
+          "year": 1990,
+          "trad_sec": -0.3293,
+          "surv_self": 0.066
+        },
+        {
+          "iso3": "MEX",
+          "name": "Mexico",
+          "year": 1996,
+          "trad_sec": -0.8193,
+          "surv_self": 0.0833
+        },
+        {
+          "iso3": "MEX",
+          "name": "Mexico",
+          "year": 2000,
+          "trad_sec": -1.4838,
+          "surv_self": 0.2996
+        },
+        {
+          "iso3": "MEX",
+          "name": "Mexico",
+          "year": 2005,
+          "trad_sec": -1.5155,
+          "surv_self": 0.6342
+        },
+        {
+          "iso3": "MEX",
+          "name": "Mexico",
+          "year": 2012,
+          "trad_sec": -1.6247,
+          "surv_self": 0.5775
+        },
+        {
+          "iso3": "MEX",
+          "name": "Mexico",
+          "year": 2018,
+          "trad_sec": -1.0603,
+          "surv_self": 0.226
+        },
+        {
+          "iso3": "MNG",
+          "name": "Mongolia",
+          "year": 2020,
+          "trad_sec": 0.7472,
+          "surv_self": 0.147
+        },
+        {
+          "iso3": "MDA",
+          "name": "Moldova",
+          "year": 1996,
+          "trad_sec": 0.6873,
+          "surv_self": -1.5784
+        },
+        {
+          "iso3": "MDA",
+          "name": "Moldova",
+          "year": 2002,
+          "trad_sec": 1.0267,
+          "surv_self": -1.5692
+        },
+        {
+          "iso3": "MDA",
+          "name": "Moldova",
+          "year": 2006,
+          "trad_sec": 0.8275,
+          "surv_self": -1.6673
+        },
+        {
+          "iso3": "MDA",
+          "name": "Moldova",
+          "year": 2008,
+          "trad_sec": 0.1818,
+          "surv_self": -1.5502
+        },
+        {
+          "iso3": "MNE",
+          "name": "Montenegro",
+          "year": 1996,
+          "trad_sec": 0.3334,
+          "surv_self": -0.7382
+        },
+        {
+          "iso3": "MNE",
+          "name": "Montenegro",
+          "year": 2001,
+          "trad_sec": 1.0928,
+          "surv_self": -1.0332
+        },
+        {
+          "iso3": "MNE",
+          "name": "Montenegro",
+          "year": 2008,
+          "trad_sec": 0.1857,
+          "surv_self": -0.6552
+        },
+        {
+          "iso3": "MNE",
+          "name": "Montenegro",
+          "year": 2019,
+          "trad_sec": -0.4359,
+          "surv_self": -0.0171
+        },
+        {
+          "iso3": "MAR",
+          "name": "Morocco",
+          "year": 2011,
+          "trad_sec": -1.0582,
+          "surv_self": -1.513
+        },
+        {
+          "iso3": "MAR",
+          "name": "Morocco",
+          "year": 2021,
+          "trad_sec": -0.3176,
+          "surv_self": -0.8135
+        },
+        {
+          "iso3": "NLD",
+          "name": "Netherlands",
+          "year": 1981,
+          "trad_sec": 0.5466,
+          "surv_self": 0.9089
+        },
+        {
+          "iso3": "NLD",
+          "name": "Netherlands",
+          "year": 1990,
+          "trad_sec": 0.5837,
+          "surv_self": 1.9399
+        },
+        {
+          "iso3": "NLD",
+          "name": "Netherlands",
+          "year": 1999,
+          "trad_sec": 0.5079,
+          "surv_self": 2.1602
+        },
+        {
+          "iso3": "NLD",
+          "name": "Netherlands",
+          "year": 2006,
+          "trad_sec": 0.4828,
+          "surv_self": 1.7627
+        },
+        {
+          "iso3": "NLD",
+          "name": "Netherlands",
+          "year": 2008,
+          "trad_sec": 0.1165,
+          "surv_self": 2.3228
+        },
+        {
+          "iso3": "NLD",
+          "name": "Netherlands",
+          "year": 2012,
+          "trad_sec": 0.7245,
+          "surv_self": 2.0992
+        },
+        {
+          "iso3": "NLD",
+          "name": "Netherlands",
+          "year": 2017,
+          "trad_sec": 0.6968,
+          "surv_self": 2.5025
+        },
+        {
+          "iso3": "NLD",
+          "name": "Netherlands",
+          "year": 2022,
+          "trad_sec": 1.1562,
+          "surv_self": 2.3876
+        },
+        {
+          "iso3": "NZL",
+          "name": "New Zealand",
+          "year": 1998,
+          "trad_sec": -0.0376,
+          "surv_self": 2.0628
+        },
+        {
+          "iso3": "NZL",
+          "name": "New Zealand",
+          "year": 2004,
+          "trad_sec": -0.1415,
+          "surv_self": 2.3695
+        },
+        {
+          "iso3": "NZL",
+          "name": "New Zealand",
+          "year": 2011,
+          "trad_sec": 0.0984,
+          "surv_self": 2.2988
+        },
+        {
+          "iso3": "NZL",
+          "name": "New Zealand",
+          "year": 2020,
+          "trad_sec": 0.5317,
+          "surv_self": 2.8566
+        },
+        {
+          "iso3": "NIC",
+          "name": "Nicaragua",
+          "year": 2020,
+          "trad_sec": -1.7126,
+          "surv_self": -0.3604
+        },
+        {
+          "iso3": "NGA",
+          "name": "Nigeria",
+          "year": 1990,
+          "trad_sec": -1.2342,
+          "surv_self": -1.0578
+        },
+        {
+          "iso3": "NGA",
+          "name": "Nigeria",
+          "year": 1995,
+          "trad_sec": -1.3508,
+          "surv_self": -1.0573
+        },
+        {
+          "iso3": "NGA",
+          "name": "Nigeria",
+          "year": 2000,
+          "trad_sec": -1.8622,
+          "surv_self": -0.5668
+        },
+        {
+          "iso3": "NGA",
+          "name": "Nigeria",
+          "year": 2012,
+          "trad_sec": -1.2867,
+          "surv_self": -0.7758
+        },
+        {
+          "iso3": "NGA",
+          "name": "Nigeria",
+          "year": 2018,
+          "trad_sec": -1.3736,
+          "surv_self": -1.1028
+        },
+        {
+          "iso3": "NOR",
+          "name": "Norway",
+          "year": 1982,
+          "trad_sec": 0.6477,
+          "surv_self": 0.9198
+        },
+        {
+          "iso3": "NOR",
+          "name": "Norway",
+          "year": 1990,
+          "trad_sec": 0.7996,
+          "surv_self": 1.2813
+        },
+        {
+          "iso3": "NOR",
+          "name": "Norway",
+          "year": 1996,
+          "trad_sec": 0.7493,
+          "surv_self": 1.8644
+        },
+        {
+          "iso3": "NOR",
+          "name": "Norway",
+          "year": 2007,
+          "trad_sec": 0.8739,
+          "surv_self": 2.7067
+        },
+        {
+          "iso3": "NOR",
+          "name": "Norway",
+          "year": 2008,
+          "trad_sec": 0.6449,
+          "surv_self": 2.613
+        },
+        {
+          "iso3": "NOR",
+          "name": "Norway",
+          "year": 2018,
+          "trad_sec": 0.9265,
+          "surv_self": 3.0307
+        },
+        {
+          "iso3": "PAK",
+          "name": "Pakistan",
+          "year": 2001,
+          "trad_sec": -1.2889,
+          "surv_self": -1.4488
+        },
+        {
+          "iso3": "PAK",
+          "name": "Pakistan",
+          "year": 2012,
+          "trad_sec": -1.1524,
+          "surv_self": -0.6211
+        },
+        {
+          "iso3": "PAK",
+          "name": "Pakistan",
+          "year": 2018,
+          "trad_sec": -1.3833,
+          "surv_self": -0.633
+        },
+        {
+          "iso3": "PER",
+          "name": "Peru",
+          "year": 1996,
+          "trad_sec": -0.9601,
+          "surv_self": -0.5271
+        },
+        {
+          "iso3": "PER",
+          "name": "Peru",
+          "year": 2001,
+          "trad_sec": -1.1743,
+          "surv_self": -0.4516
+        },
+        {
+          "iso3": "PER",
+          "name": "Peru",
+          "year": 2012,
+          "trad_sec": -0.9687,
+          "surv_self": -0.3334
+        },
+        {
+          "iso3": "PER",
+          "name": "Peru",
+          "year": 2018,
+          "trad_sec": -1.0557,
+          "surv_self": -0.5629
+        },
+        {
+          "iso3": "PHL",
+          "name": "Philippines",
+          "year": 1996,
+          "trad_sec": -1.2043,
+          "surv_self": -0.4995
+        },
+        {
+          "iso3": "PHL",
+          "name": "Philippines",
+          "year": 2001,
+          "trad_sec": -1.1397,
+          "surv_self": -0.3855
+        },
+        {
+          "iso3": "PHL",
+          "name": "Philippines",
+          "year": 2012,
+          "trad_sec": -1.2617,
+          "surv_self": -0.0688
+        },
+        {
+          "iso3": "PHL",
+          "name": "Philippines",
+          "year": 2019,
+          "trad_sec": -1.4145,
+          "surv_self": 0.1057
+        },
+        {
+          "iso3": "POL",
+          "name": "Poland",
+          "year": 1990,
+          "trad_sec": -0.6357,
+          "surv_self": -0.9148
+        },
+        {
+          "iso3": "POL",
+          "name": "Poland",
+          "year": 1999,
+          "trad_sec": -0.5303,
+          "surv_self": -0.4067
+        },
+        {
+          "iso3": "POL",
+          "name": "Poland",
+          "year": 2005,
+          "trad_sec": -0.681,
+          "surv_self": -0.2819
+        },
+        {
+          "iso3": "POL",
+          "name": "Poland",
+          "year": 2008,
+          "trad_sec": -0.2384,
+          "surv_self": -0.2021
+        },
+        {
+          "iso3": "POL",
+          "name": "Poland",
+          "year": 2012,
+          "trad_sec": -0.55,
+          "surv_self": 0.0636
+        },
+        {
+          "iso3": "POL",
+          "name": "Poland",
+          "year": 2017,
+          "trad_sec": -0.431,
+          "surv_self": 0.5982
+        },
+        {
+          "iso3": "PRT",
+          "name": "Portugal",
+          "year": 1990,
+          "trad_sec": 0.0727,
+          "surv_self": -0.3681
+        },
+        {
+          "iso3": "PRT",
+          "name": "Portugal",
+          "year": 1999,
+          "trad_sec": -0.6592,
+          "surv_self": -0.2162
+        },
+        {
+          "iso3": "PRT",
+          "name": "Portugal",
+          "year": 2008,
+          "trad_sec": -0.1569,
+          "surv_self": 0.2179
+        },
+        {
+          "iso3": "PRT",
+          "name": "Portugal",
+          "year": 2020,
+          "trad_sec": -0.2696,
+          "surv_self": 0.3353
+        },
+        {
+          "iso3": "QAT",
+          "name": "Qatar",
+          "year": 2010,
+          "trad_sec": -2.1667,
+          "surv_self": -0.7143
+        },
+        {
+          "iso3": "PRI",
+          "name": "Puerto Rico",
+          "year": 1995,
+          "trad_sec": -1.8786,
+          "surv_self": 0.0925
+        },
+        {
+          "iso3": "PRI",
+          "name": "Puerto Rico",
+          "year": 2001,
+          "trad_sec": -2.0254,
+          "surv_self": 0.4608
+        },
+        {
+          "iso3": "PRI",
+          "name": "Puerto Rico",
+          "year": 2018,
+          "trad_sec": -1.5551,
+          "surv_self": 0.6597
+        },
+        {
+          "iso3": "ROU",
+          "name": "Romania",
+          "year": 1998,
+          "trad_sec": 0.4939,
+          "surv_self": -0.9458
+        },
+        {
+          "iso3": "ROU",
+          "name": "Romania",
+          "year": 1999,
+          "trad_sec": 0.1354,
+          "surv_self": -1.4551
+        },
+        {
+          "iso3": "ROU",
+          "name": "Romania",
+          "year": 2005,
+          "trad_sec": -0.0825,
+          "surv_self": -1.5022
+        },
+        {
+          "iso3": "ROU",
+          "name": "Romania",
+          "year": 2008,
+          "trad_sec": -0.099,
+          "surv_self": -1.1438
+        },
+        {
+          "iso3": "ROU",
+          "name": "Romania",
+          "year": 2012,
+          "trad_sec": -0.2074,
+          "surv_self": -1.1548
+        },
+        {
+          "iso3": "ROU",
+          "name": "Romania",
+          "year": 2018,
+          "trad_sec": -0.3876,
+          "surv_self": -0.8017
+        },
+        {
+          "iso3": "RUS",
+          "name": "Russia",
+          "year": 1990,
+          "trad_sec": 1.3023,
+          "surv_self": -0.8138
+        },
+        {
+          "iso3": "RUS",
+          "name": "Russia",
+          "year": 1995,
+          "trad_sec": 1.1921,
+          "surv_self": -1.3155
+        },
+        {
+          "iso3": "RUS",
+          "name": "Russia",
+          "year": 1999,
+          "trad_sec": 1.2729,
+          "surv_self": -1.2552
+        },
+        {
+          "iso3": "RUS",
+          "name": "Russia",
+          "year": 2006,
+          "trad_sec": 0.6232,
+          "surv_self": -1.0201
+        },
+        {
+          "iso3": "RUS",
+          "name": "Russia",
+          "year": 2008,
+          "trad_sec": 0.4082,
+          "surv_self": -0.9314
+        },
+        {
+          "iso3": "RUS",
+          "name": "Russia",
+          "year": 2011,
+          "trad_sec": 0.4641,
+          "surv_self": -0.8636
+        },
+        {
+          "iso3": "RUS",
+          "name": "Russia",
+          "year": 2017,
+          "trad_sec": 0.3895,
+          "surv_self": -0.595
+        },
+        {
+          "iso3": "RWA",
+          "name": "Rwanda",
+          "year": 2007,
+          "trad_sec": -1.2734,
+          "surv_self": -1.134
+        },
+        {
+          "iso3": "RWA",
+          "name": "Rwanda",
+          "year": 2012,
+          "trad_sec": -1.0995,
+          "surv_self": -0.7069
+        },
+        {
+          "iso3": "SAU",
+          "name": "Saudi Arabia",
+          "year": 2003,
+          "trad_sec": -1.5044,
+          "surv_self": -0.4165
+        },
+        {
+          "iso3": "SRB",
+          "name": "Serbia",
+          "year": 1996,
+          "trad_sec": 0.9085,
+          "surv_self": -0.5599
+        },
+        {
+          "iso3": "SRB",
+          "name": "Serbia",
+          "year": 2001,
+          "trad_sec": 0.7753,
+          "surv_self": -0.627
+        },
+        {
+          "iso3": "SRB",
+          "name": "Serbia",
+          "year": 2006,
+          "trad_sec": 0.509,
+          "surv_self": -0.2369
+        },
+        {
+          "iso3": "SRB",
+          "name": "Serbia",
+          "year": 2008,
+          "trad_sec": 0.2153,
+          "surv_self": -0.7895
+        },
+        {
+          "iso3": "SRB",
+          "name": "Serbia",
+          "year": 2017,
+          "trad_sec": 0.4831,
+          "surv_self": -0.1387
+        },
+        {
+          "iso3": "SRB",
+          "name": "Serbia",
+          "year": 2018,
+          "trad_sec": 0.3106,
+          "surv_self": -0.577
+        },
+        {
+          "iso3": "SGP",
+          "name": "Singapore",
+          "year": 2002,
+          "trad_sec": -0.2127,
+          "surv_self": -0.423
+        },
+        {
+          "iso3": "SGP",
+          "name": "Singapore",
+          "year": 2020,
+          "trad_sec": 0.0888,
+          "surv_self": -0.1201
+        },
+        {
+          "iso3": "SVK",
+          "name": "Slovakia",
+          "year": 1991,
+          "trad_sec": 0.903,
+          "surv_self": -0.4702
+        },
+        {
+          "iso3": "SVK",
+          "name": "Slovakia",
+          "year": 1998,
+          "trad_sec": 0.4863,
+          "surv_self": 0.1533
+        },
+        {
+          "iso3": "SVK",
+          "name": "Slovakia",
+          "year": 1999,
+          "trad_sec": 0.7555,
+          "surv_self": -0.0426
+        },
+        {
+          "iso3": "SVK",
+          "name": "Slovakia",
+          "year": 2008,
+          "trad_sec": 0.2202,
+          "surv_self": 0.2471
+        },
+        {
+          "iso3": "SVK",
+          "name": "Slovakia",
+          "year": 2017,
+          "trad_sec": 0.5872,
+          "surv_self": 0.5584
+        },
+        {
+          "iso3": "SVK",
+          "name": "Slovakia",
+          "year": 2022,
+          "trad_sec": 0.7261,
+          "surv_self": 0.1217
+        },
+        {
+          "iso3": "VNM",
+          "name": "Vietnam",
+          "year": 2001,
+          "trad_sec": -0.8428,
+          "surv_self": 0.2254
+        },
+        {
+          "iso3": "VNM",
+          "name": "Vietnam",
+          "year": 2006,
+          "trad_sec": -0.5065,
+          "surv_self": -0.0587
+        },
+        {
+          "iso3": "VNM",
+          "name": "Vietnam",
+          "year": 2020,
+          "trad_sec": -0.4429,
+          "surv_self": 0.6128
+        },
+        {
+          "iso3": "SVN",
+          "name": "Slovenia",
+          "year": 1992,
+          "trad_sec": 0.7793,
+          "surv_self": -0.0921
+        },
+        {
+          "iso3": "SVN",
+          "name": "Slovenia",
+          "year": 1995,
+          "trad_sec": 0.7681,
+          "surv_self": 0.1884
+        },
+        {
+          "iso3": "SVN",
+          "name": "Slovenia",
+          "year": 1999,
+          "trad_sec": 0.8958,
+          "surv_self": 0.7209
+        },
+        {
+          "iso3": "SVN",
+          "name": "Slovenia",
+          "year": 2005,
+          "trad_sec": 0.8733,
+          "surv_self": 0.8235
+        },
+        {
+          "iso3": "SVN",
+          "name": "Slovenia",
+          "year": 2008,
+          "trad_sec": 0.636,
+          "surv_self": 0.7926
+        },
+        {
+          "iso3": "SVN",
+          "name": "Slovenia",
+          "year": 2011,
+          "trad_sec": 0.9501,
+          "surv_self": 0.8514
+        },
+        {
+          "iso3": "SVN",
+          "name": "Slovenia",
+          "year": 2017,
+          "trad_sec": 0.7767,
+          "surv_self": 1.231
+        },
+        {
+          "iso3": "ZAF",
+          "name": "South Africa",
+          "year": 1982,
+          "trad_sec": -0.4843,
+          "surv_self": -0.5694
+        },
+        {
+          "iso3": "ZAF",
+          "name": "South Africa",
+          "year": 1990,
+          "trad_sec": -0.8608,
+          "surv_self": -0.551
+        },
+        {
+          "iso3": "ZAF",
+          "name": "South Africa",
+          "year": 1996,
+          "trad_sec": -1.2148,
+          "surv_self": -0.5997
+        },
+        {
+          "iso3": "ZAF",
+          "name": "South Africa",
+          "year": 2001,
+          "trad_sec": -0.9303,
+          "surv_self": -0.2575
+        },
+        {
+          "iso3": "ZAF",
+          "name": "South Africa",
+          "year": 2013,
+          "trad_sec": -0.2706,
+          "surv_self": 0.027
+        },
+        {
+          "iso3": "ZWE",
+          "name": "Zimbabwe",
+          "year": 2001,
+          "trad_sec": -1.1487,
+          "surv_self": -1.7244
+        },
+        {
+          "iso3": "ZWE",
+          "name": "Zimbabwe",
+          "year": 2012,
+          "trad_sec": -1.2293,
+          "surv_self": -0.9282
+        },
+        {
+          "iso3": "ZWE",
+          "name": "Zimbabwe",
+          "year": 2020,
+          "trad_sec": -0.585,
+          "surv_self": -1.8709
+        },
+        {
+          "iso3": "ESP",
+          "name": "Spain",
+          "year": 1981,
+          "trad_sec": -0.212,
+          "surv_self": -0.3926
+        },
+        {
+          "iso3": "ESP",
+          "name": "Spain",
+          "year": 1990,
+          "trad_sec": 0.0848,
+          "surv_self": 0.2557
+        },
+        {
+          "iso3": "ESP",
+          "name": "Spain",
+          "year": 1995,
+          "trad_sec": -0.3066,
+          "surv_self": 0.4929
+        },
+        {
+          "iso3": "ESP",
+          "name": "Spain",
+          "year": 1999,
+          "trad_sec": 0.1662,
+          "surv_self": 0.6108
+        },
+        {
+          "iso3": "ESP",
+          "name": "Spain",
+          "year": 2000,
+          "trad_sec": 0.1102,
+          "surv_self": 0.8045
+        },
+        {
+          "iso3": "ESP",
+          "name": "Spain",
+          "year": 2007,
+          "trad_sec": 0.1976,
+          "surv_self": 0.8191
+        },
+        {
+          "iso3": "ESP",
+          "name": "Spain",
+          "year": 2008,
+          "trad_sec": 0.1106,
+          "surv_self": 1.1947
+        },
+        {
+          "iso3": "ESP",
+          "name": "Spain",
+          "year": 2011,
+          "trad_sec": 0.5043,
+          "surv_self": 0.7605
+        },
+        {
+          "iso3": "ESP",
+          "name": "Spain",
+          "year": 2017,
+          "trad_sec": 0.5884,
+          "surv_self": 1.4319
+        },
+        {
+          "iso3": "SWE",
+          "name": "Sweden",
+          "year": 1981,
+          "trad_sec": 0.9959,
+          "surv_self": 1.1942
+        },
+        {
+          "iso3": "SWE",
+          "name": "Sweden",
+          "year": 1990,
+          "trad_sec": 0.8411,
+          "surv_self": 1.7671
+        },
+        {
+          "iso3": "SWE",
+          "name": "Sweden",
+          "year": 1996,
+          "trad_sec": 1.117,
+          "surv_self": 2.5157
+        },
+        {
+          "iso3": "SWE",
+          "name": "Sweden",
+          "year": 1999,
+          "trad_sec": 0.9752,
+          "surv_self": 2.808
+        },
+        {
+          "iso3": "SWE",
+          "name": "Sweden",
+          "year": 2006,
+          "trad_sec": 1.2742,
+          "surv_self": 3.0118
+        },
+        {
+          "iso3": "SWE",
+          "name": "Sweden",
+          "year": 2009,
+          "trad_sec": 1.4744,
+          "surv_self": 2.9684
+        },
+        {
+          "iso3": "SWE",
+          "name": "Sweden",
+          "year": 2011,
+          "trad_sec": 1.3213,
+          "surv_self": 2.8992
+        },
+        {
+          "iso3": "SWE",
+          "name": "Sweden",
+          "year": 2017,
+          "trad_sec": 1.1067,
+          "surv_self": 3.1133
+        },
+        {
+          "iso3": "CHE",
+          "name": "Switzerland",
+          "year": 1996,
+          "trad_sec": 0.6943,
+          "surv_self": 1.4432
+        },
+        {
+          "iso3": "CHE",
+          "name": "Switzerland",
+          "year": 2008,
+          "trad_sec": 0.2852,
+          "surv_self": 1.9402
+        },
+        {
+          "iso3": "CHE",
+          "name": "Switzerland",
+          "year": 2017,
+          "trad_sec": 0.6754,
+          "surv_self": 2.3516
+        },
+        {
+          "iso3": "TJK",
+          "name": "Tajikistan",
+          "year": 2020,
+          "trad_sec": -1.368,
+          "surv_self": -0.6182
+        },
+        {
+          "iso3": "THA",
+          "name": "Thailand",
+          "year": 2007,
+          "trad_sec": -0.6849,
+          "surv_self": -0.1889
+        },
+        {
+          "iso3": "THA",
+          "name": "Thailand",
+          "year": 2013,
+          "trad_sec": -0.2299,
+          "surv_self": -0.146
+        },
+        {
+          "iso3": "THA",
+          "name": "Thailand",
+          "year": 2018,
+          "trad_sec": 0.2545,
+          "surv_self": 0.0658
+        },
+        {
+          "iso3": "TTO",
+          "name": "Trinidad and Tobago",
+          "year": 2006,
+          "trad_sec": -1.7749,
+          "surv_self": -0.3058
+        },
+        {
+          "iso3": "TTO",
+          "name": "Trinidad and Tobago",
+          "year": 2010,
+          "trad_sec": -1.7556,
+          "surv_self": -0.3584
+        },
+        {
+          "iso3": "TUN",
+          "name": "Tunisia",
+          "year": 2013,
+          "trad_sec": -0.8196,
+          "surv_self": -1.7053
+        },
+        {
+          "iso3": "TUN",
+          "name": "Tunisia",
+          "year": 2019,
+          "trad_sec": -0.5962,
+          "surv_self": -1.4324
+        },
+        {
+          "iso3": "TUR",
+          "name": "Turkey",
+          "year": 1990,
+          "trad_sec": -0.7074,
+          "surv_self": -0.4732
+        },
+        {
+          "iso3": "TUR",
+          "name": "Turkey",
+          "year": 2001,
+          "trad_sec": -0.3957,
+          "surv_self": -1.3388
+        },
+        {
+          "iso3": "TUR",
+          "name": "Turkey",
+          "year": 2007,
+          "trad_sec": -1.1103,
+          "surv_self": -0.7049
+        },
+        {
+          "iso3": "TUR",
+          "name": "Turkey",
+          "year": 2009,
+          "trad_sec": -0.8996,
+          "surv_self": -1.1962
+        },
+        {
+          "iso3": "TUR",
+          "name": "Turkey",
+          "year": 2011,
+          "trad_sec": -1.0215,
+          "surv_self": -0.7316
+        },
+        {
+          "iso3": "TUR",
+          "name": "Turkey",
+          "year": 2018,
+          "trad_sec": -0.4563,
+          "surv_self": -0.7041
+        },
+        {
+          "iso3": "UGA",
+          "name": "Uganda",
+          "year": 2001,
+          "trad_sec": -1.2236,
+          "surv_self": -0.9602
+        },
+        {
+          "iso3": "UKR",
+          "name": "Ukraine",
+          "year": 1996,
+          "trad_sec": 1.1131,
+          "surv_self": -1.3156
+        },
+        {
+          "iso3": "UKR",
+          "name": "Ukraine",
+          "year": 1999,
+          "trad_sec": 1.1345,
+          "surv_self": -1.3358
+        },
+        {
+          "iso3": "UKR",
+          "name": "Ukraine",
+          "year": 2006,
+          "trad_sec": 0.3552,
+          "surv_self": -1.0683
+        },
+        {
+          "iso3": "UKR",
+          "name": "Ukraine",
+          "year": 2008,
+          "trad_sec": 0.2914,
+          "surv_self": -1.2658
+        },
+        {
+          "iso3": "UKR",
+          "name": "Ukraine",
+          "year": 2011,
+          "trad_sec": 0.5243,
+          "surv_self": -1.1968
+        },
+        {
+          "iso3": "UKR",
+          "name": "Ukraine",
+          "year": 2020,
+          "trad_sec": 0.4312,
+          "surv_self": -0.493
+        },
+        {
+          "iso3": "MKD",
+          "name": "North Macedonia",
+          "year": 1998,
+          "trad_sec": 0.6457,
+          "surv_self": -0.7089
+        },
+        {
+          "iso3": "MKD",
+          "name": "North Macedonia",
+          "year": 2001,
+          "trad_sec": 0.2341,
+          "surv_self": -0.5768
+        },
+        {
+          "iso3": "MKD",
+          "name": "North Macedonia",
+          "year": 2008,
+          "trad_sec": 0.1247,
+          "surv_self": -0.1168
+        },
+        {
+          "iso3": "MKD",
+          "name": "North Macedonia",
+          "year": 2019,
+          "trad_sec": 0.0872,
+          "surv_self": -0.2686
+        },
+        {
+          "iso3": "EGY",
+          "name": "Egypt",
+          "year": 2001,
+          "trad_sec": -1.4863,
+          "surv_self": -0.6988
+        },
+        {
+          "iso3": "EGY",
+          "name": "Egypt",
+          "year": 2018,
+          "trad_sec": -0.8544,
+          "surv_self": -2.2318
+        },
+        {
+          "iso3": "GBR",
+          "name": "Great Britain",
+          "year": 1981,
+          "trad_sec": -0.4121,
+          "surv_self": 1.0026
+        },
+        {
+          "iso3": "GBR",
+          "name": "Great Britain",
+          "year": 1990,
+          "trad_sec": -0.186,
+          "surv_self": 1.2588
+        },
+        {
+          "iso3": "GBR",
+          "name": "Great Britain",
+          "year": 2005,
+          "trad_sec": -0.2084,
+          "surv_self": 1.874
+        },
+        {
+          "iso3": "GBR",
+          "name": "Great Britain",
+          "year": 2009,
+          "trad_sec": -0.0493,
+          "surv_self": 1.7095
+        },
+        {
+          "iso3": "GBR",
+          "name": "Great Britain",
+          "year": 2018,
+          "trad_sec": 0.3998,
+          "surv_self": 2.3332
+        },
+        {
+          "iso3": "GBR",
+          "name": "Great Britain",
+          "year": 2022,
+          "trad_sec": 0.9808,
+          "surv_self": 2.2364
+        },
+        {
+          "iso3": "TZA",
+          "name": "Tanzania",
+          "year": 2001,
+          "trad_sec": -1.8021,
+          "surv_self": -0.6821
+        },
+        {
+          "iso3": "USA",
+          "name": "United States",
+          "year": 1990,
+          "trad_sec": -1.0717,
+          "surv_self": 1.2692
+        },
+        {
+          "iso3": "USA",
+          "name": "United States",
+          "year": 1995,
+          "trad_sec": -1.257,
+          "surv_self": 1.4368
+        },
+        {
+          "iso3": "USA",
+          "name": "United States",
+          "year": 1999,
+          "trad_sec": -0.9019,
+          "surv_self": 1.6325
+        },
+        {
+          "iso3": "USA",
+          "name": "United States",
+          "year": 2006,
+          "trad_sec": -0.6254,
+          "surv_self": 1.2739
+        },
+        {
+          "iso3": "USA",
+          "name": "United States",
+          "year": 2011,
+          "trad_sec": -0.3327,
+          "surv_self": 1.2924
+        },
+        {
+          "iso3": "USA",
+          "name": "United States",
+          "year": 2017,
+          "trad_sec": 0.1444,
+          "surv_self": 1.4034
+        },
+        {
+          "iso3": "BFA",
+          "name": "Burkina Faso",
+          "year": 2007,
+          "trad_sec": -1.2225,
+          "surv_self": -0.8016
+        },
+        {
+          "iso3": "URY",
+          "name": "Uruguay",
+          "year": 1996,
+          "trad_sec": -0.1858,
+          "surv_self": 0.4097
+        },
+        {
+          "iso3": "URY",
+          "name": "Uruguay",
+          "year": 2006,
+          "trad_sec": -0.4857,
+          "surv_self": 0.9673
+        },
+        {
+          "iso3": "URY",
+          "name": "Uruguay",
+          "year": 2011,
+          "trad_sec": -0.1871,
+          "surv_self": 0.7684
+        },
+        {
+          "iso3": "URY",
+          "name": "Uruguay",
+          "year": 2022,
+          "trad_sec": -0.3293,
+          "surv_self": 1.3611
+        },
+        {
+          "iso3": "UZB",
+          "name": "Uzbekistan",
+          "year": 2011,
+          "trad_sec": -1.323,
+          "surv_self": -0.5776
+        },
+        {
+          "iso3": "VEN",
+          "name": "Venezuela",
+          "year": 1996,
+          "trad_sec": -1.819,
+          "surv_self": -0.1075
+        },
+        {
+          "iso3": "VEN",
+          "name": "Venezuela",
+          "year": 2000,
+          "trad_sec": -1.7287,
+          "surv_self": 0.161
+        },
+        {
+          "iso3": "VEN",
+          "name": "Venezuela",
+          "year": 2021,
+          "trad_sec": -1.0603,
+          "surv_self": -0.2503
+        },
+        {
+          "iso3": "YEM",
+          "name": "Yemen",
+          "year": 2014,
+          "trad_sec": -1.3641,
+          "surv_self": -1.2543
+        },
+        {
+          "iso3": "ZMB",
+          "name": "Zambia",
+          "year": 2007,
+          "trad_sec": -0.5099,
+          "surv_self": -0.9148
+        },
+        {
+          "iso3": "GBR-NIR",
+          "name": "Northern Ireland",
+          "year": 1981,
+          "trad_sec": -0.8358,
+          "surv_self": -0.1138
+        },
+        {
+          "iso3": "GBR-NIR",
+          "name": "Northern Ireland",
+          "year": 1990,
+          "trad_sec": -1.0335,
+          "surv_self": 0.5904
+        },
+        {
+          "iso3": "GBR-NIR",
+          "name": "Northern Ireland",
+          "year": 1999,
+          "trad_sec": -0.6221,
+          "surv_self": 0.6655
+        },
+        {
+          "iso3": "GBR-NIR",
+          "name": "Northern Ireland",
+          "year": 2008,
+          "trad_sec": -0.5301,
+          "surv_self": 0.5452
+        },
+        {
+          "iso3": "GBR-NIR",
+          "name": "Northern Ireland",
+          "year": 2022,
+          "trad_sec": 0.1189,
+          "surv_self": 1.6764
+        },
+        {
+          "iso3": "XKX",
+          "name": "Kosovo",
+          "year": 2008,
+          "trad_sec": -1.1318,
+          "surv_self": -0.4243
+        }
+      ]
+    }
+  ]
+}

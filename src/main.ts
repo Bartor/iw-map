@@ -20,9 +20,12 @@ async function main() {
     onAutoRotate: (on) => scene.setAutoRotate(on),
     onResetView: () => scene.resetView(),
     onFocus: (set) => scene.setFocus(set),
+    onHeatmap: (on) => scene.setHeatmap(on),
+    onHeatSpread: (t) => scene.setHeatSpread(t),
   });
 
   scene.onHover = (info) => showTooltip(info, state.axes);
+  scene.setHeatSpread(0.5);
   scene.setSelection(state.selection);
   scene.setAxes(state.axes);
   updateHint();
