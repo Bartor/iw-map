@@ -30,7 +30,6 @@ function niceRange(values: number[]): [number, number] {
 
 export async function loadData(): Promise<Data> {
   const files = import.meta.glob("../data/*.json", { eager: true, import: "default" }) as Record<string, unknown>;
-  const hof = files["../data/hofstede.json"] as HofRaw | undefined;
   const iw = files["../data/inglehart_welzel.json"] as IwRaw | undefined;
 
   const dims: Dim[] = [];
@@ -46,16 +45,28 @@ export async function loadData(): Promise<Data> {
     return c;
   };
 
-  if (hof) {
-    datasets.push({ id: "hof", label: "Hofstede (6-D)", sources: hof.meta.sources, notes: hof.meta.notes });
+  // Hofstede editions: data/hofstede.json (2015 matrix, gap-filled) plus any data/hofstede_<edition>.json
+  const HOF_EDITIONS: Array<{ file: string; id: string; short: string; label: string }> = [
+    { file: "../data/hofstede.json", id: "hof", short: "2015", label: "Hofstede · 2015 matrix" },
+    { file: "../data/hofstede_2023.json", id: "hof2023", short: "2023", label: "Hofstede · Culture Factor 2023" },
+  ];
+  const presentEditions = HOF_EDITIONS.filter((e) => files[e.file]);
+  for (const ed of presentEditions) {
+    const raw = files[ed.file] as HofRaw;
+    const multi = presentEditions.length > 1;
+    datasets.push({ id: ed.id, label: multi ? ed.label : "Hofstede (6-D)", sources: raw.meta.sources, notes: raw.meta.notes });
     for (const [key, label, short, lo, hi] of HOF_DIMS) {
-      dims.push({ id: `hof.${key}`, dataset: "hof", datasetLabel: "Hofstede", label, short, min: 0, max: 100, lowLabel: lo, highLabel: hi });
+      dims.push({
+        id: ed.id + "." + key, dataset: ed.id, datasetLabel: multi ? ed.label : "Hofstede",
+        label: multi ? label + " (" + ed.short + ")" : label, short: multi ? short + " " + ed.short : short,
+        min: 0, max: 100, lowLabel: lo, highLabel: hi,
+      });
     }
-    for (const row of hof.countries) {
+    for (const row of raw.countries) {
       const c = getCountry(row.iso3 ?? "_" + row.name.replace(/[^a-z0-9]+/gi, "_").toUpperCase(), row.name);
       for (const [key] of HOF_DIMS) {
         const v = row[key];
-        if (typeof v === "number" && Number.isFinite(v)) c.values[`hof.${key}`] = v;
+        if (typeof v === "number" && Number.isFinite(v)) c.values[ed.id + "." + key] = v;
       }
     }
   }
