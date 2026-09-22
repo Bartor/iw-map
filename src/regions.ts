@@ -1,17 +1,17 @@
 export const REGION_COLORS: Record<string, number> = {
-  "Northern Europe": 0x74c0fc,
-  "Western Europe": 0x4c6ef5,
-  "Southern Europe": 0x22b8cf,
-  "Central & Eastern Europe": 0x845ef7,
-  "Eastern Europe & Central Asia": 0xbe4bdb,
-  "Middle East & North Africa": 0xe8590c,
-  "Sub-Saharan Africa": 0xfa5252,
-  "South & Southeast Asia": 0x20c997,
-  "East Asia": 0xfcc419,
-  "Latin America & Caribbean": 0xf06595,
-  "North America": 0xc0eb75,
-  "Oceania": 0xffa94d,
-  "Other": 0x868e96,
+  "Northern Europe": 0xa5f3fc,               // ice
+  "Western Europe": 0x4263eb,                // royal blue
+  "Southern Europe": 0x12b886,               // Mediterranean green
+  "Central & Eastern Europe": 0x9775fa,      // violet
+  "Eastern Europe & Central Asia": 0xe64980, // raspberry
+  "Middle East & North Africa": 0xffd43b,    // desert gold
+  "Sub-Saharan Africa": 0xc2410c,            // earth
+  "South & Southeast Asia": 0x84cc16,        // jungle lime
+  "East Asia": 0xef4444,                     // red
+  "Latin America & Caribbean": 0xff922b,     // orange
+  "North America": 0xf1f3f5,                 // white
+  "Oceania": 0x38bdf8,                       // sky
+  "Other": 0x6b7280,                         // grey
 };
 
 export const REGION_ORDER = Object.keys(REGION_COLORS);
