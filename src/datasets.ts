@@ -47,8 +47,8 @@ export async function loadData(): Promise<Data> {
 
   // Hofstede editions: data/hofstede.json (2015 matrix, gap-filled) plus any data/hofstede_<edition>.json
   const HOF_EDITIONS: Array<{ file: string; id: string; short: string; label: string }> = [
-    { file: "../data/hofstede.json", id: "hof", short: "2015", label: "Hofstede · 2015 matrix" },
     { file: "../data/hofstede_2023.json", id: "hof2023", short: "2023", label: "Hofstede · Culture Factor 2023" },
+    { file: "../data/hofstede.json", id: "hof", short: "2015", label: "Hofstede · 2015 matrix" },
   ];
   const presentEditions = HOF_EDITIONS.filter((e) => files[e.file]);
   const multi = presentEditions.length > 1;
