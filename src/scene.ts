@@ -199,6 +199,7 @@ export class CultureScene {
       this.tickLabels[k][1].element.textContent = d ? `${d.max}${d.highLabel ? " · " + d.highLabel : ""}` : "";
     });
     this.labelRenderer.domElement.classList.toggle("one-d", this.ndims === 1);
+    this.applyControlMode();
     this.retarget(now);
     if (this.ndims !== this.lastNdims) {
       this.lastNdims = this.ndims;
@@ -217,7 +218,18 @@ export class CultureScene {
   setHeatmap(on: boolean) { this.heatmap.setEnabled(on); this.heatDirty = true; }
   setHeatSpread(t: number) { this.heatmap.setSpread(t); this.heatDirty = true; }
   setLabels(on: boolean) { this.showLabels = on; }
-  setAutoRotate(on: boolean) { this.controls.autoRotate = on; }
+  private autoRotate = false;
+  setAutoRotate(on: boolean) { this.autoRotate = on; this.applyControlMode(); }
+
+  /** 3D: orbit + pan + zoom. 2D/1D: pan + zoom only (left-drag pans), no auto-rotate. */
+  private applyControlMode() {
+    const three = this.ndims >= 3;
+    this.controls.enableRotate = three;
+    this.controls.autoRotate = three && this.autoRotate;
+    this.controls.mouseButtons.LEFT = three ? THREE.MOUSE.ROTATE : THREE.MOUSE.PAN;
+    this.controls.touches.ONE = three ? THREE.TOUCH.ROTATE : THREE.TOUCH.PAN;
+    this.controls.screenSpacePanning = true;
+  }
 
   resetView() {
     const n = this.ndims;

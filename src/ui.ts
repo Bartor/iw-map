@@ -256,7 +256,7 @@ export function buildUI(data: Data, cb: UICallbacks): UIHandle {
   foot.innerHTML = data.datasets.map((ds) => {
     const links = ds.sources.slice(0, 3).map((u, i) => `<a href="${u.split(" ")[0]}" title="${u}" target="_blank" rel="noopener">[${i + 1}]</a>`).join(" ");
     return `<div><b>${ds.label}</b> ${links}</div>`;
-  }).join("") + `<div>${data.countries.length} countries · drag to rotate · scroll to zoom</div>`;
+  }).join("") + `<div>${data.countries.length} countries · drag to rotate (3D) or pan (2D/1D) · scroll to zoom</div>`;
 
   return { state, togglePin, isPinned, hide };
 }
