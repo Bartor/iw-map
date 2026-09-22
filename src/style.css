@@ -64,6 +64,8 @@ button:hover { border-color: var(--accent); }
 #sources a { color: var(--accent); text-decoration: none; }
 #viewport { flex: 1 1 auto; position: relative; min-width: 0; }
 #viewport canvas { display: block; }
+#viewport canvas.pan-mode { cursor: grab; }
+#viewport canvas.pan-mode:active { cursor: grabbing; }
 .label {
   color: #dfe5f0; font-size: 11px; pointer-events: none; text-shadow: 0 0 4px #000, 0 0 2px #000;
   white-space: nowrap;

@@ -157,6 +157,21 @@ export class CultureScene {
       else this.onContextMenu?.(null);
     });
 
+    const isTyping = (e: KeyboardEvent) => {
+      const t = e.target as HTMLElement | null;
+      return !!t && (t.tagName === "INPUT" || t.tagName === "TEXTAREA" || t.tagName === "SELECT" || t.isContentEditable);
+    };
+    window.addEventListener("keydown", (e) => {
+      if (e.code !== "Space" || isTyping(e)) return;
+      e.preventDefault();
+      if (!this.spaceHeld) { this.spaceHeld = true; this.applyControlMode(); }
+    });
+    window.addEventListener("keyup", (e) => {
+      if (e.code !== "Space") return;
+      this.spaceHeld = false; this.applyControlMode();
+    });
+    window.addEventListener("blur", () => { this.spaceHeld = false; this.applyControlMode(); });
+
     new ResizeObserver(() => this.resize()).observe(container);
     this.resize();
     this.renderer.setAnimationLoop((t) => this.tick(t));
@@ -220,6 +235,7 @@ export class CultureScene {
   setHeatSpread(t: number) { this.heatmap.setSpread(t); this.heatDirty = true; }
   setLabels(on: boolean) { this.showLabels = on; }
   private autoRotate = false;
+  private spaceHeld = false;
   setAutoRotate(on: boolean) { this.autoRotate = on; this.applyControlMode(); }
 
   /** 3D: orbit + pan + zoom. 2D/1D: pan + zoom only (left-drag pans), no auto-rotate. */
@@ -227,7 +243,9 @@ export class CultureScene {
     const three = this.ndims >= 3;
     this.controls.enableRotate = three;
     this.controls.autoRotate = three && this.autoRotate;
-    this.controls.mouseButtons.LEFT = three ? THREE.MOUSE.ROTATE : THREE.MOUSE.PAN;
+    // in 3D, holding Space turns left-drag into pan
+    this.controls.mouseButtons.LEFT = three && !this.spaceHeld ? THREE.MOUSE.ROTATE : THREE.MOUSE.PAN;
+    this.renderer.domElement.classList.toggle("pan-mode", this.spaceHeld && three);
     this.controls.touches.ONE = three ? THREE.TOUCH.ROTATE : THREE.TOUCH.PAN;
     this.controls.screenSpacePanning = true;
   }
