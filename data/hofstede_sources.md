@@ -78,3 +78,36 @@ Germany East, South Africa white, Switzerland French, Switzerland German.
 - Entries with ISO3 code: 126
 - Entries with all 6 dimensions (pdi/idv/mas/uai/lto/ivr) present: 103
 - Entries with at least one dimension present: 136 (by construction — only such rows were kept)
+
+## 2023 edition
+
+Re-fetched the theculturefactor.com Country Comparison Tool separately (not merged into
+`hofstede.json`) so the 2023-era values could be inspected in isolation, per a follow-up
+request. Output: `data/hofstede_2023.json`, same schema as `hofstede.json`.
+
+- Fetched with `curl -s -A "Mozilla/5.0 ..." https://www.theculturefactor.com/country-comparison-tool`
+  on 2026-09-22 — HTTP 200, ~1.49 MB HTML. No fallback to hofstede-insights.com was needed.
+- Parsed with a Node.js regex script reading each `<div class="c-overview" data-country="...">`
+  block: country name from the `<h4>`, and the six dimension values from
+  `<span class="power-distance|individualism|motivation|uncertainty-avoidance|
+  long-term-orientation|indulgence">value</span>`. `motivation` (2023's renamed label for
+  Masculinity) mapped to `mas`, same as before.
+- This fetch returned **119** country/region blocks — the same count as before, but this time
+  with **no regional aggregate** ("Arab countries" etc. did not appear); all 119 are named,
+  ISO-3166-mappable countries. Every one was matched to an existing `iso3`/`name` pair already
+  present in `data/hofstede.json` by country name (accounting for the tool's own naming
+  differences, e.g. "South korea" → Korea South/KOR, "United kingdom" → Great Britain/GBR,
+  "Czech republic" → Czech Rep/CZE, "North macedonia" → Macedonia Rep/MKD, "Bosnia and
+  herzegovina" → Bosnia/BIH, "United states" → U.S.A./USA). No unmatched names; `iso3` is
+  non-null for all 119 entries in `hofstede_2023.json`.
+- `hofstede_2023.json` is standalone: it is NOT merged with the 2015 official Hofstede matrix,
+  and no values were fabricated or backfilled — only what the page actually rendered is
+  recorded (all 119 entries have all six dimensions present in this fetch).
+- Comparison against the 2015-primary `data/hofstede.json`: of the 119 countries, **81** have
+  at least one dimension that differs from the corresponding `hofstede.json` value (148
+  individual dimension-level differences total, out of 119 × 6 = 714 possible comparisons).
+  Per-dimension diff counts (out of 119): pdi 2, idv 61, mas 1, uai 4, lto 77, ivr 3. The
+  differences are concentrated in `idv` and especially `lto` — consistent with `lto` in
+  `hofstede.json` coming from the older Hofstede-file `ltowvs` column while this 2023 fetch
+  reflects the Culture Factor Group's own updated figures; `pdi`, `uai`, `mas` and `ivr` are
+  mostly unchanged between the two sources, with only a handful of small revisions each.

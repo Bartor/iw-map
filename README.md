@@ -24,7 +24,8 @@ Build for static hosting with `npm run build` (output in `dist/`).
 
 Numerical scores live in `data/`:
 
-- `hofstede.json` – official geerthofstede.com 2015 dimension matrix merged with theculturefactor.com country comparison data. See `hofstede_sources.md`.
+- `hofstede.json` – official geerthofstede.com 2015 dimension matrix (gaps filled from theculturefactor.com). See `hofstede_sources.md`.
+- `hofstede_2023.json` – The Culture Factor 2023 update (119 countries, revised Individualism and Long Term Orientation), kept as a separate edition so the two can be compared.
 - `inglehart_welzel.json` – country coordinates per WVS map edition. See `inglehart_welzel_sources.md`.
 
 Sub-national or regional Hofstede entries (e.g. "Belgium French", "Arab countries") have no ISO code and are grouped under "Other".
